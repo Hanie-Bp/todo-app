@@ -24,8 +24,8 @@
 
     --secondary: #c825f1;
     --secondary-foreground: #ffffff;
-    --secondary-hover: #be3911;
-    --secondary-active: #972908;
+    --secondary-hover: #dc4fff;
+    --secondary-active: #9b0dbf;
 
     --muted: #e1e7ea;
     --muted-dark: #7d7d7d;
@@ -74,8 +74,8 @@
   body {
     @apply bg-background text-foreground;
     max-width: 1440px;
-    margin: 0 auto;
-    padding: 0 20px;
+    /* margin: 0 auto;
+    padding: 0 20px; */
   }
 }
 
