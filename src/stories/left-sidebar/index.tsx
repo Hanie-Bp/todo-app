@@ -30,7 +30,7 @@ const LeftSidebar = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <section className="w-72 bg-muted min-h-screen">
+    <section className="w-72 bg-muted  min-h-screen">
       <section className="flex flex-col justify-center items-center p-3">
         <h2 className="text-primary font-semibold">TO DO LIST</h2>
         <Button className="bg-secondary mt-6 w-[98%] hover:bg-secondary-secondaryHover">
@@ -48,7 +48,7 @@ const LeftSidebar = () => {
               className={`px-3 py-2  text-sm font-medium transition-colors ${
                 isActive
                   ? "text-red-500 bg-red-100 border-r-[3px] border-red-700"
-                  : "text-muted-dark font-bold  hover:text-red-600"
+                  : "text-muted-dark dark:text-foreground font-bold  hover:text-red-600"
               }`}
             >
               {link.name}
