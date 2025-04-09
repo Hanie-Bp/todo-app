@@ -1,6 +1,6 @@
 import Header from '@/stories/header'
-import LeftSidebar from '@/stories/left-sidebar'
-import RightSidebar from '@/stories/right-sidebar'
+import LeftSidebar from '@/stories/right-sidebar'
+import RightSidebar from '@/stories/left-sidebar'
 import React from 'react'
 
 const Home = () => {
