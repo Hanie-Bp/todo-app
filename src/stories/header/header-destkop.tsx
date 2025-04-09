@@ -11,7 +11,7 @@ const formattedDate = `${today.getFullYear()},${today.toLocaleString("en-US", {
 
 const HeaderDestkop = () => {
   return (
-    <section className='flex items-center justify-between w-[900px]'>
+    <section className='flex items-center justify-between px-4 w-[960px]'>
     <SearchInput/>
     <p>{formattedDate}</p>
     <Button className='bg-secondary hover:bg-secondary-secondaryHover'>Add new Task</Button>
