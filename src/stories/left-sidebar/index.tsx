@@ -30,7 +30,7 @@ const LeftSidebar = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <section className="w-72 bg-muted  min-h-screen">
+    <section className="  bg-muted min-h-screen h-screen hidden lg:block">
       <section className="flex flex-col justify-center items-center p-3">
         <h2 className="text-primary font-semibold">TO DO LIST</h2>
         <Button className="bg-secondary mt-6 w-[98%] hover:bg-secondary-secondaryHover">

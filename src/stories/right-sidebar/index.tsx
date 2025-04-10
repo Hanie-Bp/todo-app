@@ -6,7 +6,7 @@ import { Button } from "../button";
 
 const RightSideBar = () => {
   return (
-    <section className="min-h-screen w-72 p-3 bg-muted flex flex-col justify-between">
+    <section className="hidden min-h-screen  p-3 bg-muted lg:flex flex-col justify-between">
       <section>
         <section className="flex items-center justify-center">
           <h2 className="me-2">Hi , User</h2>
