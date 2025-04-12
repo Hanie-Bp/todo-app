@@ -1,4 +1,4 @@
-import { ChevronDown, LayoutGridIcon, List } from "lucide-react";
+import { ChevronDown, Ghost, LayoutGridIcon, List } from "lucide-react";
 import React from "react";
 import {
   DropdownMenu,
@@ -6,6 +6,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/stories/ui/dropdown-menu";
+import { Button } from "../button";
 
 type TaskManagementToolbarProps = {
   taskbarName: "Important" | "Completed" | "Uncompleted" | "All";
@@ -30,9 +31,13 @@ const TaskManagementToolbar = ({
       </h2>
 
       <section className="flex justify-between p-3  mt-4">
-        <section className="flex cursor-pointer items-center  w-14 justify-between">
-          <List className="text-accent-foreground" />
-          <LayoutGridIcon className="text-secondary" />
+        <section className="flex cursor-pointer items-center  justify-between">
+          <Button variant={"ghost"} className="hover:bg-transparent">
+            <List className="text-accent-foreground" />
+          </Button>
+          <Button variant={"ghost"} className="hover:bg-transparent">
+            <LayoutGridIcon className="text-secondary" />
+          </Button>
         </section>
 
         <section className="w-[13%]">
