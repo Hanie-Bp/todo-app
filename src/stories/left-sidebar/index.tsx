@@ -18,6 +18,10 @@ type linkProps = {
   href: string;
 };
 
+type LeftSidebarProps = {
+  tabletOrMobile: Boolean;
+};
+
 const links: linkProps[] = [
   { name: "All tasks", href: "/" },
   { name: "Important tasks", href: "/important" },
@@ -25,12 +29,16 @@ const links: linkProps[] = [
   { name: "Uncompleted tasks", href: "uncompleted" },
 ];
 
-const LeftSidebar = () => {
+const LeftSidebar = ({ tabletOrMobile }:LeftSidebarProps) => {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
   return (
-    <section className="  bg-muted min-h-screen h-screen hidden lg:block">
+    <section
+      className={`bg-muted min-h-screen h-screen ${
+        tabletOrMobile ? "block" : "hidden"
+      } lg:block`}
+    >
       <section className="flex flex-col justify-center items-center p-3">
         <h2 className="text-primary font-semibold">TO DO LIST</h2>
         <Button className="bg-secondary mt-6 w-[98%] hover:bg-secondary-secondaryHover">
@@ -59,7 +67,10 @@ const LeftSidebar = () => {
 
       <section className="mt-5 p-2 ">
         <DropdownMenu onOpenChange={(isOpen) => setOpen(isOpen)}>
-          <DropdownMenuTrigger asChild className="hover:bg-inherit focus:outline-none focus:ring-0 focus:ring-offset-0">
+          <DropdownMenuTrigger
+            asChild
+            className="hover:bg-inherit focus:outline-none focus:ring-0 focus:ring-offset-0"
+          >
             <Button variant="ghost">
               {open ? (
                 <ChevronDown className="h-4 w-4 transition-all" />

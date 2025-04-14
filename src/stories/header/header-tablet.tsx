@@ -1,12 +1,14 @@
 import React from "react";
 import SearchInput from "../searchInput";
 import { Button } from "../button";
-import { Menu } from "lucide-react";
+import { Menu, Sidebar } from "lucide-react";
 import {
   Sheet,
   SheetContent,
   SheetTrigger,
 } from "@/stories/ui/sheet";
+import LeftSidebar from "../left-sidebar";
+import SheetMenu from "@/components/sheetMenu";
 
 const today = new Date();
 
@@ -17,14 +19,15 @@ const formattedDate = `${today.getFullYear()},${today.toLocaleString("en-US", {
 const HeaderTablet = () => {
   return (
     <section className="flex items-center  w-screen px-4 ">
-      <Sheet>
+      {/* <Sheet >
         <SheetTrigger>
           <Menu />
         </SheetTrigger>
-        <SheetContent side="left" className="w-72">
-          sidebar
+        <SheetContent side="left" className="w-72 [&_button]:hidden">
+          <LeftSidebar tabletOrMobile={true}/>
         </SheetContent>
-      </Sheet>
+      </Sheet> */}
+      <SheetMenu/>
       <section className="flex items-center mx-4 w-screen justify-between">
         <SearchInput />
         <p className="flex flex-col font-bold">
