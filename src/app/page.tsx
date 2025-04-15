@@ -10,7 +10,7 @@ const Home = () => {
   return (
     // <div className='text-red-700'>Home</div>
     <div>
-      <TaskManagementToolbar/>
+     Home
     </div>
   //   <div className="grid grid-cols-1 lg:grid-cols-6 ">
   //   <div className="lg:col-span-1">

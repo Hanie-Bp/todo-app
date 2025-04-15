@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "../button";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -32,6 +32,13 @@ const links: linkProps[] = [
 const LeftSidebar = ({ tabletOrMobile }:LeftSidebarProps) => {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  // const [hasMounted, setHasMounted] = useState(false);
+
+  // useEffect(() => {
+  //   setHasMounted(true);
+  // }, []);
+
+  // if (!hasMounted) return null; 
 
   return (
     <section
@@ -41,7 +48,7 @@ const LeftSidebar = ({ tabletOrMobile }:LeftSidebarProps) => {
     >
       <section className="flex flex-col justify-center items-center p-3">
         <h2 className="text-primary font-semibold">TO DO LIST</h2>
-        <Button className="bg-secondary mt-6 w-[98%] hover:bg-secondary-secondaryHover">
+        <Button className="bg-secondary mt-6 w-[98%] hover:bg-secondary-secondaryHover dark:text-slate-100">
           Add New Task
         </Button>
       </section>
@@ -89,7 +96,7 @@ const LeftSidebar = ({ tabletOrMobile }:LeftSidebarProps) => {
                 Main
               </span>
               <Button
-                variant="outline"
+             
                 className="text-sm border-dashed  w-full"
               >
                 + New

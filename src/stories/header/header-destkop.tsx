@@ -14,7 +14,7 @@ const HeaderDestkop = () => {
     <section className='flex justify-between items-center  w-[66.6vw] px-4 '>
       <SearchInput />
     <p>{formattedDate}</p>
-    <Button className='bg-secondary hover:bg-secondary-secondaryHover'>Add new Task</Button>
+    <Button className='bg-secondary hover:bg-secondary-secondaryHover dark:text-slate-100'>Add new Task</Button>
     </section>
   )
 }
