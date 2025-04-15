@@ -40,7 +40,7 @@ const TaskManagementToolbar = ({
           </Button>
         </section>
 
-        <section className="w-[13%]">
+        <section className="w-[100px] md:w-[15%]">
           <DropdownMenu>
             <DropdownMenuTrigger className="w-full  data-[state=open]:ring-2 data-[state=open]:ring-secondary rounded  focus:outline-none focus:ring-0">
               <div className="flex items-center text-sm font-semibold text-primary justify-between border p-2 bg-muted rounded">
