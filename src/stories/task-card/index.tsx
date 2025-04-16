@@ -12,6 +12,7 @@ import { Button } from "../button";
 import { Separator } from "../seperator";
 import Link from "next/link";
 import TaskForm from "../form-dialog";
+import DialogComponent from "../dialog";
 
 export type TaskCardProps = {
   important: boolean;
@@ -70,7 +71,14 @@ const TaskCard: FC<TaskCardProps> = (props) => {
                 size={20}
                 className="cursor-pointer"
               />
-              <Trash size={20} className="cursor-pointer" />
+              <DialogComponent
+                dialogtype="delete"
+                title="Are you sure?"
+                description="This task will be deleted permanetly"
+              >
+                <Trash size={20} className="cursor-pointer" />
+              </DialogComponent>
+
               <TaskForm formData={props}>
                 <MoreVertical size={20} className="cursor-pointer" />
               </TaskForm>
