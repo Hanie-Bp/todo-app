@@ -11,23 +11,25 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-import { Button } from "../button";
 import FormComponent from "./form-component";
 
 type TaskFormProps = {
   children: ReactNode;
+  formData?: {
+    important: boolean;
+    completed: boolean;
+    title: string;
+    description: string;
+    date: string;
+    directoryName: string;
+  };
 };
 
-const TaskForm = ({ children }: TaskFormProps) => {
+const TaskForm = ({ children, formData }: TaskFormProps) => {
   return (
     <section>
       <Dialog>
-        <DialogTrigger asChild>
-          {/* <Button className="bg-secondary hover:bg-secondary-secondaryHover dark:text-slate-100">
-            Add new Task
-          </Button> */}
-          {children}
-        </DialogTrigger>
+        <DialogTrigger asChild>{children}</DialogTrigger>
         <DialogContent className="w-[90vw] border-none">
           <DialogHeader>
             <DialogTitle className="text-start text-2xl text-primary">
@@ -35,7 +37,7 @@ const TaskForm = ({ children }: TaskFormProps) => {
             </DialogTitle>
             <DialogDescription></DialogDescription>
           </DialogHeader>
-          <FormComponent />
+          <FormComponent formData={formData}/>
         </DialogContent>
       </Dialog>
     </section>
