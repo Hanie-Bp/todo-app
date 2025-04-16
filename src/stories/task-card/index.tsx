@@ -6,7 +6,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/stories/ui/card";
+} from "@/components/ui/card";
 import { Calendar, Check, MoreVertical, Star, Trash, X } from "lucide-react";
 import { Button } from "../button";
 import { Separator } from "../seperator";
@@ -50,16 +50,27 @@ const TaskCard: FC<TaskCardProps> = (props) => {
 
         <CardFooter className="pb-4">
           <section className="flex  w-full justify-between items-center">
-            <Button variant={props.completed ?"unWarnung":"warning"} size={"md"} className="">
+            <Button
+              variant={props.completed ? "unWarnung" : "warning"}
+              size={"md"}
+              className=""
+            >
               <p className="hidden md:block">
                 {props.completed ? "completed" : "uncompleted"}
               </p>
-              <div className="md:hidden"> {props.completed ? <Check /> : <X />}</div>
+              <div className="md:hidden">
+                {" "}
+                {props.completed ? <Check /> : <X />}
+              </div>
             </Button>
             <div className="flex w-1/3 justify-between items-center">
-              <Star fill={`${props.important ? "red" : "none"}`} size={20} className="cursor-pointer"/>
-              <Trash size={20}  className="cursor-pointer"/>
-              <MoreVertical size={20}  className="cursor-pointer"/>
+              <Star
+                fill={`${props.important ? "red" : "none"}`}
+                size={20}
+                className="cursor-pointer"
+              />
+              <Trash size={20} className="cursor-pointer" />
+              <MoreVertical size={20} className="cursor-pointer" />
             </div>
           </section>
         </CardFooter>

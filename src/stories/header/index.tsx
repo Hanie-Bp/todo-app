@@ -1,5 +1,5 @@
 import React from "react";
-import { NavigationMenu } from "../ui/navigation-menu";
+import { NavigationMenu } from "../../components/ui/navigation-menu";
 import HeaderDestkop from "./header-destkop";
 import HeaderMobile from "./header-mobile";
 import HeaderTablet from "./header-tablet";

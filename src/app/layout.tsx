@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import RightSideBar from "@/stories/right-sidebar";
 import LeftSidebar from "@/stories/left-sidebar";
 import Header from "@/stories/header";
+import TaskManagementToolbar from "@/stories/task-managment-toolbar";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -39,10 +40,11 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <section className="min-h-screen grid grid-cols-1 lg:grid-cols-6">
-            <LeftSidebar />
+            <LeftSidebar tabletOrMobile={false}/>
 
             <main className="lg:col-span-4 px-4 ">
               <Header />
+              <TaskManagementToolbar/>
               <div>{children}</div>
             </main>
 

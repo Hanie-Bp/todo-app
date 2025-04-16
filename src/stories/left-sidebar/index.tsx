@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "../button";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -10,12 +10,17 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/stories/ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu";
 import { ChevronDown, ChevronRight } from "lucide-react";
+import TaskForm from "../form-dialog";
 
 type linkProps = {
   name: string;
   href: string;
+};
+
+type LeftSidebarProps = {
+  tabletOrMobile: Boolean;
 };
 
 const links: linkProps[] = [
@@ -25,17 +30,32 @@ const links: linkProps[] = [
   { name: "Uncompleted tasks", href: "uncompleted" },
 ];
 
-const LeftSidebar = () => {
+const LeftSidebar = ({ tabletOrMobile }: LeftSidebarProps) => {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  // const [hasMounted, setHasMounted] = useState(false);
+
+  // useEffect(() => {
+  //   setHasMounted(true);
+  // }, []);
+
+  // if (!hasMounted) return null;
 
   return (
-    <section className="  bg-muted min-h-screen h-screen hidden lg:block">
+    <section
+      className={`bg-muted min-h-screen h-screen ${
+        tabletOrMobile ? "block" : "hidden"
+      } lg:block`}
+    >
       <section className="flex flex-col justify-center items-center p-3">
         <h2 className="text-primary font-semibold">TO DO LIST</h2>
-        <Button className="bg-secondary mt-6 w-[98%] hover:bg-secondary-secondaryHover">
-          Add New Task
+        <div className="flex mt-6  w-full justify-center">
+        <TaskForm>
+        <Button className="bg-secondary hover:bg-secondary-secondaryHover dark:text-slate-100 w-[30vw] md:w-[20vw] lg:w-[13vw] ">
+          Add new Task
         </Button>
+      </TaskForm>
+        </div>
       </section>
 
       <section className="flex flex-col justify-between mt-6 h-32">
@@ -59,7 +79,10 @@ const LeftSidebar = () => {
 
       <section className="mt-5 p-2 ">
         <DropdownMenu onOpenChange={(isOpen) => setOpen(isOpen)}>
-          <DropdownMenuTrigger asChild className="hover:bg-inherit focus:outline-none focus:ring-0 focus:ring-offset-0">
+          <DropdownMenuTrigger
+            asChild
+            className="hover:bg-inherit focus:outline-none focus:ring-0 focus:ring-offset-0"
+          >
             <Button variant="ghost">
               {open ? (
                 <ChevronDown className="h-4 w-4 transition-all" />
@@ -69,7 +92,7 @@ const LeftSidebar = () => {
               <span className="mr-2">Directories</span>
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-[230px] ml-2 mt-2 shadow-none">
+          <DropdownMenuContent className="w-[230px] ml-2 mt-2 shadow-none border-none">
             <div className="flex flex-col px-2 py-1 space-y-1">
               <span className="cursor-pointer text-sm hover:bg-muted px-2 py-1 rounded">
                 secondary
@@ -78,8 +101,8 @@ const LeftSidebar = () => {
                 Main
               </span>
               <Button
-                variant="outline"
-                className="text-sm border-dashed  w-full"
+                variant={"ghost"}
+                className="text-sm border border-black  border-dashed  w-full"
               >
                 + New
               </Button>

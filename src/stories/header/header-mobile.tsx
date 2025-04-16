@@ -9,8 +9,11 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/stories/ui/sheet";
+} from "@/components/ui/sheet";
 import { DialogTitle } from "@radix-ui/react-dialog";
+import RightSideBar from "../right-sidebar";
+import LeftSidebar from "../left-sidebar";
+import SheetMenu from "@/components/sheetMenu";
 
 const today = new Date();
 
@@ -22,15 +25,16 @@ const HeaderMobile = () => {
   return (
     <section className="flex flex-col  items-center  w-screen px-4 ">
       <section className="flex  w-screen px-4 ">
-        <Sheet>
+        {/* <Sheet>
           <SheetTrigger>
             <Menu />
           </SheetTrigger>
-          <SheetContent side="left" className="w-72" aria-describedby="">
+          <SheetContent side="left" className="w-72 [&_button]:hidden" aria-describedby="">
             <SheetTitle></SheetTitle>
-            sidebar
+           <LeftSidebar tabletOrMobile={true}/>
           </SheetContent>
-        </Sheet>
+        </Sheet> */}
+        <SheetMenu />
         <section className="mx-auto">
           <p className="flex flex-col font-bold">
             TO-DO LIST
