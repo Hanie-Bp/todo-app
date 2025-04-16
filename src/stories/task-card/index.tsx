@@ -11,6 +11,7 @@ import { Calendar, Check, MoreVertical, Star, Trash, X } from "lucide-react";
 import { Button } from "../button";
 import { Separator } from "../seperator";
 import Link from "next/link";
+import TaskForm from "../form-dialog";
 
 export type TaskCardProps = {
   title: string;
@@ -71,7 +72,9 @@ const TaskCard: FC<TaskCardProps> = (props) => {
                 className="cursor-pointer"
               />
               <Trash size={20} className="cursor-pointer" />
-              <MoreVertical size={20} className="cursor-pointer" />
+              <TaskForm>
+                <MoreVertical size={20} className="cursor-pointer" />
+              </TaskForm>
             </div>
           </section>
         </CardFooter>
