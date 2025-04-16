@@ -29,9 +29,6 @@ const TaskCard: FC<TaskCardProps> = (props) => {
           <Link href={"/"}>{props.directoryTag}</Link>
         </Button>
       </div>
-      {/* <div className="flex justify-end">
-        <p className="rounded p-1 px-4 me-2 bg-red-200 text-red-700 text-[13px] font-semibold"></p>
-      </div> */}
       <Card className="flex flex-col bg-muted">
         <CardHeader>
           <CardTitle className="font-bold text-xl text-primary">
