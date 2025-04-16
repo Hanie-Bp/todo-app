@@ -14,12 +14,12 @@ import Link from "next/link";
 import TaskForm from "../form-dialog";
 
 export type TaskCardProps = {
+  important: boolean;
+  completed: boolean;
   title: string;
-  directoryTag: string;
   description: string;
-  taskDate: string;
-  completed: Boolean;
-  important: Boolean;
+  date: string;
+  directoryName: string;
 };
 
 const TaskCard: FC<TaskCardProps> = (props) => {
@@ -27,7 +27,7 @@ const TaskCard: FC<TaskCardProps> = (props) => {
     <section>
       <div className="flex justify-end">
         <Button variant={"warning"} className="text-sm rounded-md px-3 me-2">
-          <Link href={"/"}>{props.directoryTag}</Link>
+          <Link href={"/"}>{props.directoryName}</Link>
         </Button>
       </div>
       <Card className="flex flex-col bg-muted">
@@ -42,7 +42,7 @@ const TaskCard: FC<TaskCardProps> = (props) => {
           </CardDescription>
           <section className="flex">
             <Calendar />
-            <p className="ms-2">{props.taskDate}</p>
+            <p className="ms-2">{props.date}</p>
           </section>
         </CardContent>
 
@@ -61,7 +61,6 @@ const TaskCard: FC<TaskCardProps> = (props) => {
                 {props.completed ? "completed" : "uncompleted"}
               </p>
               <div className="md:hidden">
-                {" "}
                 {props.completed ? <Check /> : <X />}
               </div>
             </Button>
@@ -72,7 +71,7 @@ const TaskCard: FC<TaskCardProps> = (props) => {
                 className="cursor-pointer"
               />
               <Trash size={20} className="cursor-pointer" />
-              <TaskForm>
+              <TaskForm formData={props}>
                 <MoreVertical size={20} className="cursor-pointer" />
               </TaskForm>
             </div>
