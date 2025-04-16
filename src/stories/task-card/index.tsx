@@ -10,6 +10,7 @@ import {
 import { Calendar, Check, MoreVertical, Star, Trash, X } from "lucide-react";
 import { Button } from "../button";
 import { Separator } from "../seperator";
+import Link from "next/link";
 
 export type TaskCardProps = {
   title: string;
@@ -24,10 +25,13 @@ const TaskCard: FC<TaskCardProps> = (props) => {
   return (
     <section>
       <div className="flex justify-end">
-        <p className="rounded p-1 px-4 me-2 bg-red-200 text-red-700 text-[13px] font-semibold">
-          {props.directoryTag}
-        </p>
+        <Button variant={"warning"} className="text-sm rounded-md px-3 me-2">
+          <Link href={"/"}>{props.directoryTag}</Link>
+        </Button>
       </div>
+      {/* <div className="flex justify-end">
+        <p className="rounded p-1 px-4 me-2 bg-red-200 text-red-700 text-[13px] font-semibold"></p>
+      </div> */}
       <Card className="flex flex-col bg-muted">
         <CardHeader>
           <CardTitle className="font-bold text-xl text-primary">
