@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, ReactNode } from "react";
 import {
   Dialog,
   DialogClose,
@@ -17,17 +17,19 @@ export type DialogProps = {
   title: string;
   description?: string;
   dialogtype: "edit" | "delete" | "create";
+  children: ReactNode;
 };
 
 const DialogComponent: FC<DialogProps> = ({
   title,
   description,
   dialogtype,
+  children
 }) => {
   return (
     <section>
       <Dialog>
-        <DialogTrigger>Open</DialogTrigger>
+        <DialogTrigger>{children}</DialogTrigger>
         <DialogContent className="flex flex-col w-[90%] rounded-md">
           <DialogHeader className="text-start">
             <DialogTitle className="font-semibold md:text-2xl text-primary">
@@ -40,7 +42,7 @@ const DialogComponent: FC<DialogProps> = ({
           {dialogtype !== "delete" && (
             <section>
               <Label>Title</Label>
-              <Input />
+              <Input placeholder="Enter a directory name" type="text"/>
             </section>
           )}
           <DialogFooter className="sm:justify-start">
