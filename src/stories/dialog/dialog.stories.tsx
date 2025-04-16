@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from "@storybook/react";
 import DialogComponent from ".";
-import { Edit, Edit2, MoreVertical, Trash } from "lucide-react";
+import { Edit, Trash } from "lucide-react";
 import { Button } from "../button";
 
 const meta = {
