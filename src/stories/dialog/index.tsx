@@ -8,10 +8,10 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/stories/ui/dialog";
+} from "@/components/ui/dialog";
 import { Button } from "../button";
 import { Input } from "../input";
-import { Label } from "../ui/label";
+import { Label } from "../../components/ui/label";
 
 export type DialogProps = {
   title: string;
@@ -69,7 +69,9 @@ const DialogComponent: FC<DialogProps> = ({
                     Cancel
                   </Button>
                 </DialogClose>
-                <Button variant={"secondary"} className="text-base ms-2">Confirm</Button>
+                <Button variant={"secondary"} className="text-base ms-2">
+                  Confirm
+                </Button>
               </section>
             )}
           </DialogFooter>

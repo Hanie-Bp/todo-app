@@ -115,4 +115,22 @@
 }
 
 
+.date-input {
+  position: relative;
+  /* padding-left: 2.5rem; */
+  direction: rtl; /* flip input field so icon appears on left */
+}
 
+/* Flip the input back to normal after direction change */
+.date-input::-webkit-datetime-edit {
+  direction: ltr;
+  text-align: left;
+}
+
+/* Adjust calendar icon */
+.date-input::-webkit-calendar-picker-indicator {
+  position: absolute;
+  right: 1rem;
+  /* right: auto; */
+  cursor: pointer;
+}

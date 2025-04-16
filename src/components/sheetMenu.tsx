@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Sheet, SheetTrigger, SheetContent } from "@/stories/ui/sheet";
+import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
 import LeftSidebar from "@/stories/left-sidebar";
 import { DialogDescription, DialogTitle } from "@radix-ui/react-dialog";
@@ -31,7 +31,10 @@ export default function SheetMenu() {
         </button>
       </SheetTrigger>
 
-      <SheetContent side="left" className="w-72 [&>button:first-of-type]:hidden border border-green-500 p-0">
+      <SheetContent
+        side="left"
+        className="w-72 [&>button:first-of-type]:hidden p-0"
+      >
         <VisuallyHidden>
           <DialogTitle>Sidebar Menu</DialogTitle>
           <DialogDescription></DialogDescription>

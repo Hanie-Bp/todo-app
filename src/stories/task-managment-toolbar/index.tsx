@@ -5,7 +5,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/stories/ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu";
 import { Button } from "../button";
 
 type TaskManagementToolbarProps = {

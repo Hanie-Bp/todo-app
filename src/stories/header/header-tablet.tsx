@@ -2,11 +2,7 @@ import React from "react";
 import SearchInput from "../searchInput";
 import { Button } from "../button";
 import { Menu, Sidebar } from "lucide-react";
-import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-} from "@/stories/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import LeftSidebar from "../left-sidebar";
 import SheetMenu from "@/components/sheetMenu";
 
@@ -27,7 +23,7 @@ const HeaderTablet = () => {
           <LeftSidebar tabletOrMobile={true}/>
         </SheetContent>
       </Sheet> */}
-      <SheetMenu/>
+      <SheetMenu />
       <section className="flex items-center mx-4 w-screen justify-between">
         <SearchInput />
         <p className="flex flex-col font-bold">
@@ -36,7 +32,9 @@ const HeaderTablet = () => {
             {formattedDate}
           </span>
         </p>
-        <Button className="bg-secondary hover:bg-secondary-secondaryHover">Add new Task</Button>
+        <Button className="bg-secondary hover:bg-secondary-secondaryHover">
+          Add new Task
+        </Button>
       </section>
     </section>
   );

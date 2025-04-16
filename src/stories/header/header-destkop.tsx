@@ -1,22 +1,21 @@
-import React from 'react'
-import SearchInput from '../searchInput'
-import { Button } from '../button';
-
-
-const today = new Date();
-
-const formattedDate = `${today.getFullYear()},${today.toLocaleString("en-US", {
-  month: "short",
-})} ${today.getDate()}`;
+import React from "react";
+import SearchInput from "../searchInput";
+import { Button } from "../button";
+import { getTodayDate } from "@/utils/dateFunctions";
+import TaskForm from "../form-dialog";
 
 const HeaderDestkop = () => {
   return (
-    <section className='flex justify-between items-center  w-[66.6vw] px-4 '>
+    <section className="flex justify-between items-center  w-[66.6vw] px-4 ">
       <SearchInput />
-    <p>{formattedDate}</p>
-    <Button className='bg-secondary hover:bg-secondary-secondaryHover dark:text-slate-100'>Add new Task</Button>
+      <p>{getTodayDate().readableFormat}</p>
+      <TaskForm> 
+        <Button className="bg-secondary hover:bg-secondary-secondaryHover dark:text-slate-100">
+          Add new Task
+        </Button>
+      </TaskForm>
     </section>
-  )
-}
+  );
+};
 
-export default HeaderDestkop
+export default HeaderDestkop;

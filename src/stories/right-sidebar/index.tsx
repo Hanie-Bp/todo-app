@@ -1,7 +1,7 @@
 import React from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/stories/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ModeToggle } from "../darkmode/index";
-import { Progress } from "@/stories/ui/progress";
+import { Progress } from "@/components/ui/progress";
 import { Button } from "../button";
 
 const RightSideBar = () => {
@@ -30,7 +30,9 @@ const RightSideBar = () => {
       </section>
 
       <section>
-        <Button variant={"ghost"} className="text-muted-dark">Delete all data</Button>
+        <Button variant={"ghost"} className="text-muted-dark">
+          Delete all data
+        </Button>
         <p
           className="text-center mt-2 p-2 rounded bg-red-200 text-[15px] font-medium
         text-red-700"

@@ -11,7 +11,7 @@ import {
   FormField,
   FormItem,
   FormMessage,
-} from "@/stories/ui/form";
+} from "@/components/ui/form";
 
 const formSchema = z.object({
   searchText: z.string().min(1, "Search cannot be empty"),
@@ -27,7 +27,7 @@ const SearchInput = () => {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
-    form.reset()
+    form.reset();
   }
   return (
     <Form {...form}>
