@@ -17,6 +17,7 @@ export type DialogProps = {
   title: string;
   description?: string;
   dialogtype: "edit" | "delete" | "create";
+  custumClass?: string;
   children: ReactNode;
 };
 
@@ -24,12 +25,13 @@ const DialogComponent: FC<DialogProps> = ({
   title,
   description,
   dialogtype,
-  children
+  custumClass,
+  children,
 }) => {
   return (
     <section>
       <Dialog>
-        <DialogTrigger>{children}</DialogTrigger>
+        <DialogTrigger className={custumClass}>{children}</DialogTrigger>
         <DialogContent className="flex flex-col w-[90%] rounded-md">
           <DialogHeader className="text-start">
             <DialogTitle className="font-semibold md:text-2xl text-primary">
@@ -42,7 +44,7 @@ const DialogComponent: FC<DialogProps> = ({
           {dialogtype !== "delete" && (
             <section>
               <Label>Title</Label>
-              <Input placeholder="Enter a directory name" type="text"/>
+              <Input placeholder="Enter a directory name" type="text" />
             </section>
           )}
           <DialogFooter className="sm:justify-start">

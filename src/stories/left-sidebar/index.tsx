@@ -11,8 +11,17 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ChevronDown, ChevronRight } from "lucide-react";
+import {
+  ChevronDown,
+  ChevronRight,
+  Edit,
+  EditIcon,
+  Trash,
+  Trash2,
+  Trash2Icon,
+} from "lucide-react";
 import TaskForm from "../form-dialog";
+import DialogComponent from "../dialog";
 
 type linkProps = {
   name: string;
@@ -33,6 +42,8 @@ const links: linkProps[] = [
 const LeftSidebar = ({ tabletOrMobile }: LeftSidebarProps) => {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const directoryArray = ["secondary", , "work", "personal", "main"];
+
   // const [hasMounted, setHasMounted] = useState(false);
 
   // useEffect(() => {
@@ -50,11 +61,11 @@ const LeftSidebar = ({ tabletOrMobile }: LeftSidebarProps) => {
       <section className="flex flex-col justify-center items-center p-3">
         <h2 className="text-primary font-semibold">TO DO LIST</h2>
         <div className="flex mt-6  w-full justify-center">
-        <TaskForm>
-        <Button className="bg-secondary hover:bg-secondary-secondaryHover dark:text-slate-100 w-[30vw] md:w-[20vw] lg:w-[13vw] ">
-          Add new Task
-        </Button>
-      </TaskForm>
+          <TaskForm>
+            <Button className="bg-secondary hover:bg-secondary-secondaryHover dark:text-slate-100 w-[30vw] md:w-[20vw] lg:w-[13vw] ">
+              Add new Task
+            </Button>
+          </TaskForm>
         </div>
       </section>
 
@@ -94,19 +105,96 @@ const LeftSidebar = ({ tabletOrMobile }: LeftSidebarProps) => {
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-[230px] ml-2 mt-2 shadow-none border-none">
             <div className="flex flex-col px-2 py-1 space-y-1">
-              <span className="cursor-pointer text-sm hover:bg-muted px-2 py-1 rounded">
-                secondary
-              </span>
-              <span className="cursor-pointer text-sm hover:bg-muted px-2 py-1 rounded">
+              {directoryArray.map((dir) => (
+                <Link
+                  key={dir}
+                  href={`/${dir?.toLowerCase()}`}
+                  className="cursor-pointer  text-sm hover:bg-muted px-2 py-1 rounded flex items-center justify-between group"
+                >
+                  <p>{dir}</p>
+
+             
+                  <div className="flex items-center gap-1">
+                    {dir?.toLowerCase() !== "main" ? (
+                      <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out flex items-center gap-1">
+                        <DialogComponent
+                          dialogtype="edit"
+                          title="Edit directory name"
+                          custumClass="flex"
+                        >
+                          <EditIcon className="w-4" />
+                        </DialogComponent>
+                        <DialogComponent
+                          dialogtype="delete"
+                          title="Are you sure?"
+                          description="This directory will be deleted permanently"
+                          custumClass="flex"
+                        >
+                          <Trash2Icon className="w-4" />
+                        </DialogComponent>
+                      </div>
+                    ) : null}
+                  </div>
+                </Link>
+              ))}
+
+              {/* Button to add new directory */}
+              <DialogComponent
+                dialogtype="create"
+                title="Create new directory"
+                custumClass="flex"
+              >
+                <Button
+                  variant={"ghost"}
+                  className="text-sm border border-black border-dashed w-full"
+                >
+                  + New
+                </Button>
+              </DialogComponent>
+            </div>
+            {/* <div className="flex flex-col px-2 py-1 space-y-1">
+              <div className="cursor-pointer  text-sm hover:bg-muted px-2 py-1 rounded flex items-center justify-between group">
+                <p>secondary</p>
+                <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out flex items-center gap-1">
+                  <DialogComponent
+                    dialogtype="edit"
+                    title="Edit directory name"
+                    custumClass="flex"
+                  >
+                    <EditIcon className="w-4" />
+                  </DialogComponent>
+                  <DialogComponent
+                    dialogtype="delete"
+                    title="Are you sure?"
+                    description="This directory will be deleted permanetly"
+                    custumClass="flex"
+                  >
+                    <Trash2Icon className="w-4" />
+                  </DialogComponent>
+                </div>
+              </div>
+              <div className="cursor-pointer text-sm hover:bg-muted px-2 py-1 rounded">
                 Main
-              </span>
-              <Button
+              </div>
+              <DialogComponent
+                dialogtype="create"
+                title="Create new directory"
+                custumClass="flex"
+              >
+                <Button
+                  variant={"ghost"}
+                  className="text-sm border border-black  border-dashed  w-full"
+                >
+                  + New
+                </Button>
+              </DialogComponent>
+              {/* <Button
                 variant={"ghost"}
                 className="text-sm border border-black  border-dashed  w-full"
               >
                 + New
-              </Button>
-            </div>
+              </Button> 
+            </div> */}
           </DropdownMenuContent>
         </DropdownMenu>
       </section>
