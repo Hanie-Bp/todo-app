@@ -37,7 +37,7 @@ const TaskForm = ({ children, formData }: TaskFormProps) => {
             </DialogTitle>
             <DialogDescription></DialogDescription>
           </DialogHeader>
-          <FormComponent formData={formData}/>
+          <FormComponent formData={formData} directories={["secondary","work", "personal", "main"]}/>
         </DialogContent>
       </Dialog>
     </section>

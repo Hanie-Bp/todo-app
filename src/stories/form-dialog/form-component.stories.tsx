@@ -30,5 +30,6 @@ export const WithInitialData: Story = {
       important: true,
       completed: false,
     },
+    directories: ["secondary","work", "personal", "main"]
   },
 };
