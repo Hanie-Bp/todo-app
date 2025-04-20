@@ -54,7 +54,7 @@ const LeftSidebar = ({ tabletOrMobile }: LeftSidebarProps) => {
 
   return (
     <section
-      className={`bg-muted min-h-screen h-screen ${
+      className={`bg-muted min-h-screen h-full ${
         tabletOrMobile ? "block" : "hidden"
       } lg:block`}
     >
