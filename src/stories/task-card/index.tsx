@@ -21,37 +21,64 @@ export type TaskCardProps = {
   description: string;
   date: string;
   directoryName: string;
+  viewMode: "grid" | "list";
 };
 
 const TaskCard: FC<TaskCardProps> = (props) => {
   return (
-    <section>
+    <section className="w-[400px] md:w-[90%]">
       <div className="flex justify-end">
         <Button variant={"warning"} className="text-sm rounded-md px-3 me-2">
           <Link href={"/"}>{props.directoryName}</Link>
         </Button>
       </div>
-      <Card className="flex flex-col bg-muted">
-        <CardHeader>
-          <CardTitle className="font-bold text-xl text-primary">
-            {props.title}
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="flex flex-col  justify-around  pb-0">
-          <CardDescription className="min-h-28">
-            {props.description}
-          </CardDescription>
-          <section className="flex">
-            <Calendar />
-            <p className="ms-2">{props.date}</p>
-          </section>
-        </CardContent>
+      <Card
+        className={`flex ${
+          props.viewMode === "grid"
+            ? "flex-col"
+            : "justify-between items-center p-3"
+        } bg-muted`}
+      >
+        <section className={`${props.viewMode === "list" && "flex flex-col"}`}>
+          <CardHeader className={`${props.viewMode === "list" && "p-2 pb-3"}`}>
+            <CardTitle className="font-bold text-xl text-primary">
+              {props.title}
+            </CardTitle>
+          </CardHeader>
+          <CardContent
+            className={`flex flex-col  justify-around  pb-0 ${
+              props.viewMode === "list" && "pl-2"
+            }`}
+          >
+            <CardDescription
+              className={`${
+                props.viewMode === "grid" ? "min-h-28" : "min-h-14"
+              } `}
+            >
+              {props.description}
+            </CardDescription>
+            <section className="flex">
+              <Calendar />
+              <p className="ms-2">{props.date}</p>
+            </section>
+          </CardContent>
+        </section>
 
-        <div className="flex justify-center">
+        <div
+          className={`${
+            props.viewMode === "grid" ? "flex justify-center" : "hidden"
+          }`}
+        >
           <Separator className="w-[90%] my-3  border border-dashed border-gray-400" />
         </div>
 
-        <CardFooter className="pb-4">
+        <CardFooter
+          className={`${
+            props.viewMode === "grid"
+              ? "pb-4"
+              : "p-0  w-[40%] md:w-[35%] min-[900px]:w-[250px]"
+          }`}
+        >
           <section className="flex  w-full justify-between items-center">
             <Button
               variant={props.completed ? "unWarnung" : "warning"}
@@ -65,7 +92,11 @@ const TaskCard: FC<TaskCardProps> = (props) => {
                 {props.completed ? <Check /> : <X />}
               </div>
             </Button>
-            <div className="flex w-1/3 justify-between items-center">
+            <div
+              className={`flex ${
+                props.viewMode === "grid" ? "w-1/3" : "w-[50%] md:w-1/3 "
+              } justify-between items-center`}
+            >
               <Star
                 fill={`${props.important ? "red" : "none"}`}
                 size={20}
@@ -76,7 +107,7 @@ const TaskCard: FC<TaskCardProps> = (props) => {
                 title="Are you sure?"
                 description="This task will be deleted permanetly"
               >
-                <Trash size={20} className="cursor-pointer" />
+                <Trash size={20} className="cursor-pointer   mt-1" />
               </DialogComponent>
 
               <TaskForm formData={props}>

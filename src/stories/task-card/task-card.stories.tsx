@@ -13,7 +13,7 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-const tasks = [
+export const tasks = [
   {
     title: "Finish Portfolio Website",
     directoryName: "Work",
