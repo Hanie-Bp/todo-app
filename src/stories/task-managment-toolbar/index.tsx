@@ -7,6 +7,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "../button";
+import ViewToggle from "./view-toggle";
 
 type TaskManagementToolbarProps = {
   taskbarName: "Important" | "Completed" | "Uncompleted" | "All";
@@ -31,14 +32,15 @@ const TaskManagementToolbar = ({
       </h2>
 
       <section className="flex justify-between p-3  mt-4">
-        <section className="flex cursor-pointer items-center  justify-between">
+        <ViewToggle/>
+        {/* <section className="flex cursor-pointer items-center  justify-between">
           <Button variant={"ghost"} className="hover:bg-transparent">
             <List className="text-accent-foreground" />
           </Button>
           <Button variant={"ghost"} className="hover:bg-transparent">
             <LayoutGridIcon className="text-secondary" />
           </Button>
-        </section>
+        </section> */}
 
         <section className="w-[100px] md:w-[15%]">
           <DropdownMenu>
