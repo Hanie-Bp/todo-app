@@ -28,7 +28,7 @@ import { Checkbox } from "../../components/ui/checkbox";
 
 const formSchema = z.object({
   title: z.string().min(2, "Title must be at least 2 characters"),
-  date: z.string().min(10,"date must be at least 10 characters"),
+  date: z.string().min(10, "date must be at least 10 characters"),
   description: z
     .string()
     .min(4, "Description must be at least 4 characters")
@@ -47,9 +47,11 @@ type FormDataProps = {
     date: string;
     directoryName: string;
   };
+  directories: string[];
 };
 
-const FormComponent = ({formData}:FormDataProps) => {
+
+const FormComponent = ({ formData, directories }: FormDataProps) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -85,7 +87,7 @@ const FormComponent = ({formData}:FormDataProps) => {
                   {...field}
                 />
               </FormControl>
-              <FormMessage className="text-red-500 text-[13px]"/>
+              <FormMessage className="text-red-500 text-[13px]" />
             </FormItem>
           )}
         />
@@ -104,7 +106,7 @@ const FormComponent = ({formData}:FormDataProps) => {
                   {...field}
                 />
               </FormControl>
-              <FormMessage  className="text-red-500 text-[13px]"/>
+              <FormMessage className="text-red-500 text-[13px]" />
             </FormItem>
           )}
         />
@@ -123,7 +125,7 @@ const FormComponent = ({formData}:FormDataProps) => {
                   {...field}
                 />
               </FormControl>
-              <FormMessage className="text-red-500 text-[13px]"/>
+              <FormMessage className="text-red-500 text-[13px]" />
             </FormItem>
           )}
         />
@@ -142,12 +144,14 @@ const FormComponent = ({formData}:FormDataProps) => {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent className="bg-background">
-                  <SelectItem value="light">Light</SelectItem>
-                  <SelectItem value="dark">Dark</SelectItem>
-                  <SelectItem value="system">System</SelectItem>
+                  {directories?.map((dir) => (
+                    <SelectItem key={dir} value={dir}>
+                      {dir.charAt(0).toUpperCase() + dir.slice(1)}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
-              <FormMessage className="text-red-500 text-[13px]"/>
+              <FormMessage className="text-red-500 text-[13px]" />
             </FormItem>
           )}
         />
@@ -188,7 +192,11 @@ const FormComponent = ({formData}:FormDataProps) => {
           )}
         />
 
-        <Button type="submit" className="text-sm w-full dark:text-white" variant={"secondary"}>
+        <Button
+          type="submit"
+          className="text-sm w-full dark:text-white"
+          variant={"secondary"}
+        >
           Add a task
         </Button>
       </form>
