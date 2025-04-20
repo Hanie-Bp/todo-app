@@ -26,7 +26,7 @@ export const WithInitialData: Story = {
       title: "Study React",
       description: "Go over forms and validation",
       date: "2025-04-10",
-      directoryName: "light",
+      directoryName: "work",
       important: true,
       completed: false,
     },
