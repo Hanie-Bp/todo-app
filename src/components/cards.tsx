@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 
 const Cards = () => {
   const viewMode = useSelector((state: RootState) => state.view.mode);
-  console.log(viewMode);
+  // console.log(viewMode);
   const listView = `flex flex-col justify-center items-center gap-5`
   const gridView = `grid grid-cols-1 gap-5 place-items-center  overflow-hidden  md:grid-cols-2 xl:grid-cols-3 `
 

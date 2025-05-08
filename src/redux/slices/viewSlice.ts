@@ -5,7 +5,7 @@ type ViewStateProps = {
 };
 
 const initialState: ViewStateProps = {
-  mode: "list",
+  mode: "grid",
 };
 
 const viewSlice = createSlice({
