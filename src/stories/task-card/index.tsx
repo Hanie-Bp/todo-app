@@ -26,7 +26,7 @@ export type TaskCardProps = {
 
 const TaskCard: FC<TaskCardProps> = (props) => {
   return (
-    <section className="w-[400px] md:w-[90%]">
+    <section className="max-[440px]:w-[90%] w-[400px]  md:w-[90%]">
       <div className="flex justify-end">
         <Button variant={"warning"} className="text-sm rounded-md px-3 me-2">
           <Link href={"/"}>{props.directoryName}</Link>
@@ -52,7 +52,7 @@ const TaskCard: FC<TaskCardProps> = (props) => {
           >
             <CardDescription
               className={`${
-                props.viewMode === "grid" ? "min-h-28" : "min-h-14"
+                props.viewMode === "grid" ? "min-h-28" : "min-h-14 pb-10"
               } `}
             >
               {props.description}
