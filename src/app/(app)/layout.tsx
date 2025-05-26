@@ -1,22 +1,22 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import "./globals.css";
+import "../globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import RightSideBar from "@/stories/right-sidebar";
 import LeftSidebar from "@/stories/left-sidebar";
 import Header from "@/stories/header";
 import TaskManagementToolbar from "@/stories/task-managment-toolbar";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
+// const geistSans = localFont({
+//   src: "./fonts/GeistVF.woff",
+//   variable: "--font-geist-sans",
+//   weight: "100 900",
+// });
+// const geistMono = localFont({
+//   src: "./fonts/GeistMonoVF.woff",
+//   variable: "--font-geist-mono",
+//   weight: "100 900",
+// });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -30,17 +30,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <ThemeProvider
-        >
+      <body>
+        <ThemeProvider>
           <section className="min-h-screen grid grid-cols-1 lg:grid-cols-6">
-            <LeftSidebar tabletOrMobile={false}/>
+            <LeftSidebar tabletOrMobile={false} />
 
             <main className="lg:col-span-4 px-4 ">
               <Header />
-              <TaskManagementToolbar/>
+              <TaskManagementToolbar />
               <div>{children}</div>
             </main>
 
