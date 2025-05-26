@@ -29,7 +29,7 @@ type linkProps = {
 };
 
 type LeftSidebarProps = {
-  tabletOrMobile: Boolean;
+  tabletOrMobile: boolean;
 };
 
 const links: linkProps[] = [
@@ -42,8 +42,8 @@ const links: linkProps[] = [
 const LeftSidebar = ({ tabletOrMobile }: LeftSidebarProps) => {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const directoryArray = ["secondary", , "work", "personal", "main"];
-
+  const directoryArray = ["secondary", "work", "personal", "main"];
+  const isLoggedIn = true;
   // const [hasMounted, setHasMounted] = useState(false);
 
   // useEffect(() => {
@@ -60,34 +60,45 @@ const LeftSidebar = ({ tabletOrMobile }: LeftSidebarProps) => {
     >
       <section className="flex flex-col justify-center items-center p-3">
         <h2 className="text-primary font-semibold">TO DO LIST</h2>
-        <div className="flex mt-6  w-full justify-center">
+        <div className="flex flex-col gap-3 mt-6  w-full justify-center items-center">
           <TaskForm>
             <Button className="bg-secondary hover:bg-secondary-secondaryHover dark:text-slate-100 w-[30vw] md:w-[20vw] lg:w-[13vw] ">
               Add new Task
             </Button>
           </TaskForm>
+
+          {isLoggedIn ? (
+            <Button className="bg-pink-500 hover:bg-pink-400 dark:text-slate-100 w-[30vw] md:w-[20vw] lg:w-[13vw] ">
+              Logout
+            </Button>
+          ) : (
+            <Button className="bg-pink-500 hover:bg-pink-400 dark:text-slate-100 w-[30vw] md:w-[20vw] lg:w-[13vw] ">
+              Sign In
+            </Button>
+          )}
         </div>
       </section>
 
-      <section className="flex flex-col justify-between mt-6 h-32">
-        {links.map((link) => {
-          const isActive = pathname === link.href;
-          return (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={`px-3 py-2  text-sm font-medium transition-colors ${
-                isActive
-                  ? "text-red-500 bg-red-100 border-r-[3px] border-red-700"
-                  : "text-muted-dark dark:text-foreground font-bold  hover:text-red-600"
-              }`}
-            >
-              {link.name}
-            </Link>
-          );
-        })}
-      </section>
-
+      <nav aria-label="Primary task links">
+        <section className="flex flex-col justify-between mt-6 h-32">
+          {links.map((link) => {
+            const isActive = pathname === link.href;
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`px-3 py-2  text-sm font-medium transition-colors ${
+                  isActive
+                    ? "text-red-500 bg-red-100 border-r-[3px] border-red-700"
+                    : "text-muted-dark dark:text-foreground font-bold  hover:text-red-600"
+                }`}
+              >
+                {link.name}
+              </Link>
+            );
+          })}
+        </section>
+      </nav>
       <section className="mt-5 p-2 ">
         <DropdownMenu onOpenChange={(isOpen) => setOpen(isOpen)}>
           <DropdownMenuTrigger
@@ -113,7 +124,6 @@ const LeftSidebar = ({ tabletOrMobile }: LeftSidebarProps) => {
                 >
                   <p>{dir}</p>
 
-             
                   <div className="flex items-center gap-1">
                     {dir?.toLowerCase() !== "main" ? (
                       <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out flex items-center gap-1">
