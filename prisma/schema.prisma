@@ -6,7 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
+ 
 }
 
 datasource db {
@@ -16,7 +16,7 @@ datasource db {
 
 model User {
   id        String   @id @default(uuid())
-  name      String
+  username  String
   email     String   @unique
   password  String
   tasks     Task[]   @relation("UserTasks")
@@ -42,6 +42,6 @@ model Task {
 model Directory {
   id        String   @id @default(uuid())
   name      String
-  tasks     Task[] 
+  tasks     Task[]
   createdAt DateTime @default(now())
 }

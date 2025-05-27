@@ -5,6 +5,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/stories/button";
+import { signIn } from "next-auth/react";
+import { Input } from "@/stories/input";
+import Link from "next/link";
+import GoogleSignInButton from "../GoogleSignInButton";
 import {
   Form,
   FormControl,
@@ -14,10 +18,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/stories/input";
-import Link from "next/link";
-import GoogleSignInButton from "../GoogleSignInButton";
-
+import { useRouter } from "next/navigation";
 const formSchema = z.object({
   email: z.string().min(1, "Email is required").email("Invalid email"),
   password: z
@@ -27,6 +28,7 @@ const formSchema = z.object({
 });
 
 const FormSignin = () => {
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -34,9 +36,23 @@ const FormSignin = () => {
       password: "",
     },
   });
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-  }
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const signInData = await signIn("credentials", {
+      redirect: false,
+      email: values.email,
+      password: values.password,
+    });
+
+    if (signInData?.error) {
+      console.log(signInData.error);
+    } else {
+      console.log("dsd");
+      console.log(window.location.origin);
+      router.push("/");
+
+      // router.push(`${window.location.origin}/`)
+    }
+  };
   return (
     <section className="backdrop-blur-md bg-white/30 rounded-xl shadow-lg p-10 sm:w-96">
       <Form {...form}>
@@ -47,7 +63,7 @@ const FormSignin = () => {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel  className="form-label">Email</FormLabel>
+                  <FormLabel className="form-label">Email</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="mail@example.com"
@@ -64,7 +80,7 @@ const FormSignin = () => {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel  className="form-label">Password</FormLabel>
+                  <FormLabel className="form-label">Password</FormLabel>
                   <FormControl>
                     <Input
                       type="password"

@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import TaskForm from "../form-dialog";
 import DialogComponent from "../dialog";
+import { signOut } from "next-auth/react";
 
 type linkProps = {
   name: string;
@@ -67,15 +68,15 @@ const LeftSidebar = ({ tabletOrMobile }: LeftSidebarProps) => {
             </Button>
           </TaskForm>
 
-          {isLoggedIn ? (
-            <Button className="bg-pink-500 hover:bg-pink-400 dark:text-slate-100 w-[30vw] md:w-[20vw] lg:w-[13vw] ">
+          
+            <Button onClick={()=> signOut({callbackUrl:"/sign-in"})} className="bg-pink-500 hover:bg-pink-400 dark:text-slate-100 w-[30vw] md:w-[20vw] lg:w-[13vw] ">
               Logout
             </Button>
-          ) : (
-            <Button className="bg-pink-500 hover:bg-pink-400 dark:text-slate-100 w-[30vw] md:w-[20vw] lg:w-[13vw] ">
+         
+            {/* <Button className="bg-pink-500 hover:bg-pink-400 dark:text-slate-100 w-[30vw] md:w-[20vw] lg:w-[13vw] ">
               Sign In
-            </Button>
-          )}
+            </Button> */}
+         
         </div>
       </section>
 

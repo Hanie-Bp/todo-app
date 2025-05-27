@@ -1,7 +1,8 @@
+// "use client";
 import FormSignup from "@/components/form-auth/form-signup";
 import React from "react";
 
-const SignIn = () => {
+const signUp = () => {
   return (
     <section>
       <FormSignup />
@@ -9,4 +10,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default signUp;

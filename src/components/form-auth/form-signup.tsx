@@ -16,6 +16,7 @@ import {
 import { Input } from "@/stories/input";
 import Link from "next/link";
 import GoogleSignInButton from "../GoogleSignInButton";
+import { useRouter } from "next/navigation";
 
 const formSchema = z
   .object({
@@ -33,6 +34,7 @@ const formSchema = z
   });
 
 const FormSignup = () => {
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -42,9 +44,30 @@ const FormSignup = () => {
       confirmPassword: "",
     },
   });
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-  }
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const res = await fetch("/api/users", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: values.username,
+        email: values.email,
+        password: values.password,
+      }),
+    });
+    const data = await res.json();
+
+    if (res.ok) {
+      router.push("/sign-in");
+    } else {
+      // Set the error manually for the "email" field
+      form.setError("email", {
+        type: "server",
+        message: data.message || "Something went wrong",
+      });
+    }
+  };
   return (
     <section className="backdrop-blur-md bg-white/30 rounded-xl shadow-lg p-10 sm:w-96">
       <Form {...form}>
@@ -55,9 +78,7 @@ const FormSignup = () => {
               name="username"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="form-label">
-                    Username
-                  </FormLabel>
+                  <FormLabel className="form-label">Username</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Username"
@@ -74,7 +95,7 @@ const FormSignup = () => {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel  className="form-label">Email</FormLabel>
+                  <FormLabel className="form-label">Email</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="mail@example.com"
@@ -91,7 +112,7 @@ const FormSignup = () => {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel  className="form-label">Password</FormLabel>
+                  <FormLabel className="form-label">Password</FormLabel>
                   <FormControl>
                     <Input
                       type="password"
@@ -109,7 +130,9 @@ const FormSignup = () => {
               name="confirmPassword"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel  className="form-label">Re-Enter your password</FormLabel>
+                  <FormLabel className="form-label">
+                    Re-Enter your password
+                  </FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Re-Enter your password"
