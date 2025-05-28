@@ -21,8 +21,13 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
+  console.log('fddfgdfgdff');
+  
   try {
+   
+    
     const body = await req.json();
+     console.log("bodyyyyyyyyyyyyyyyyy",body);
     const { username, email, password } = userSchema.parse(body);
     const exisitingUserByEmail = await prisma.user.findUnique({
       where: { email },

@@ -13,7 +13,7 @@
 import "../globals.css"
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
-  console.log("/////////////////////////////////////////////////AuthLayout loaded");
+  // console.log("/////////////////////////////////////////////////AuthLayout loaded");
   return (
     <html lang="en">
       <body>
