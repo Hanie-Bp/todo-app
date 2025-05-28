@@ -28,7 +28,7 @@ import { Checkbox } from "../../components/ui/checkbox";
 
 const formSchema = z.object({
   title: z.string().min(2, "Title must be at least 2 characters"),
-  date: z.string().min(10, "date must be at least 10 characters"),
+  dueDate: z.string().min(10, "date must be at least 10 characters"),
   description: z
     .string()
     .min(4, "Description must be at least 4 characters")
@@ -44,7 +44,7 @@ type FormDataProps = {
     completed: boolean;
     title: string;
     description: string;
-    date: string;
+    dueDate: string;
     directoryName: string;
   };
   directories: string[];
@@ -56,7 +56,7 @@ const FormComponent = ({ formData, directories }: FormDataProps) => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: formData?.title || "",
-      date: formData?.date || getTodayDate().inputFormat,
+      dueDate: formData?.dueDate || getTodayDate().inputFormat,
       description: formData?.description || "",
       directory: formData?.directoryName || "",
       important: formData?.important || false,
@@ -65,7 +65,12 @@ const FormComponent = ({ formData, directories }: FormDataProps) => {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  // const dirId = await fetch(`/api/directories/${values.directory}`, {
+  //   method: "GET",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  // });
   }
   return (
     <Form {...form}>
@@ -95,7 +100,7 @@ const FormComponent = ({ formData, directories }: FormDataProps) => {
         {/* Date */}
         <FormField
           control={form.control}
-          name="date"
+          name="dueDate"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Date</FormLabel>

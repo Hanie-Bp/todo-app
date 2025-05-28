@@ -3,13 +3,15 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ModeToggle } from "../darkmode/index";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "../button";
+import { userSession } from "@/lib/utils";
 
-const RightSideBar = () => {
+const RightSideBar =async () => {
+  const session = await userSession();
   return (
     <section className="hidden min-h-screen  p-3 bg-muted lg:flex flex-col justify-between">
       <section>
         <section className="flex items-center justify-center">
-          <h2 className="me-2">Hi , User</h2>
+          <h2 className="me-2">Hi , {session?.user.username}</h2>
           <Avatar>
             <AvatarImage src="https://github.com/shadcn.png" />
             <AvatarFallback>CN</AvatarFallback>

@@ -1,4 +1,4 @@
-"use client";
+
 import React, { useEffect, useState } from "react";
 import { Button } from "../button";
 import Link from "next/link";
@@ -23,35 +23,34 @@ import {
 import TaskForm from "../form-dialog";
 import DialogComponent from "../dialog";
 import { signOut } from "next-auth/react";
+import LogotButton from "@/components/logout-btn";
+import LinksSidebar from "@/components/links-sidebar";
+import DropdownDirecories from "@/components/dropdownDirecories";
+import { get } from "http";
+import { getAllDirectories, getUserByEmail } from "@/lib/actions";
 
-type linkProps = {
-  name: string;
-  href: string;
-};
+// type linkProps = {
+//   name: string;
+//   href: string;
+// };
 
 type LeftSidebarProps = {
   tabletOrMobile: boolean;
 };
 
-const links: linkProps[] = [
-  { name: "All tasks", href: "/" },
-  { name: "Important tasks", href: "/important" },
-  { name: "Completed tasks", href: "/completed" },
-  { name: "Uncompleted tasks", href: "uncompleted" },
-];
+// const links: linkProps[] = [
+//   { name: "All tasks", href: "/" },
+//   { name: "Important tasks", href: "/important" },
+//   { name: "Completed tasks", href: "/completed" },
+//   { name: "Uncompleted tasks", href: "uncompleted" },
+// ];
 
-const LeftSidebar = ({ tabletOrMobile }: LeftSidebarProps) => {
-  const pathname = usePathname();
-  const [open, setOpen] = useState(false);
-  const directoryArray = ["secondary", "work", "personal", "main"];
-  const isLoggedIn = true;
-  // const [hasMounted, setHasMounted] = useState(false);
-
-  // useEffect(() => {
-  //   setHasMounted(true);
-  // }, []);
-
-  // if (!hasMounted) return null;
+const LeftSidebar = async ({ tabletOrMobile }: LeftSidebarProps) => {
+  const user = await getUserByEmail();
+  const directories = await getAllDirectories(user?.id!);
+  // const pathname = usePathname();
+  // const [open, setOpen] = useState(false);
+  //  const directories = await fetch("/api/directories");
 
   return (
     <section
@@ -68,21 +67,24 @@ const LeftSidebar = ({ tabletOrMobile }: LeftSidebarProps) => {
             </Button>
           </TaskForm>
 
-          
-            <Button onClick={()=> signOut({callbackUrl:"/sign-in"})} className="bg-pink-500 hover:bg-pink-400 dark:text-slate-100 w-[30vw] md:w-[20vw] lg:w-[13vw] ">
-              Logout
-            </Button>
-         
-            {/* <Button className="bg-pink-500 hover:bg-pink-400 dark:text-slate-100 w-[30vw] md:w-[20vw] lg:w-[13vw] ">
+          <LogotButton/>
+          {/* <Button
+            onClick={() => signOut({ callbackUrl: "/sign-in" })}
+            className="bg-pink-500 hover:bg-pink-400 dark:text-slate-100 w-[30vw] md:w-[20vw] lg:w-[13vw] "
+          >
+            Logout
+          </Button> */}
+
+          {/* <Button className="bg-pink-500 hover:bg-pink-400 dark:text-slate-100 w-[30vw] md:w-[20vw] lg:w-[13vw] ">
               Sign In
             </Button> */}
-         
         </div>
       </section>
 
       <nav aria-label="Primary task links">
-        <section className="flex flex-col justify-between mt-6 h-32">
-          {links.map((link) => {
+        <LinksSidebar/>
+        {/* <section className="flex flex-col justify-between mt-6 h-32"> */}
+          {/* {links.map((link) => {
             const isActive = pathname === link.href;
             return (
               <Link
@@ -97,11 +99,12 @@ const LeftSidebar = ({ tabletOrMobile }: LeftSidebarProps) => {
                 {link.name}
               </Link>
             );
-          })}
-        </section>
+          })} */}
+        {/* </section> */}
       </nav>
       <section className="mt-5 p-2 ">
-        <DropdownMenu onOpenChange={(isOpen) => setOpen(isOpen)}>
+        <DropdownDirecories directories={directories} />
+        {/* <DropdownMenu onOpenChange={(isOpen) => setOpen(isOpen)}>
           <DropdownMenuTrigger
             asChild
             className="hover:bg-inherit focus:outline-none focus:ring-0 focus:ring-offset-0"
@@ -149,7 +152,7 @@ const LeftSidebar = ({ tabletOrMobile }: LeftSidebarProps) => {
                 </Link>
               ))}
 
-              {/* Button to add new directory */}
+              
               <DialogComponent
                 dialogtype="create"
                 title="Create new directory"
@@ -163,51 +166,8 @@ const LeftSidebar = ({ tabletOrMobile }: LeftSidebarProps) => {
                 </Button>
               </DialogComponent>
             </div>
-            {/* <div className="flex flex-col px-2 py-1 space-y-1">
-              <div className="cursor-pointer  text-sm hover:bg-muted px-2 py-1 rounded flex items-center justify-between group">
-                <p>secondary</p>
-                <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out flex items-center gap-1">
-                  <DialogComponent
-                    dialogtype="edit"
-                    title="Edit directory name"
-                    custumClass="flex"
-                  >
-                    <EditIcon className="w-4" />
-                  </DialogComponent>
-                  <DialogComponent
-                    dialogtype="delete"
-                    title="Are you sure?"
-                    description="This directory will be deleted permanetly"
-                    custumClass="flex"
-                  >
-                    <Trash2Icon className="w-4" />
-                  </DialogComponent>
-                </div>
-              </div>
-              <div className="cursor-pointer text-sm hover:bg-muted px-2 py-1 rounded">
-                Main
-              </div>
-              <DialogComponent
-                dialogtype="create"
-                title="Create new directory"
-                custumClass="flex"
-              >
-                <Button
-                  variant={"ghost"}
-                  className="text-sm border border-black  border-dashed  w-full"
-                >
-                  + New
-                </Button>
-              </DialogComponent>
-              {/* <Button
-                variant={"ghost"}
-                className="text-sm border border-black  border-dashed  w-full"
-              >
-                + New
-              </Button> 
-            </div> */}
           </DropdownMenuContent>
-        </DropdownMenu>
+        </DropdownMenu> */}
       </section>
     </section>
   );

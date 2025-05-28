@@ -21,13 +21,11 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
-  console.log('fddfgdfgdff');
-  
+  // console.log('fddfgdfgdff');
+
   try {
-   
-    
     const body = await req.json();
-     console.log("bodyyyyyyyyyyyyyyyyy",body);
+    //  console.log("bodyyyyyyyyyyyyyyyyy",body);
     const { username, email, password } = userSchema.parse(body);
     const exisitingUserByEmail = await prisma.user.findUnique({
       where: { email },
@@ -40,17 +38,35 @@ export async function POST(req: Request) {
     }
 
     const hashedPassword = await hash(password, 10);
-    const newUser = await prisma.user.create({
-      data: {
-        username,
-        email,
-        password: hashedPassword,
-      },
+    // const newUser = await prisma.user.create({
+    //   data: {
+    //     username,
+    //     email,
+    //     password: hashedPassword,
+    //   },
+    // });
+       const newUserWithMain = await prisma.$transaction(async (tx) => {
+      const newUser = await tx.user.create({
+        data: {
+          username,
+          email,
+          password: hashedPassword,
+        },
+      });
+
+      await tx.directory.create({
+        data: {
+          name: "main",
+          userId: newUser.id,
+        },
+      });
+
+      return newUser;
     });
 
-    const { password: newUserPassword, ...rest } = newUser;
+    const { password: newUserPassword, ...rest } = newUserWithMain;
     return NextResponse.json(
-      { user: rest, message: "User created successfully" },
+      { user: rest, message: "User and 'main' directory created successfully" },
       { status: 201 }
     );
   } catch (error) {

@@ -12,12 +12,14 @@ import {
 import { Button } from "../button";
 import { Input } from "../input";
 import { Label } from "../../components/ui/label";
+import DirectoryForm from "@/components/directoryForm";
 
-export type DialogProps = {
+type DialogProps = {
   title: string;
   description?: string;
   dialogtype: "edit" | "delete" | "create";
   custumClass?: string;
+  formData?: { name: string,id: string };
   children: ReactNode;
 };
 
@@ -26,6 +28,7 @@ const DialogComponent: FC<DialogProps> = ({
   description,
   dialogtype,
   custumClass,
+  formData,
   children,
 }) => {
   return (
@@ -41,14 +44,18 @@ const DialogComponent: FC<DialogProps> = ({
               {dialogtype === "delete" && description}
             </DialogDescription>
           </DialogHeader>
-          {dialogtype !== "delete" && (
+          {/* {dialogtype !== "delete" && (
             <section>
               <Label>Title</Label>
               <Input placeholder="Enter a directory name" type="text" />
             </section>
-          )}
+          )} */}
           <DialogFooter className="sm:justify-start">
-            {dialogtype === "create" && (
+            {dialogtype !== "delete" && (
+              <DirectoryForm dialogType={dialogtype} formData={formData} />
+            )}
+
+            {/* {dialogtype === "create" && (
               <Button
                 variant={"secondary"}
                 size={"md"}
@@ -56,8 +63,8 @@ const DialogComponent: FC<DialogProps> = ({
               >
                 Create
               </Button>
-            )}
-            {dialogtype === "edit" && (
+            )} */}
+            {/* {dialogtype === "edit" && (
               <Button
                 variant={"secondary"}
                 size={"md"}
@@ -65,7 +72,7 @@ const DialogComponent: FC<DialogProps> = ({
               >
                 Edit
               </Button>
-            )}
+            )} */}
             {dialogtype === "delete" && (
               <section className="flex justify-end w-full text-muted-dark font-semibold">
                 <DialogClose asChild>
