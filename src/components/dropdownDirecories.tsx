@@ -20,19 +20,21 @@ import {
 import { Button } from "@/stories/button";
 import DialogComponent from "@/stories/dialog";
 import Link from "next/link";
+import { Directory } from "@/types/directory";
 
-type Directory = {
-  name: string;
-  id: string;
-  // userId: string;
-};
+
+// type Directory = {
+//   name: string;
+//   id: string;
+//   // userId: string;
+// };
 
 type DropdownDirectoriesProps = {
   directories: Directory[];
 };
 
 const DropdownDirecories: FC<DropdownDirectoriesProps> = ({ directories }) => {
-  console.log(directories);
+  // console.log(directories);
 
   const [open, setOpen] = useState(false);
   return (
@@ -52,13 +54,14 @@ const DropdownDirecories: FC<DropdownDirectoriesProps> = ({ directories }) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-[230px] ml-2 mt-2 shadow-none border-none">
         <div className="flex flex-col px-2 py-1 space-y-1">
-          {directories.map((dir) => (
-            <Link
+          {directories.map((dir:Directory) => (
+            <div
               key={dir.name}
-              href={`/${dir.name?.toLowerCase()}`}
               className="cursor-pointer  text-sm hover:bg-muted px-2 py-1 rounded flex items-center justify-between group"
             >
-              <p>{dir.name}</p>
+              <Link href={`/directories/${dir.id}`}>
+                <p>{dir.name}</p>
+              </Link>
 
               <div className="flex items-center gap-1">
                 {dir.name?.toLowerCase() !== "main" ? (
@@ -67,6 +70,7 @@ const DropdownDirecories: FC<DropdownDirectoriesProps> = ({ directories }) => {
                       dialogtype="edit"
                       title="Edit directory name"
                       custumClass="flex"
+                      directory={dir}
                     >
                       <EditIcon className="w-4" />
                     </DialogComponent>
@@ -75,13 +79,14 @@ const DropdownDirecories: FC<DropdownDirectoriesProps> = ({ directories }) => {
                       title="Are you sure?"
                       description="This directory will be deleted permanently"
                       custumClass="flex"
+                      directory={dir}
                     >
                       <Trash2Icon className="w-4" />
                     </DialogComponent>
                   </div>
                 ) : null}
               </div>
-            </Link>
+            </div>
           ))}
 
           {/* Button to add new directory */}

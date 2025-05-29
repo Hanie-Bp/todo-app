@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { Button } from "../button";
 import Link from "next/link";
@@ -28,6 +27,7 @@ import LinksSidebar from "@/components/links-sidebar";
 import DropdownDirecories from "@/components/dropdownDirecories";
 import { get } from "http";
 import { getAllDirectories, getUserByEmail } from "@/lib/actions";
+import { userSession } from "@/lib/utils";
 
 // type linkProps = {
 //   name: string;
@@ -46,11 +46,10 @@ type LeftSidebarProps = {
 // ];
 
 const LeftSidebar = async ({ tabletOrMobile }: LeftSidebarProps) => {
-  const user = await getUserByEmail();
-  const directories = await getAllDirectories(user?.id!);
-  // const pathname = usePathname();
-  // const [open, setOpen] = useState(false);
-  //  const directories = await fetch("/api/directories");
+  // const user = await getUserByEmail();
+  const session = await userSession();
+  const directories = await getAllDirectories(session?.user?.id!);
+  // console.log("dsadfsdfsdfsf", getSession);
 
   return (
     <section
@@ -67,107 +66,15 @@ const LeftSidebar = async ({ tabletOrMobile }: LeftSidebarProps) => {
             </Button>
           </TaskForm>
 
-          <LogotButton/>
-          {/* <Button
-            onClick={() => signOut({ callbackUrl: "/sign-in" })}
-            className="bg-pink-500 hover:bg-pink-400 dark:text-slate-100 w-[30vw] md:w-[20vw] lg:w-[13vw] "
-          >
-            Logout
-          </Button> */}
-
-          {/* <Button className="bg-pink-500 hover:bg-pink-400 dark:text-slate-100 w-[30vw] md:w-[20vw] lg:w-[13vw] ">
-              Sign In
-            </Button> */}
+          <LogotButton />
         </div>
       </section>
 
       <nav aria-label="Primary task links">
-        <LinksSidebar/>
-        {/* <section className="flex flex-col justify-between mt-6 h-32"> */}
-          {/* {links.map((link) => {
-            const isActive = pathname === link.href;
-            return (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`px-3 py-2  text-sm font-medium transition-colors ${
-                  isActive
-                    ? "text-red-500 bg-red-100 border-r-[3px] border-red-700"
-                    : "text-muted-dark dark:text-foreground font-bold  hover:text-red-600"
-                }`}
-              >
-                {link.name}
-              </Link>
-            );
-          })} */}
-        {/* </section> */}
+        <LinksSidebar />
       </nav>
       <section className="mt-5 p-2 ">
         <DropdownDirecories directories={directories} />
-        {/* <DropdownMenu onOpenChange={(isOpen) => setOpen(isOpen)}>
-          <DropdownMenuTrigger
-            asChild
-            className="hover:bg-inherit focus:outline-none focus:ring-0 focus:ring-offset-0"
-          >
-            <Button variant="ghost">
-              {open ? (
-                <ChevronDown className="h-4 w-4 transition-all" />
-              ) : (
-                <ChevronRight className="h-4 w-4 transition-all" />
-              )}
-              <span className="mr-2">Directories</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-[230px] ml-2 mt-2 shadow-none border-none">
-            <div className="flex flex-col px-2 py-1 space-y-1">
-              {directoryArray.map((dir) => (
-                <Link
-                  key={dir}
-                  href={`/${dir?.toLowerCase()}`}
-                  className="cursor-pointer  text-sm hover:bg-muted px-2 py-1 rounded flex items-center justify-between group"
-                >
-                  <p>{dir}</p>
-
-                  <div className="flex items-center gap-1">
-                    {dir?.toLowerCase() !== "main" ? (
-                      <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out flex items-center gap-1">
-                        <DialogComponent
-                          dialogtype="edit"
-                          title="Edit directory name"
-                          custumClass="flex"
-                        >
-                          <EditIcon className="w-4" />
-                        </DialogComponent>
-                        <DialogComponent
-                          dialogtype="delete"
-                          title="Are you sure?"
-                          description="This directory will be deleted permanently"
-                          custumClass="flex"
-                        >
-                          <Trash2Icon className="w-4" />
-                        </DialogComponent>
-                      </div>
-                    ) : null}
-                  </div>
-                </Link>
-              ))}
-
-              
-              <DialogComponent
-                dialogtype="create"
-                title="Create new directory"
-                custumClass="flex"
-              >
-                <Button
-                  variant={"ghost"}
-                  className="text-sm border border-black border-dashed w-full"
-                >
-                  + New
-                </Button>
-              </DialogComponent>
-            </div>
-          </DropdownMenuContent>
-        </DropdownMenu> */}
       </section>
     </section>
   );

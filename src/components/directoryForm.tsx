@@ -13,21 +13,23 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/stories/input";
 import { Button } from "@/stories/button";
+import { Directory } from "@/types/directory";
 
 type directoryFormProps = {
   dialogType: "create" | "edit";
-  formData?: { name: string,id: string };
+  directory?: Directory;
+  closeDialog?: () => void;
 };
 
 const formSchema = z.object({
   directoryName: z.string().min(1, "Directory name is required").max(20),
 });
 
-const DirectoryForm: FC<directoryFormProps> = ({ dialogType, formData }) => {
+const DirectoryForm: FC<directoryFormProps> = ({ dialogType, directory ,closeDialog }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      directoryName: formData?.name || "",
+      directoryName: directory?.name || "",
     },
   });
 
@@ -36,20 +38,20 @@ const DirectoryForm: FC<directoryFormProps> = ({ dialogType, formData }) => {
       const res = await fetch(
         dialogType === "create"
           ? "/api/directories"
-          : `/api/directories/${formData?.id}`,
+          : `/api/directories/${directory?.id}`,
         {
           method: dialogType === "create" ? "POST" : "PATCH",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(values),
+
+          body: JSON.stringify({ ...values, id: directory?.id }),
         }
       );
 
       const data = await res.json();
 
       if (!res.ok) {
-        // console.error("❌ Failed to create directory:", data.error || data);
         form.setError("directoryName", {
           type: "server",
           message: data.message || "Something went wrong",
@@ -57,6 +59,7 @@ const DirectoryForm: FC<directoryFormProps> = ({ dialogType, formData }) => {
         return;
       }
       form.reset();
+      closeDialog?.();
     } catch (error) {
       console.error("❌ Error submitting form:", error);
     }

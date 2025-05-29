@@ -1,0 +1,71 @@
+import { authOptions } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
+import { getServerSession } from "next-auth";
+import { NextResponse } from "next/server";
+import { z } from "zod";
+
+export async function PATCH(req: Request) {
+  try {
+    const body = await req.json();
+    const { directoryName, id } = body;
+    const session = await getServerSession(authOptions);
+    const userId = session?.user?.id;
+
+    if (!userId) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+
+    const newDirectory = await prisma.directory.update({
+      where: {
+        id,
+      },
+      data: {
+        name: directoryName,
+        userId,
+      },
+    });
+    return NextResponse.json(newDirectory);
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ error: "Server error" }, { status: 500 });
+  }
+}
+
+export async function DELETE(req:Request,{ params }: { params: { id: string } }) {
+  try {
+    const session = await getServerSession(authOptions);
+    const userId = session?.user?.id;
+
+    if (!userId) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+
+    const directory = await prisma.directory.findUnique({
+      where: {
+        id: params.id,
+        userId,
+      },
+    });
+
+    if (!directory) {
+      return NextResponse.json(
+        { message: "Directory not found" },
+        { status: 404 }
+      );
+    }
+
+    await prisma.directory.delete({
+      where: {
+        id: params.id,
+      },
+    });
+
+    return NextResponse.json(
+      { message: "Directory deleted successfully" },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ error: "Server error" }, { status: 500 });
+  }
+}
