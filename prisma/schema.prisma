@@ -25,18 +25,19 @@ model User {
 }
 
 model Task {
-  id          String     @id @default(uuid())
-  title       String
-  description String
-  dueDate     DateTime
-  completed   Boolean    @default(false)
-  important   Boolean    @default(false)
-  directoryId String? // nullable, in case not every task has a directory
-  directory   Directory? @relation(fields: [directoryId], references: [id])
-  userId      String
-  user        User       @relation("UserTasks", fields: [userId], references: [id])
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+  id            String     @id @default(uuid())
+  title         String
+  description   String?
+  dueDate       DateTime
+  completed     Boolean    @default(false)
+  important     Boolean    @default(false)
+  directoryId   String? // nullable, in case not every task has a directory
+  directory     Directory? @relation(fields: [directoryId], references: [id])
+  userId        String
+  user          User       @relation("UserTasks", fields: [userId], references: [id])
+  directoryName String?
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
 }
 
 model Directory {

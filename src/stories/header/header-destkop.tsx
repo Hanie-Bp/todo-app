@@ -1,15 +1,17 @@
+
 import React from "react";
 import SearchInput from "../searchInput";
 import { Button } from "../button";
 import { getTodayDate } from "@/utils/dateFunctions";
 import TaskForm from "../form-dialog";
+import { Directory } from "@/types/types";
 
-const HeaderDestkop = () => {
+const HeaderDestkop = ({directories}: { directories:   Directory[] }) => {
   return (
     <section className="flex justify-between items-center  w-[66.6vw] px-4 ">
       <SearchInput />
       <p>{getTodayDate().readableFormat}</p>
-      <TaskForm> 
+      <TaskForm directories={directories} formType="add" > 
         <Button className="bg-secondary hover:bg-secondary-secondaryHover dark:text-slate-100">
           Add new Task
         </Button>

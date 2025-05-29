@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/stories/input";
 import { Button } from "@/stories/button";
-import { Directory } from "@/types/directory";
+import { Directory } from "@/types/types";
 
 type directoryFormProps = {
   dialogType: "create" | "edit";
@@ -25,7 +25,11 @@ const formSchema = z.object({
   directoryName: z.string().min(1, "Directory name is required").max(20),
 });
 
-const DirectoryForm: FC<directoryFormProps> = ({ dialogType, directory ,closeDialog }) => {
+const DirectoryForm: FC<directoryFormProps> = ({
+  dialogType,
+  directory,
+  closeDialog,
+}) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {

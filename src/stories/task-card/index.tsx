@@ -13,23 +13,23 @@ import { Separator } from "../seperator";
 import Link from "next/link";
 import TaskForm from "../form-dialog";
 import DialogComponent from "../dialog";
+import { Directory, Task } from "@/types/types";
 
 export type TaskCardProps = {
-  important: boolean;
-  completed: boolean;
-  title: string;
-  description: string;
-  date: string;
-  directoryName: string;
+  task: Task
+  directories:Directory[];
   viewMode: "grid" | "list";
 };
 
 const TaskCard: FC<TaskCardProps> = (props) => {
+  
+  
+  // const directoryName = await fetch(`/api/directories/${props?.task?.directoryId}`)
   return (
     <section className="max-[440px]:w-[90%] w-[400px]  md:w-[90%]">
       <div className="flex justify-end">
         <Button variant={"warning"} className="text-sm rounded-md px-3 me-2">
-          <Link href={"/"}>{props.directoryName}</Link>
+          <Link href={`/directories/${props?.task?.directoryId}`}>{props.task.directoryName}</Link>
         </Button>
       </div>
       <Card
@@ -42,7 +42,7 @@ const TaskCard: FC<TaskCardProps> = (props) => {
         <section className={`${props.viewMode === "list" && "flex flex-col"}`}>
           <CardHeader className={`${props.viewMode === "list" && "p-2 pb-3"}`}>
             <CardTitle className="font-bold text-xl text-primary">
-              {props.title}
+              {props.task.title}
             </CardTitle>
           </CardHeader>
           <CardContent
@@ -55,11 +55,11 @@ const TaskCard: FC<TaskCardProps> = (props) => {
                 props.viewMode === "grid" ? "min-h-28" : "min-h-14 pb-10"
               } `}
             >
-              {props.description}
+              {props.task.description}
             </CardDescription>
             <section className="flex">
               <Calendar />
-              <p className="ms-2">{props.date}</p>
+              <p className="ms-2">{new Date(props.task.dueDate).toLocaleDateString()}</p>
             </section>
           </CardContent>
         </section>
@@ -81,15 +81,15 @@ const TaskCard: FC<TaskCardProps> = (props) => {
         >
           <section className="flex  w-full justify-between items-center">
             <Button
-              variant={props.completed ? "unWarnung" : "warning"}
+              variant={props.task.completed ? "unWarnung" : "warning"}
               size={"md"}
               className=""
             >
               <p className="hidden md:block">
-                {props.completed ? "completed" : "uncompleted"}
+                {props?.task?.completed ? "completed" : "uncompleted"}
               </p>
               <div className="md:hidden">
-                {props.completed ? <Check /> : <X />}
+                {props?.task?.completed ? <Check /> : <X />}
               </div>
             </Button>
             <div
@@ -98,7 +98,7 @@ const TaskCard: FC<TaskCardProps> = (props) => {
               } justify-between items-center`}
             >
               <Star
-                fill={`${props.important ? "red" : "none"}`}
+                fill={`${props?.task?.important ? "red" : "none"}`}
                 size={20}
                 className="cursor-pointer"
               />
@@ -106,11 +106,13 @@ const TaskCard: FC<TaskCardProps> = (props) => {
                 dialogtype="delete"
                 title="Are you sure?"
                 description="This task will be deleted permanetly"
+                deleteType="task"
+                taskId = {props?.task?.id}
               >
                 <Trash size={20} className="cursor-pointer   mt-1" />
               </DialogComponent>
 
-              <TaskForm formData={props}>
+              <TaskForm formData={props?.task} directories={props.directories} formType={"edit"}>
                 <MoreVertical size={20} className="cursor-pointer" />
               </TaskForm>
             </div>

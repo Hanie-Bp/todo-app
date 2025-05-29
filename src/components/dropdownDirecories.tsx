@@ -20,22 +20,13 @@ import {
 import { Button } from "@/stories/button";
 import DialogComponent from "@/stories/dialog";
 import Link from "next/link";
-import { Directory } from "@/types/directory";
-
-
-// type Directory = {
-//   name: string;
-//   id: string;
-//   // userId: string;
-// };
+import { Directory } from "@/types/types";
 
 type DropdownDirectoriesProps = {
   directories: Directory[];
 };
 
 const DropdownDirecories: FC<DropdownDirectoriesProps> = ({ directories }) => {
-  // console.log(directories);
-
   const [open, setOpen] = useState(false);
   return (
     <DropdownMenu onOpenChange={(isOpen) => setOpen(isOpen)}>
@@ -54,7 +45,7 @@ const DropdownDirecories: FC<DropdownDirectoriesProps> = ({ directories }) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-[230px] ml-2 mt-2 shadow-none border-none">
         <div className="flex flex-col px-2 py-1 space-y-1">
-          {directories.map((dir:Directory) => (
+          {directories?.map((dir: Directory) => (
             <div
               key={dir.name}
               className="cursor-pointer  text-sm hover:bg-muted px-2 py-1 rounded flex items-center justify-between group"

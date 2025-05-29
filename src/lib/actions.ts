@@ -24,3 +24,11 @@ export const getUserByEmail = async () => {
 
   return user;
 };
+
+
+export const getAllTasks = async (id: string) => {
+  const tasks = await prisma.task.findMany({
+    where: { userId: id },
+  });
+  return tasks;
+};

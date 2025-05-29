@@ -11,8 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "../button";
 import DirectoryForm from "@/components/directoryForm";
-import { Directory } from "@/types/directory";
-
+import { Directory } from "@/types/types";
 
 type DialogProps = {
   title: string;
@@ -20,6 +19,8 @@ type DialogProps = {
   dialogtype: "edit" | "delete" | "create";
   custumClass?: string;
   directory?: Directory;
+  deleteType?: "directory" | "task";
+  taskId?: string;
   children: ReactNode;
 };
 
@@ -29,11 +30,13 @@ const DialogComponent: FC<DialogProps> = ({
   dialogtype,
   custumClass,
   directory,
+  deleteType,
+  taskId,
   children,
 }) => {
- const closeRef = useRef<HTMLButtonElement>(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
   const handleDelete = async () => {
-    const res = await fetch(`/api/directories/${directory?.id}`, {
+    const res = await fetch(`${deleteType === "directory" ? `/api/directories/${directory?.id}` : `/api/tasks/${taskId}`}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -61,12 +64,16 @@ const DialogComponent: FC<DialogProps> = ({
           </DialogHeader>
 
           <DialogFooter className="sm:justify-start">
-             <DialogClose asChild>
+            <DialogClose asChild>
               <button ref={closeRef} className="hidden" />
             </DialogClose>
 
             {dialogtype !== "delete" && (
-              <DirectoryForm dialogType={dialogtype} directory={directory}  closeDialog={() => closeRef.current?.click()}/>
+              <DirectoryForm
+                dialogType={dialogtype}
+                directory={directory}
+                closeDialog={() => closeRef.current?.click()}
+              />
             )}
 
             {dialogtype === "delete" && (

@@ -7,9 +7,9 @@ const LinksSidebar = () => {
   const pathname = usePathname();
   const links = [
     { name: "All tasks", href: "/" },
-    { name: "Important tasks", href: "/important" },
-    { name: "Completed tasks", href: "/completed" },
-    { name: "Uncompleted tasks", href: "uncompleted" },
+    { name: "Important tasks", href: "/important-tasks" },
+    { name: "Completed tasks", href: "/completed-tasks" },
+    { name: "Uncompleted tasks", href: "/uncompleted-tasks" },
   ];
   return (
     <section className="flex flex-col justify-between mt-6 h-32">

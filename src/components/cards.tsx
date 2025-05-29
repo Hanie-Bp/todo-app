@@ -2,10 +2,17 @@
 import { RootState } from "@/redux/store";
 import TaskCard from "@/stories/task-card";
 import { tasks } from "@/stories/task-card/task-card.stories";
-import React from "react";
+import { Directory, Task } from "@/types/types";
+import { dir } from "console";
+import React, { FC } from "react";
 import { useSelector } from "react-redux";
 
-const Cards = () => {
+type CardsProps = {
+  tasks: Task[];
+  directories:Directory[];
+};
+
+const Cards:FC<CardsProps> = ({ tasks ,directories}) => {
   const viewMode = useSelector((state: RootState) => state.view.mode);
   // console.log(viewMode);
   const listView = `flex flex-col justify-center items-center gap-5`
@@ -13,8 +20,8 @@ const Cards = () => {
 
   return (
     <section className={`container py-6  mx-auto ${viewMode=== "grid"? gridView: listView}  `}>
-      {tasks.map((task, i) => (
-        <TaskCard key={i} {...task} viewMode={viewMode}/>
+      {tasks?.map((task, i) => (
+        <TaskCard key={i} task={task} viewMode={viewMode} directories={directories}/>
       ))}
     </section>
   );

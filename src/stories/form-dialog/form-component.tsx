@@ -25,52 +25,65 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { getTodayDate } from "@/utils/dateFunctions";
 import { Checkbox } from "../../components/ui/checkbox";
+import { Directory, Task } from "@/types/types";
 
 const formSchema = z.object({
   title: z.string().min(2, "Title must be at least 2 characters"),
-  dueDate: z.string().min(10, "date must be at least 10 characters"),
+  dueDate:
+    z.string().min(10, "date must be at least 10 characters"),
   description: z
     .string()
     .min(4, "Description must be at least 4 characters")
     .optional(),
-  directory: z.string().optional(),
+  directoryId: z.string(),
+  directoryName: z.string(),
   important: z.boolean().optional(),
   complete: z.boolean().optional(),
 });
 
 type FormDataProps = {
-  formData?: {
-    important: boolean;
-    completed: boolean;
-    title: string;
-    description: string;
-    dueDate: string;
-    directoryName: string;
-  };
-  directories: string[];
+  formData?: Task;
+  directories: Directory[];
+  formType?: "edit" | "add";
 };
 
+const FormComponent = ({ formData, directories,formType }: FormDataProps) => {
+  // console.log('fffffffffffffffff',formData);
 
-const FormComponent = ({ formData, directories }: FormDataProps) => {
+  const mainDirectory = directories?.find(
+    (dir) => dir.name.toLowerCase() === "main"
+  );
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: formData?.title || "",
-      dueDate: formData?.dueDate || getTodayDate().inputFormat,
+    dueDate: typeof formData?.dueDate === 'string'
+  ? formData.dueDate
+  : formData?.dueDate?.toISOString().split("T")[0] || getTodayDate().inputFormat,
       description: formData?.description || "",
-      directory: formData?.directoryName || "",
+      directoryId: formData?.directoryId || mainDirectory?.id || "",
+      directoryName: formData?.directoryName || mainDirectory?.name || "Main",
       important: formData?.important || false,
       complete: formData?.completed || false,
     },
   });
-
-  function onSubmit(values: z.infer<typeof formSchema>) {
-  // const dirId = await fetch(`/api/directories/${values.directory}`, {
-  //   method: "GET",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  // });
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      const res = await fetch(`${formType === "edit" ? `/api/tasks/${formData?.id}` : `/api/tasks`}`, {
+        method: `${formType === "edit" ? "PATCH" : "POST"}`,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+      if (!res.ok) {
+        console.error("❌ Error submitting form:", res.status);
+      } else {
+        form.reset();
+      }
+    } catch (error) {
+      console.error("❌ Error submitting form:", error);
+    }
   }
   return (
     <Form {...form}>
@@ -138,20 +151,31 @@ const FormComponent = ({ formData, directories }: FormDataProps) => {
         {/* Directory */}
         <FormField
           control={form.control}
-          name="directory"
+          name="directoryId"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Select a directory</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select
+                onValueChange={(value) => {
+                  field.onChange(value);
+                  const selectedDirectory = directories.find(
+                    (dir) => dir.id === value
+                  );
+                  if (selectedDirectory) {
+                    form.setValue("directoryName", selectedDirectory.name);
+                  }
+                }}
+                defaultValue={field.value}
+              >
                 <FormControl>
                   <SelectTrigger className="bg-muted focus:border focus:border-secondary">
-                    <SelectValue placeholder="Main" />
+                    <SelectValue placeholder="Select directory" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent className="bg-background">
-                  {directories?.map((dir) => (
-                    <SelectItem key={dir} value={dir}>
-                      {dir.charAt(0).toUpperCase() + dir.slice(1)}
+                  {directories?.map((dir: Directory) => (
+                    <SelectItem key={dir.id} value={dir.id}>
+                      {dir.name.charAt(0).toUpperCase() + dir.name.slice(1)}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -202,7 +226,7 @@ const FormComponent = ({ formData, directories }: FormDataProps) => {
           className="text-sm w-full dark:text-white"
           variant={"secondary"}
         >
-          Add a task
+         {formType === "edit" ? "Edit Task" : "Add a Task"}
         </Button>
       </form>
     </Form>
