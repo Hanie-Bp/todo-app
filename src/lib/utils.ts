@@ -1,17 +1,19 @@
-import { clsx, type ClassValue } from "clsx"
+import { clsx, type ClassValue } from "clsx";
 import { getServerSession } from "next-auth";
-import { twMerge } from "tailwind-merge"
+import { twMerge } from "tailwind-merge";
 import { authOptions } from "./auth";
-import { getAllDirectories, getAllTasks } from "./actions";
+// import { getAllDirectories } from "./actions/actions";
+import { getAllTasks } from "./actions/task.action";
+import { getAllDirectories } from "./actions/directory.action";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
-export const userSession = async()=> {
-    const session = await getServerSession(authOptions);
-    return session;
-}
+export const userSession = async () => {
+  const session = await getServerSession(authOptions);
+  return session;
+};
 
 export async function fetchDirectories() {
   const session = await userSession();

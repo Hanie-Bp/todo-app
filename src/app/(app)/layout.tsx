@@ -6,7 +6,7 @@ import RightSideBar from "@/stories/right-sidebar";
 import LeftSidebar from "@/stories/left-sidebar";
 import Header from "@/stories/header";
 import TaskManagementToolbar from "@/stories/task-managment-toolbar";
-import { fetchDirectories } from "@/lib/utils";
+import { fetchDirectories, userSession } from "@/lib/utils";
 
 // const geistSans = localFont({
 //   src: "./fonts/GeistVF.woff",
@@ -30,13 +30,14 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const directories = await fetchDirectories();
-  
+  // const session = await userSession();
+  // const userId = session?.user?.id!;
   return (
     <html lang="en">
       <body>
         <ThemeProvider>
           <section className="min-h-screen grid grid-cols-1 lg:grid-cols-6">
-            <LeftSidebar tabletOrMobile={false}  directories={directories}/>
+            <LeftSidebar tabletOrMobile={false}  directories={directories} />
 
             <main className="lg:col-span-4 px-4 ">
               <Header directories={directories} />

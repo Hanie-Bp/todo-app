@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { userSession } from "@/lib/utils";
+import { revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
@@ -55,6 +56,7 @@ export async function POST(req: Request) {
       },
     });
 
+    revalidateTag("tasks");
     return NextResponse.json(newTask);
   } catch (error) {
     console.error(error);

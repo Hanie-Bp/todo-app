@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dialog";
 
 import FormComponent from "./form-component";
-import { fetchDirectories } from "@/lib/utils";
+import { fetchDirectories, userSession } from "@/lib/utils";
 import { Directory, Task } from "@/types/types";
 
 type TaskFormProps = {
@@ -19,6 +19,7 @@ type TaskFormProps = {
   formData?: Task
   directories: Directory[];
   formType?: "edit" | "add";
+  
 };
 
 const TaskForm = ({ children, formData ,directories,formType}: TaskFormProps) => {
@@ -34,7 +35,7 @@ const TaskForm = ({ children, formData ,directories,formType}: TaskFormProps) =>
             </DialogTitle>
             <DialogDescription></DialogDescription>
           </DialogHeader>
-          <FormComponent formData={formData} directories={directories} formType={formType} />
+          <FormComponent formData={formData} directories={directories} formType={formType}  />
         </DialogContent>
       </Dialog>
     </section>
