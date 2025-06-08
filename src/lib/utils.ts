@@ -16,7 +16,9 @@ export const userSession = async () => {
 };
 
 export async function fetchDirectories() {
+  // console.log('hey');
   const session = await userSession();
+  // console.log('hey',session);
   return getAllDirectories(session?.user?.id!);
 }
 

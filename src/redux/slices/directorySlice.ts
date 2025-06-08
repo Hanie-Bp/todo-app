@@ -1,20 +1,22 @@
 // store/directorySlice.ts
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { Directory } from "@/types/types";
+import { getAllDirectories } from "@/lib/actions/directory.action";
+import { fetchDirectories } from "@/lib/utils";
 
-export const fetchDirectories = createAsyncThunk(
+export const fetchDirectoriess = createAsyncThunk(
   "directories/fetchDirectories",
-  async (userId: string) => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/directories`, {
-      headers: {
-        "Content-Type": "application/json",
-        "x-user-id": userId,
-      },
-    });
-    return (await res.json()) as Directory[];
+  async (_, { rejectWithValue }) => {
+    try {
+      const data = await fetchDirectories();
+      console.log("///////////////////////////////////////////", data);
+      return data;
+    } catch (error: any) {
+      console.error("Error in fetchDirectories thunk:", error);
+      return rejectWithValue(error.message || "Failed to fetch directories");
+    }
   }
 );
-
 const directorySlice = createSlice({
   name: "directories",
   initialState: {
@@ -29,15 +31,19 @@ const directorySlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchDirectories.pending, (state) => {
+      .addCase(fetchDirectoriess.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchDirectories.fulfilled, (state, action) => {
-        state.items = action.payload;
+      .addCase(fetchDirectoriess.fulfilled, (state, action) => {
+        console.log("action", action.payload);
+        if (action.payload) {
+          state.items = action.payload;
+        }
+
         state.loading = false;
       })
-      .addCase(fetchDirectories.rejected, (state, action) => {
+      .addCase(fetchDirectoriess.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || "Error fetching directories";
       });

@@ -15,7 +15,7 @@ export const taskSchema = z.object({
   // directoryName: z.string(),
   directoryId: z.string(),
   important: z.boolean().optional(),
-  complete: z.boolean().optional(),
+  completed: z.boolean().optional(),
 });
 
 export async function GET(req: Request) {
@@ -23,43 +23,43 @@ export async function GET(req: Request) {
   return NextResponse.json(tasks);
 }
 
-export async function POST(req: Request) {
-  try {
-    const body = await req.json();
-    const { title, description, dueDate, directoryId, important } =
-      taskSchema.parse(body);
-    const session = await userSession();
-    const userId = session?.user?.id!;
-    const directory = await prisma.directory.findUnique({
-      where: {
-        id: directoryId,
-        userId,
-      },
-    });
+// export async function POST(req: Request) {
+//   try {
+//     const body = await req.json();
+//     const { title, description, dueDate, directoryId, important } =
+//       taskSchema.parse(body);
+//     const session = await userSession();
+//     const userId = session?.user?.id!;
+//     const directory = await prisma.directory.findUnique({
+//       where: {
+//         id: directoryId,
+//         userId,
+//       },
+//     });
 
-    if (!directory) {
-      return NextResponse.json(
-        { message: "Directory not found" },
-        { status: 404 }
-      );
-    }
+//     if (!directory) {
+//       return NextResponse.json(
+//         { message: "Directory not found" },
+//         { status: 404 }
+//       );
+//     }
 
-    const newTask = await prisma.task.create({
-      data: {
-        title,
-        description: description || "",
-        dueDate: new Date(dueDate),
-        userId,
-        directoryId,
-        important,
-        directoryName: directory.name,
-      },
-    });
+//     const newTask = await prisma.task.create({
+//       data: {
+//         title,
+//         description: description || "",
+//         dueDate: new Date(dueDate),
+//         userId,
+//         directoryId,
+//         important,
+//         directoryName: directory.name,
+//       },
+//     });
 
-    revalidateTag("tasks");
-    return NextResponse.json(newTask);
-  } catch (error) {
-    console.error(error);
-    return NextResponse.json({ error: "Server error" }, { status: 500 });
-  }
-}
+//     // revalidateTag("tasks");
+//     return NextResponse.json(newTask);
+//   } catch (error) {
+//     console.error(error);
+//     return NextResponse.json({ error: "Server error" }, { status: 500 });
+//   }
+// }

@@ -18,53 +18,53 @@ const taskSchema = z.object({
   important: z.boolean().optional(),
   complete: z.boolean().optional(),
 });
-export async function PATCH(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
-  try {
-    const body = await req.json();
-    console.log(body);
+// export async function PATCH(
+//   req: Request,
+//   { params }: { params: { id: string } }
+// ) {
+//   try {
+//     const body = await req.json();
+//     console.log(body);
 
-    const { title, description, dueDate, directoryId, important } =
-      taskSchema.parse(body);
-    const session = await userSession();
-    const userId = session?.user?.id!;
-    const directory = await prisma.directory.findUnique({
-      where: {
-        id: directoryId,
-        userId,
-      },
-    });
+//     const { title, description, dueDate, directoryId, important } =
+//       taskSchema.parse(body);
+//     const session = await userSession();
+//     const userId = session?.user?.id!;
+//     const directory = await prisma.directory.findUnique({
+//       where: {
+//         id: directoryId,
+//         userId,
+//       },
+//     });
 
-    if (!directory) {
-      return NextResponse.json(
-        { message: "Directory not found" },
-        { status: 404 }
-      );
-    }
+//     if (!directory) {
+//       return NextResponse.json(
+//         { message: "Directory not found" },
+//         { status: 404 }
+//       );
+//     }
 
-    const newTask = await prisma.task.update({
-      where: {
-        id: params.id,
-      },
-      data: {
-        title,
-        description: description || "",
-        dueDate: new Date(dueDate),
-        userId,
-        directoryId,
-        important,
-        directoryName: directory.name,
-      },
-    });
+//     const newTask = await prisma.task.update({
+//       where: {
+//         id: params.id,
+//       },
+//       data: {
+//         title,
+//         description: description || "",
+//         dueDate: new Date(dueDate),
+//         userId,
+//         directoryId,
+//         important,
+//         directoryName: directory.name,
+//       },
+//     });
 
-    return NextResponse.json(newTask);
-  } catch (error) {
-    // console.error("❌ Error updating a task:", error);
-    return NextResponse.json({ error: "Server error" }, { status: 500 });
-  }
-}
+//     return NextResponse.json(newTask);
+//   } catch (error) {
+//     // console.error("❌ Error updating a task:", error);
+//     return NextResponse.json({ error: "Server error" }, { status: 500 });
+//   }
+// }
 
 export async function DELETE(
   request: Request,

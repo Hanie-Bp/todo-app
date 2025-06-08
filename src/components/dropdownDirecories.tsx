@@ -21,13 +21,15 @@ import { Button } from "@/stories/button";
 import DialogComponent from "@/stories/dialog";
 import Link from "next/link";
 import { Directory } from "@/types/types";
+import { useDirectories } from "@/context/DirectoryContext";
 
 type DropdownDirectoriesProps = {
   directories: Directory[];
 };
 
-const DropdownDirecories: FC<DropdownDirectoriesProps> = ({ directories }) => {
+const DropdownDirecories = () => {
   const [open, setOpen] = useState(false);
+  const { directories } = useDirectories();
   return (
     <DropdownMenu onOpenChange={(isOpen) => setOpen(isOpen)}>
       <DropdownMenuTrigger
@@ -71,6 +73,7 @@ const DropdownDirecories: FC<DropdownDirectoriesProps> = ({ directories }) => {
                       description="This directory will be deleted permanently"
                       custumClass="flex"
                       directory={dir}
+                      deleteType="directory"
                     >
                       <Trash2Icon className="w-4" />
                     </DialogComponent>

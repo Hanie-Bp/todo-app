@@ -1,5 +1,5 @@
-
-import React, { ReactNode } from "react";
+"use client";
+import React, { ReactNode, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -11,22 +11,35 @@ import {
 } from "@/components/ui/dialog";
 
 import FormComponent from "./form-component";
-import { fetchDirectories, userSession } from "@/lib/utils";
+
 import { Directory, Task } from "@/types/types";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import { useDirectories } from "@/context/DirectoryContext";
 
 type TaskFormProps = {
   children: ReactNode;
-  formData?: Task
-  directories: Directory[];
+  formData?: Task;
+  // directories: Directory[];
   formType?: "edit" | "add";
-  
 };
 
-const TaskForm = ({ children, formData ,directories,formType}: TaskFormProps) => {
+const TaskForm = ({
+  children,
+  formData,
+  // directories,
+  formType,
+}: TaskFormProps) => {
+  const [isOpen, setIsOpen] = useState(false);
+  // const directories = useSelector((state: RootState) => state.directories.items);
+  const { directories } = useDirectories();
 
+  const handleFormSuccess = () => {
+    setIsOpen(false); 
+  };
   return (
     <section>
-      <Dialog>
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger asChild>{children}</DialogTrigger>
         <DialogContent className="w-[90vw] border-none">
           <DialogHeader>
@@ -35,7 +48,12 @@ const TaskForm = ({ children, formData ,directories,formType}: TaskFormProps) =>
             </DialogTitle>
             <DialogDescription></DialogDescription>
           </DialogHeader>
-          <FormComponent formData={formData} directories={directories} formType={formType}  />
+          <FormComponent
+            formData={formData}
+            directories={directories}
+            formType={formType}
+            onSuccess={handleFormSuccess}
+          />
         </DialogContent>
       </Dialog>
     </section>

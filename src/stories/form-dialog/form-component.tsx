@@ -26,29 +26,29 @@ import { useForm } from "react-hook-form";
 import { getTodayDate } from "@/utils/dateFunctions";
 import { Checkbox } from "../../components/ui/checkbox";
 import { Directory, Task } from "@/types/types";
+import { createTask, editTask } from "@/lib/actions/task.action";
 
 const formSchema = z.object({
   title: z.string().min(2, "Title must be at least 2 characters"),
-  dueDate:
-    z.string().min(10, "date must be at least 10 characters"),
+  dueDate: z.string().min(10, "date must be at least 10 characters"),
   description: z
     .string()
-    .min(4, "Description must be at least 4 characters")
+    // .min(4, "Description must be at least 4 characters")
     .optional(),
   directoryId: z.string(),
   directoryName: z.string(),
   important: z.boolean().optional(),
-  complete: z.boolean().optional(),
+  completed: z.boolean().optional(),
 });
 
 type FormDataProps = {
   formData?: Task;
   directories: Directory[];
   formType?: "edit" | "add";
+  onSuccess?: () => void; 
 };
 
-const FormComponent = ({ formData, directories,formType }: FormDataProps) => {
-  // console.log('fffffffffffffffff',formData);
+const FormComponent = ({ formData, directories, formType ,onSuccess }: FormDataProps) => {
 
   const mainDirectory = directories?.find(
     (dir) => dir.name.toLowerCase() === "main"
@@ -57,32 +57,30 @@ const FormComponent = ({ formData, directories,formType }: FormDataProps) => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: formData?.title || "",
-    dueDate: typeof formData?.dueDate === 'string'
-  ? formData.dueDate
-  : formData?.dueDate?.toISOString().split("T")[0] || getTodayDate().inputFormat,
+      dueDate:
+        typeof formData?.dueDate === "string"
+          ? formData.dueDate
+          : formData?.dueDate?.toISOString().split("T")[0] ||
+            getTodayDate().inputFormat,
       description: formData?.description || "",
       directoryId: formData?.directoryId || mainDirectory?.id || "",
       directoryName: formData?.directoryName || mainDirectory?.name || "Main",
       important: formData?.important || false,
-      complete: formData?.completed || false,
+      completed: formData?.completed || false,
     },
   });
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const res = await fetch(`${formType === "edit" ? `/api/tasks/${formData?.id}` : `/api/tasks`}`, {
-        method: `${formType === "edit" ? "PATCH" : "POST"}`,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(values),
-      });
-      if (!res.ok) {
-        console.error("❌ Error submitting form:", res.status);
-      } else {
+      if (formType === "edit" && formData?.id) {
+        await editTask(formData.id, values);
         form.reset();
+      } else {
+        await createTask(values);
       }
+      form.reset();
+      if (onSuccess) onSuccess();
     } catch (error) {
-      console.error("❌ Error submitting form:", error);
+      console.error("❌ Failed to submit:", error);
     }
   }
   return (
@@ -206,7 +204,7 @@ const FormComponent = ({ formData, directories,formType }: FormDataProps) => {
         {/* Complete */}
         <FormField
           control={form.control}
-          name="complete"
+          name="completed"
           render={({ field }) => (
             <FormItem className="flex items-center gap-2">
               <FormControl>
@@ -226,7 +224,7 @@ const FormComponent = ({ formData, directories,formType }: FormDataProps) => {
           className="text-sm w-full dark:text-white"
           variant={"secondary"}
         >
-         {formType === "edit" ? "Edit Task" : "Add a Task"}
+          {formType === "edit" ? "Edit Task" : "Add a Task"}
         </Button>
       </form>
     </Form>

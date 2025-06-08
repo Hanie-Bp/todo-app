@@ -1,3 +1,4 @@
+"use client";
 import { ChevronDown, Ghost, LayoutGridIcon, List } from "lucide-react";
 import React from "react";
 import {
@@ -8,16 +9,18 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "../button";
 import ViewToggle from "./view-toggle";
+import { usePathname } from "next/navigation";
+import { Directory } from "@/types/types";
 
 type TaskManagementToolbarProps = {
-  taskbarName: "Important" | "Completed" | "Uncompleted" | "All";
-  numberOfTasks: number;
+  directories: Directory[];
+  // numberOfTasks: number;
 };
 
 const TaskManagementToolbar = ({
-  taskbarName,
-  numberOfTasks,
-}: TaskManagementToolbarProps) => {
+  directories,
+}: // numberOfTasks,
+TaskManagementToolbarProps) => {
   const sortsTexts = [
     "Order added",
     "Earlier first",
@@ -25,6 +28,47 @@ const TaskManagementToolbar = ({
     "Completed first",
     "Uncompleted first",
   ];
+
+  const path = usePathname();
+  let taskbarName: string = "All";
+  let numberOfTasks;
+  if (path === "/") {
+    taskbarName = "All";
+    const tasks = directories.map((dir) => dir.name).flat();
+    numberOfTasks = tasks.length;
+  } else if (path === "/important-tasks") {
+    taskbarName = "Important";
+    const tasks = directories
+      .filter((dir) => dir.tasks.every((task) => task.important))
+      .flat();
+    numberOfTasks = tasks.length;
+  } else if (path === "/completed-tasks") {
+    taskbarName = "Completed";
+    const tasks = directories
+      .filter((dir) => dir.tasks.every((task) => task.completed))
+      .flat();
+    numberOfTasks = tasks.length;
+  } else if (path === "/uncompleted-tasks") {
+    taskbarName = "Uncompleted";
+    const allTasks = directories.flatMap((dir) => dir.tasks || []);
+    const uncompletedTasks = allTasks.filter((task) => !task.completed);
+    numberOfTasks = uncompletedTasks.length;
+  } else {
+    const dirId = path.split("/")[2];
+    const directory = directories.find((dir) => dir.id === dirId);
+    if (directory) {
+      taskbarName = directory.name;
+    }
+
+    const dirs = directories.find((dir) => {
+      if (dir.id === dirId) {
+        return dir.tasks.length;
+      }
+    });
+
+    numberOfTasks = dirs?.tasks.length || 0;
+  }
+
   return (
     <section className="flex flex-col justify-center mt-2">
       <h2 className="text-[22px] text-primary font-semibold">
@@ -32,7 +76,7 @@ const TaskManagementToolbar = ({
       </h2>
 
       <section className="flex justify-between p-3  mt-4">
-        <ViewToggle/>
+        <ViewToggle />
         {/* <section className="flex cursor-pointer items-center  justify-between">
           <Button variant={"ghost"} className="hover:bg-transparent">
             <List className="text-accent-foreground" />

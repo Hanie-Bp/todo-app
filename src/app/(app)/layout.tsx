@@ -6,7 +6,9 @@ import RightSideBar from "@/stories/right-sidebar";
 import LeftSidebar from "@/stories/left-sidebar";
 import Header from "@/stories/header";
 import TaskManagementToolbar from "@/stories/task-managment-toolbar";
-import { fetchDirectories, userSession } from "@/lib/utils";
+import { fetchDirectories, fetchTasks, userSession } from "@/lib/utils";
+import DirectoriesProvider from "@/context/DirectoryProvider";
+import TaskProvider from "@/context/TaskProvider";
 
 // const geistSans = localFont({
 //   src: "./fonts/GeistVF.woff",
@@ -30,23 +32,27 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const directories = await fetchDirectories();
-  // const session = await userSession();
-  // const userId = session?.user?.id!;
+  const tasks = await fetchTasks();
+  
   return (
     <html lang="en">
       <body>
         <ThemeProvider>
-          <section className="min-h-screen grid grid-cols-1 lg:grid-cols-6">
-            <LeftSidebar tabletOrMobile={false}  directories={directories} />
+          <DirectoriesProvider directories={directories}>
+            <TaskProvider tasks={tasks}>
+              <section className="min-h-screen grid grid-cols-1 lg:grid-cols-6">
+                <LeftSidebar tabletOrMobile={false} />
 
-            <main className="lg:col-span-4 px-4 ">
-              <Header directories={directories} />
-              <TaskManagementToolbar />
-              <div>{children}</div>
-            </main>
+                <main className="lg:col-span-4 px-4 ">
+                  <Header directories={directories} />
+                  <TaskManagementToolbar directories={directories} />
+                  <div>{children}</div>
+                </main>
 
-            <RightSideBar />
-          </section>
+                <RightSideBar tasks={tasks} />
+              </section>
+            </TaskProvider>
+          </DirectoriesProvider>
         </ThemeProvider>
       </body>
     </html>

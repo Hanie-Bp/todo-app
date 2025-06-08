@@ -14,22 +14,35 @@ import Link from "next/link";
 import TaskForm from "../form-dialog";
 import DialogComponent from "../dialog";
 import { Directory, Task } from "@/types/types";
+import { editTask } from "@/lib/actions/task.action";
 
 export type TaskCardProps = {
-  task: Task
-  directories:Directory[];
+  task: Task;
+  directories: Directory[];
   viewMode: "grid" | "list";
 };
 
 const TaskCard: FC<TaskCardProps> = (props) => {
-  
-  
-  // const directoryName = await fetch(`/api/directories/${props?.task?.directoryId}`)
+  const handleTaskCompleted = async () => {
+    await editTask(props?.task?.id!, {
+      ...props.task,
+      completed: !props?.task?.completed,
+    });
+  };
+
+    const handleTaskimportance = async () => {
+    await editTask(props?.task?.id!, {
+      ...props.task,
+      important: !props?.task?.important,
+    });
+  };
   return (
     <section className="max-[440px]:w-[90%] w-[400px]  md:w-[90%]">
       <div className="flex justify-end">
         <Button variant={"warning"} className="text-sm rounded-md px-3 me-2">
-          <Link href={`/directories/${props?.task?.directoryId}`}>{props.task.directoryName}</Link>
+          <Link href={`/directories/${props?.task?.directoryId}`}>
+            {props.task.directoryName}
+          </Link>
         </Button>
       </div>
       <Card
@@ -37,7 +50,7 @@ const TaskCard: FC<TaskCardProps> = (props) => {
           props.viewMode === "grid"
             ? "flex-col"
             : "justify-between items-center p-3"
-        } bg-muted`}
+        } bg-muted dark:border-none`}
       >
         <section className={`${props.viewMode === "list" && "flex flex-col"}`}>
           <CardHeader className={`${props.viewMode === "list" && "p-2 pb-3"}`}>
@@ -59,7 +72,9 @@ const TaskCard: FC<TaskCardProps> = (props) => {
             </CardDescription>
             <section className="flex">
               <Calendar />
-              <p className="ms-2">{new Date(props.task.dueDate).toLocaleDateString()}</p>
+              <p className="ms-2">
+                {new Date(props.task.dueDate).toLocaleDateString()}
+              </p>
             </section>
           </CardContent>
         </section>
@@ -84,6 +99,7 @@ const TaskCard: FC<TaskCardProps> = (props) => {
               variant={props.task.completed ? "unWarnung" : "warning"}
               size={"md"}
               className=""
+              onClick={() => handleTaskCompleted()}
             >
               <p className="hidden md:block">
                 {props?.task?.completed ? "completed" : "uncompleted"}
@@ -100,6 +116,7 @@ const TaskCard: FC<TaskCardProps> = (props) => {
               <Star
                 fill={`${props?.task?.important ? "red" : "none"}`}
                 size={20}
+                onClick={handleTaskimportance}
                 className="cursor-pointer"
               />
               <DialogComponent
@@ -107,12 +124,16 @@ const TaskCard: FC<TaskCardProps> = (props) => {
                 title="Are you sure?"
                 description="This task will be deleted permanetly"
                 deleteType="task"
-                taskId = {props?.task?.id}
+                taskId={props?.task?.id}
               >
                 <Trash size={20} className="cursor-pointer   mt-1" />
               </DialogComponent>
 
-              <TaskForm formData={props?.task} directories={props.directories} formType={"edit"}>
+              <TaskForm
+                formData={props?.task}
+                directories={props.directories}
+                formType={"edit"}
+              >
                 <MoreVertical size={20} className="cursor-pointer" />
               </TaskForm>
             </div>

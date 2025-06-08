@@ -27,6 +27,7 @@ model User {
 model Task {
   id            String     @id @default(uuid())
   title         String
+  // The description field is optional because not all tasks require detailed information.
   description   String?
   dueDate       DateTime
   completed     Boolean    @default(false)

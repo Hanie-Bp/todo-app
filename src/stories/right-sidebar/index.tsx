@@ -4,9 +4,11 @@ import { ModeToggle } from "../darkmode/index";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "../button";
 import { userSession } from "@/lib/utils";
+import { Task } from "@/types/types";
 
-const RightSideBar =async () => {
+const RightSideBar = async ({ tasks }: { tasks: Task[] }) => {
   const session = await userSession();
+  const completedTasks = tasks.filter((task) => task.completed);
   return (
     <section className="hidden min-h-screen  p-3 bg-muted lg:flex flex-col justify-between">
       <section>
@@ -23,10 +25,13 @@ const RightSideBar =async () => {
         <section className="mt-5">
           <section className="flex justify-between">
             <p>All tasks</p>
-            <span>1/2</span>
+            <span>{completedTasks.length + "/" + tasks.length}</span>
           </section>
           <section className="mt-2">
-            <Progress className="[&>*]:bg-secondary" value={5} max={10} />
+            <Progress
+              className="[&>*]:bg-secondary [&>div]:transition-all [&>div]:duration-300"
+              value={(completedTasks.length / (tasks.length || 1)) * 100}
+            />
           </section>
         </section>
       </section>

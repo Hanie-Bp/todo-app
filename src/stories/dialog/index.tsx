@@ -1,4 +1,6 @@
-import React, { FC, ReactNode, useRef } from "react";
+"use client";
+
+import React, { FC, ReactNode, useRef, useTransition } from "react";
 import {
   Dialog,
   DialogClose,
@@ -12,6 +14,7 @@ import {
 import { Button } from "../button";
 import DirectoryForm from "@/components/directoryForm";
 import { Directory } from "@/types/types";
+import { deleteDirectory, deleteTask } from "@/lib/actions/delete.action";
 
 type DialogProps = {
   title: string;
@@ -35,20 +38,24 @@ const DialogComponent: FC<DialogProps> = ({
   children,
 }) => {
   const closeRef = useRef<HTMLButtonElement>(null);
-  const handleDelete = async () => {
-    const res = await fetch(`${deleteType === "directory" ? `/api/directories/${directory?.id}` : `/api/tasks/${taskId}`}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+  const [isPending, startTransition] = useTransition();
 
-    if (!res.ok) {
-      console.log("❌ Error deleting directory:", res.status);
-    } else {
-      console.log("✅ Directory deleted successfully");
-    }
+  const handleDelete = () => {
+    startTransition(async () => {
+      try {
+        if (deleteType === "directory" && directory?.id) {
+          await deleteDirectory(directory.id);
+          closeRef.current?.click();
+        } else if (deleteType === "task" && taskId) {
+          await deleteTask(taskId);
+          closeRef.current?.click();
+        }
+      } catch (error) {
+        console.error("❌ Error deleting:", error);
+      }
+    });
   };
+
   return (
     <section>
       <Dialog>
@@ -87,8 +94,9 @@ const DialogComponent: FC<DialogProps> = ({
                   onClick={handleDelete}
                   variant={"secondary"}
                   className="text-base ms-2"
+                  disabled={isPending}
                 >
-                  Confirm
+                  {isPending ? "Deleting..." : "Confirm"}
                 </Button>
               </section>
             )}

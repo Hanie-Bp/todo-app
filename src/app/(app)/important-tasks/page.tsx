@@ -1,9 +1,16 @@
-import React from 'react'
+import Cards from "@/components/cards";
+import { fetchDirectories, fetchTasks } from "@/lib/utils";
+import React from "react";
 
-const page = () => {
+const page = async () => {
+  const tasks = await fetchTasks();
+  const directories = await fetchDirectories();
+  const importantTasks = tasks.filter((task) => task.important);
   return (
-    <div>sdsdfdfgdf</div>
-  )
-}
+    <section>
+      <Cards directories={directories} tasks={importantTasks} />
+    </section>
+  );
+};
 
-export default page
+export default page;
