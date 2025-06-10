@@ -1,11 +1,9 @@
 "use client";
 import { RootState } from "@/redux/store";
 import TaskCard from "@/stories/task-card";
-// import { tasks } from "@/stories/task-card/task-card.stories";
 import { Directory, Task } from "@/types/types";
 import { sortTasks } from "@/utils/sortTasks";
 import { useSearchParams } from "next/navigation";
-// import { dir } from "console";
 import React, { FC } from "react";
 import { useSelector } from "react-redux";
 

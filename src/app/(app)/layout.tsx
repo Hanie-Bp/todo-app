@@ -43,7 +43,7 @@ export default async function RootLayout({
               <section className="min-h-screen grid grid-cols-1 lg:grid-cols-6">
                 <LeftSidebar tabletOrMobile={false} />
 
-                <main className="lg:col-span-4 px-4 ">
+                <main className="lg:col-span-4 px-4  overflow-x-hidden">
                   <Header directories={directories} />
                   <TaskManagementToolbar directories={directories} />
                   <div>{children}</div>

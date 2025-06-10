@@ -4,7 +4,6 @@ import { NavigationMenu } from "../../components/ui/navigation-menu";
 import HeaderDestkop from "./header-destkop";
 import HeaderMobile from "./header-mobile";
 import HeaderTablet from "./header-tablet";
-import { fetchDirectories } from "@/lib/utils";
 import { Directory } from "@/types/types";
 
 const Header = async({directories}:{directories:Directory[]}) => {

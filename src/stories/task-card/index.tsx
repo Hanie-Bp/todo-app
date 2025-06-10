@@ -48,12 +48,12 @@ const TaskCard: FC<TaskCardProps> = (props) => {
       <Card
         className={`flex ${
           props.viewMode === "grid"
-            ? "flex-col"
+            ? "flex-col "
             : "justify-between items-center p-3"
         } bg-muted dark:border-none`}
       >
         <section className={`${props.viewMode === "list" && "flex flex-col"}`}>
-          <CardHeader className={`${props.viewMode === "list" && "p-2 pb-3"}`}>
+          <CardHeader className={`${props.viewMode === "list" && "p-2 pb-3"} xl:p-3`}>
             <CardTitle className="font-bold text-xl text-primary">
               {props.task.title}
             </CardTitle>
