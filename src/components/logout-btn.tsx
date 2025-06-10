@@ -7,7 +7,7 @@ const LogotButton = () => {
   return (
     <Button
       onClick={() => signOut({ callbackUrl: "/sign-in" })}
-      className="bg-pink-500 hover:bg-pink-400 dark:text-slate-100 w-[30vw] md:w-[20vw] lg:w-[13vw] "
+      className="bg-pink-500 hover:bg-pink-400 dark:text-slate-100 w-[200px] md:w-[20vw] lg:w-[13vw] "
     >
       Logout
     </Button>
