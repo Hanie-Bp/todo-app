@@ -11,12 +11,10 @@ const schema = z.object({
 });
 
 export async function getAllDirectories(id: string) {
-  console.log('id',id);
-  
   const directories = await prisma.directory.findMany({
     where: { userId: id },
     include: {
-      tasks: true, // this line tells Prisma to fetch the related tasks
+      tasks: true,
     },
   });
   return directories;

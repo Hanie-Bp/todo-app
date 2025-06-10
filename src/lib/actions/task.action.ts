@@ -1,8 +1,7 @@
 "use server";
 
-import { cache } from "react";
 import { prisma } from "../prisma";
-import { revalidatePath, revalidateTag, unstable_cache } from "next/cache";
+import { revalidateTag, unstable_cache } from "next/cache";
 import { userSession } from "../utils";
 import { z } from "zod";
 import { taskSchema } from "@/types/types";
@@ -17,9 +16,9 @@ export const getAllTasks = unstable_cache(
     });
     return tasks;
   },
-  ["getAllTasks"], // cache key
+  ["getAllTasks"],
   {
-    tags: ["tasks"], // for revalidateTag("tasks")
+    tags: ["tasks"], 
   }
 );
 
@@ -49,7 +48,6 @@ export async function createTask(formData: z.infer<typeof taskSchema>) {
       },
     });
 
-    // revalidatePath("/"); // or revalidatePath("/your-target-path")
     revalidateTag("tasks");
   } catch (error) {
     console.error("❌ Error in createTask:", error);
@@ -89,7 +87,6 @@ export async function editTask(
       },
     });
 
-    // revalidatePath("/"); // or the specific page where the task is listed
     revalidateTag("tasks");
   } catch (error) {
     console.error("❌ Error in editTask:", error);
@@ -107,6 +104,14 @@ export const deleteAlltasks = async () => {
     if (!user) throw new Error("User not found");
     await prisma.task.deleteMany({
       where: { userId },
+    });
+    await prisma.directory.deleteMany({
+      where: {
+        userId,
+        NOT: {
+          name: "main",
+        },
+      },
     });
     revalidateTag("tasks");
   } catch (error) {
