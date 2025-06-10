@@ -4,7 +4,8 @@ import { ModeToggle } from "../darkmode/index";
 import { Progress } from "@/components/ui/progress";
 import { userSession } from "@/lib/utils";
 import { Task } from "@/types/types";
-import DeleteAllDataBtn from "./delete-all-data-btn";
+import DeleteAllDataBtn from "@/components/delete-all-data-btn";
+
 
 const RightSideBar = async ({ tasks }: { tasks: Task[] }) => {
   const session = await userSession();

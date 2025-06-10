@@ -1,9 +1,7 @@
 "use client";
 import React from "react";
-// import { Button } from "../button";
-import { deleteTasks } from "@/lib/utils";
-import { deleteAlltasks } from "@/lib/actions/task.action";
-import DialogComponent from "../dialog";
+import DialogComponent from "@/stories/dialog";
+
 
 const DeleteAllDataBtn = () => {
   return (
