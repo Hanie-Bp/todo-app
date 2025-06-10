@@ -13,7 +13,7 @@ const DeleteCompletedTasks = () => {
         custumClass="flex"
         deleteType="completedtasks"
       >
-        <span className=" font-semibold p-2 rounded-lg bg-red-200 text-red-700">Delete all completed tasks</span>
+        <span className=" font-semibold p-2 rounded-lg bg-red-200 text-red-700 text-sm max-[350px]:text-[12px] sm:text-base">Delete all completed tasks</span>
       </DialogComponent>
     </section>
   );

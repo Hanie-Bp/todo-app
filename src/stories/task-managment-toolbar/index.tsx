@@ -46,7 +46,7 @@ const TaskManagementToolbar = ({ directories }: TaskManagementToolbarProps) => {
       </h2>
 
       <section className="flex justify-between p-3  mt-4">
-        <section className="flex items-center">
+        <section className="flex items-center flex-col-reverse sm:flex-row gap-2">
           <ViewToggle />
           <div className={`${!isCompletedPath && "hidden"}`}>
             <DeleteCompletedTasks />
