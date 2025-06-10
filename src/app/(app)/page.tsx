@@ -1,10 +1,11 @@
 import Cards from "@/components/cards";
-import { fetchDirectories, fetchTasks, userSession } from "@/lib/utils";
+import { fetchDirectories, fetchTasks } from "@/lib/utils";
 import React from "react";
 
 const Home = async () => {
   const tasks = await fetchTasks();
   const directories = await fetchDirectories();
+
 
   return (
     <section>

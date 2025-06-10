@@ -31,7 +31,6 @@ const TaskForm = ({
   formType,
 }: TaskFormProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  // const directories = useSelector((state: RootState) => state.directories.items);
   const { directories } = useDirectories();
 
   const handleFormSuccess = () => {

@@ -12,7 +12,7 @@ export const getAllTasks = unstable_cache(
     const tasks = await prisma.task.findMany({
       where: { userId },
       orderBy: {
-        dueDate: "asc",
+        createdAt: "asc",
       },
     });
     return tasks;
@@ -22,7 +22,6 @@ export const getAllTasks = unstable_cache(
     tags: ["tasks"], // for revalidateTag("tasks")
   }
 );
-
 
 export async function createTask(formData: z.infer<typeof taskSchema>) {
   try {
@@ -98,3 +97,20 @@ export async function editTask(
   }
 }
 
+export const deleteAlltasks = async () => {
+  try {
+    const session = await userSession();
+    const userId = session?.user?.id!;
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+    });
+    if (!user) throw new Error("User not found");
+    await prisma.task.deleteMany({
+      where: { userId },
+    });
+    revalidateTag("tasks");
+  } catch (error) {
+    console.error("❌ Error in deleteAlltasks:", error);
+    throw error;
+  }
+};

@@ -30,7 +30,7 @@ const TaskCard: FC<TaskCardProps> = (props) => {
     });
   };
 
-    const handleTaskimportance = async () => {
+  const handleTaskimportance = async () => {
     await editTask(props?.task?.id!, {
       ...props.task,
       important: !props?.task?.important,
@@ -129,11 +129,7 @@ const TaskCard: FC<TaskCardProps> = (props) => {
                 <Trash size={20} className="cursor-pointer   mt-1" />
               </DialogComponent>
 
-              <TaskForm
-                formData={props?.task}
-                directories={props.directories}
-                formType={"edit"}
-              >
+              <TaskForm formData={props?.task} formType={"edit"}>
                 <MoreVertical size={20} className="cursor-pointer" />
               </TaskForm>
             </div>

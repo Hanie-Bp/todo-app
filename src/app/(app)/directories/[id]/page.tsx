@@ -1,5 +1,5 @@
 import Cards from "@/components/cards";
-import { fetchDirectories, fetchTasks } from "@/lib/utils";
+import { fetchDirectories } from "@/lib/utils";
 import React from "react";
 
 export default async function Page({ params }: { params: { id: string } }) {

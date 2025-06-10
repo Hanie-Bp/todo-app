@@ -3,8 +3,9 @@ import { getServerSession } from "next-auth";
 import { twMerge } from "tailwind-merge";
 import { authOptions } from "./auth";
 // import { getAllDirectories } from "./actions/actions";
-import { getAllTasks } from "./actions/task.action";
+import { deleteAlltasks, getAllTasks } from "./actions/task.action";
 import { getAllDirectories } from "./actions/directory.action";
+import { Task } from "@/types/types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -25,4 +26,9 @@ export async function fetchDirectories() {
 export async function fetchTasks() {
   const session = await userSession();
   return getAllTasks(session?.user?.id!);
+}
+
+export async function deleteTasks(){
+  const session = await userSession();
+  return deleteAlltasks(session?.user?.id!);
 }
