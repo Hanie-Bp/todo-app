@@ -1,4 +1,3 @@
-
 import { Button } from "../button";
 import TaskForm from "../form-dialog";
 import LogotButton from "@/components/logout-btn";
@@ -12,7 +11,7 @@ type LeftSidebarProps = {
   // directories: Directory[];
 };
 
-const LeftSidebar =  ({ tabletOrMobile }: LeftSidebarProps) => {
+const LeftSidebar = ({ tabletOrMobile }: LeftSidebarProps) => {
   // const session = await userSession();
   // const directories = await fetchDirectories();
 
@@ -38,8 +37,8 @@ const LeftSidebar =  ({ tabletOrMobile }: LeftSidebarProps) => {
       <nav aria-label="Primary task links">
         <LinksSidebar />
       </nav>
-      <section className="mt-5 p-2 ">
-        <DropdownDirecories  />
+      <section className="mt-5  ">
+        <DropdownDirecories />
       </section>
     </section>
   );

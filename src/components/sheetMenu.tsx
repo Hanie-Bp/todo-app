@@ -40,7 +40,7 @@ export default function SheetMenu({ directories }: { directories: Directory[] })
           <DialogTitle>Sidebar Menu</DialogTitle>
           <DialogDescription></DialogDescription>
         </VisuallyHidden>
-        <LeftSidebar tabletOrMobile={true} directories={directories} />
+        <LeftSidebar tabletOrMobile={true}  />
       </SheetContent>
     </Sheet>
   );

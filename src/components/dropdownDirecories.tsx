@@ -45,8 +45,8 @@ const DropdownDirecories = () => {
           <span className="mr-2">Directories</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-[230px] ml-2 mt-2 shadow-none border-none">
-        <div className="flex flex-col px-2 py-1 space-y-1">
+      <DropdownMenuContent className="w-[270px] lg:w-[15.3vw] ml-2 mt-2 shadow-none border-none">
+        <div className="flex flex-col py-1 space-y-1   ">
           {directories?.map((dir: Directory) => (
             <div
               key={dir.name}
@@ -56,9 +56,9 @@ const DropdownDirecories = () => {
                 <p>{dir.name}</p>
               </Link>
 
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-1  w-full justify-end">
                 {dir.name?.toLowerCase() !== "main" ? (
-                  <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out flex items-center gap-1">
+                  <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out flex items-center gap-1 justify-between ">
                     <DialogComponent
                       dialogtype="edit"
                       title="Edit directory name"

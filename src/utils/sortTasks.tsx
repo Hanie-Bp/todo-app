@@ -22,9 +22,8 @@ export function sortTasks(tasks: Task[], sort: string): Task[] {
       ); //
     default:
       return copy.sort(
-        (a, b) => new Date(b.dueDate).getTime() - new Date(a.dueDate).getTime()
+        (a, b) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
       );
   }
 }
-
-

@@ -26,7 +26,7 @@ const HeaderTablet = ({directories}: { directories:   Directory[] }) => {
             {formattedDate}
           </span>
         </p>
-        <TaskForm directories={directories} formType="add"> 
+        <TaskForm  formType="add"> 
         <Button className="bg-secondary hover:bg-secondary-secondaryHover dark:text-slate-100">
           Add new Task
         </Button>

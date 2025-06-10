@@ -12,7 +12,7 @@ const Header = async({directories}:{directories:Directory[]}) => {
   return (
     <NavigationMenu className="py-3">
       <section className="hidden lg:block">
-        <HeaderDestkop directories={directories} />
+        <HeaderDestkop  />
       </section>
       <section className="hidden md:block lg:hidden">
         <HeaderTablet directories={directories} />

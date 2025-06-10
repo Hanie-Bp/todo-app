@@ -4,14 +4,14 @@ import SearchInput from "../searchInput";
 import { Button } from "../button";
 import { getTodayDate } from "@/utils/dateFunctions";
 import TaskForm from "../form-dialog";
-import { Directory } from "@/types/types";
+// import { Directory } from "@/types/types";
 
-const HeaderDestkop = ({directories}: { directories:   Directory[] }) => {
+const HeaderDestkop = () => {
   return (
     <section className="flex justify-between items-center  w-[66.6vw] px-4 ">
       <SearchInput />
       <p>{getTodayDate().readableFormat}</p>
-      <TaskForm directories={directories} formType="add" > 
+      <TaskForm  formType="add" > 
         <Button className="bg-secondary hover:bg-secondary-secondaryHover dark:text-slate-100">
           Add new Task
         </Button>
