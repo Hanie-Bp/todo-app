@@ -1,4 +1,6 @@
-import React, { FC, ReactNode } from "react";
+"use client";
+
+import React, { FC, ReactNode, useRef, useTransition } from "react";
 import {
   Dialog,
   DialogClose,
@@ -10,14 +12,18 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "../button";
-import { Input } from "../input";
-import { Label } from "../../components/ui/label";
+import DirectoryForm from "@/components/directoryForm";
+import { Directory } from "@/types/types";
+import { deleteDirectory, deleteTask } from "@/lib/actions/delete.action";
 
-export type DialogProps = {
+type DialogProps = {
   title: string;
   description?: string;
   dialogtype: "edit" | "delete" | "create";
   custumClass?: string;
+  directory?: Directory;
+  deleteType?: "directory" | "task";
+  taskId?: string;
   children: ReactNode;
 };
 
@@ -26,8 +32,30 @@ const DialogComponent: FC<DialogProps> = ({
   description,
   dialogtype,
   custumClass,
+  directory,
+  deleteType,
+  taskId,
   children,
 }) => {
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const [isPending, startTransition] = useTransition();
+
+  const handleDelete = () => {
+    startTransition(async () => {
+      try {
+        if (deleteType === "directory" && directory?.id) {
+          await deleteDirectory(directory.id);
+          closeRef.current?.click();
+        } else if (deleteType === "task" && taskId) {
+          await deleteTask(taskId);
+          closeRef.current?.click();
+        }
+      } catch (error) {
+        console.error("❌ Error deleting:", error);
+      }
+    });
+  };
+
   return (
     <section>
       <Dialog>
@@ -41,31 +69,20 @@ const DialogComponent: FC<DialogProps> = ({
               {dialogtype === "delete" && description}
             </DialogDescription>
           </DialogHeader>
-          {dialogtype !== "delete" && (
-            <section>
-              <Label>Title</Label>
-              <Input placeholder="Enter a directory name" type="text" />
-            </section>
-          )}
+
           <DialogFooter className="sm:justify-start">
-            {dialogtype === "create" && (
-              <Button
-                variant={"secondary"}
-                size={"md"}
-                className="px-4 py-2 text-base w-[25%] sm:w-[20%]"
-              >
-                Create
-              </Button>
+            <DialogClose asChild>
+              <button ref={closeRef} className="hidden" />
+            </DialogClose>
+
+            {dialogtype !== "delete" && (
+              <DirectoryForm
+                dialogType={dialogtype}
+                directory={directory}
+                closeDialog={() => closeRef.current?.click()}
+              />
             )}
-            {dialogtype === "edit" && (
-              <Button
-                variant={"secondary"}
-                size={"md"}
-                className="px-4 py-2 text-base  w-[25%] sm:w-[20%]"
-              >
-                Edit
-              </Button>
-            )}
+
             {dialogtype === "delete" && (
               <section className="flex justify-end w-full text-muted-dark font-semibold">
                 <DialogClose asChild>
@@ -73,8 +90,13 @@ const DialogComponent: FC<DialogProps> = ({
                     Cancel
                   </Button>
                 </DialogClose>
-                <Button variant={"secondary"} className="text-base ms-2">
-                  Confirm
+                <Button
+                  onClick={handleDelete}
+                  variant={"secondary"}
+                  className="text-base ms-2"
+                  disabled={isPending}
+                >
+                  {isPending ? "Deleting..." : "Confirm"}
                 </Button>
               </section>
             )}

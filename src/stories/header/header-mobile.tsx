@@ -14,6 +14,7 @@ import { DialogTitle } from "@radix-ui/react-dialog";
 import RightSideBar from "../right-sidebar";
 import LeftSidebar from "../left-sidebar";
 import SheetMenu from "@/components/sheetMenu";
+import { Directory } from "@/types/types";
 
 const today = new Date();
 
@@ -21,7 +22,7 @@ const formattedDate = `${today.getFullYear()},${today.toLocaleString("en-US", {
   month: "short",
 })} ${today.getDate()}`;
 
-const HeaderMobile = () => {
+const HeaderMobile = ({directories}: { directories:   Directory[] }) => {
   return (
     <section className="flex flex-col  items-center  w-screen px-4 ">
       <section className="flex  w-screen px-4 ">
@@ -34,7 +35,7 @@ const HeaderMobile = () => {
            <LeftSidebar tabletOrMobile={true}/>
           </SheetContent>
         </Sheet> */}
-        <SheetMenu />
+        <SheetMenu directories={directories} />
         <section className="mx-auto">
           <p className="flex flex-col font-bold">
             TO-DO LIST

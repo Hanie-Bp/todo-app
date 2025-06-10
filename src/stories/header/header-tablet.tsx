@@ -5,6 +5,8 @@ import { Menu, Sidebar } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import LeftSidebar from "../left-sidebar";
 import SheetMenu from "@/components/sheetMenu";
+import { Directory } from "@/types/types";
+import TaskForm from "../form-dialog";
 
 const today = new Date();
 
@@ -12,18 +14,10 @@ const formattedDate = `${today.getFullYear()},${today.toLocaleString("en-US", {
   month: "short",
 })} ${today.getDate()}`;
 
-const HeaderTablet = () => {
+const HeaderTablet = ({directories}: { directories:   Directory[] }) => {
   return (
     <section className="flex items-center  w-screen px-4 ">
-      {/* <Sheet >
-        <SheetTrigger>
-          <Menu />
-        </SheetTrigger>
-        <SheetContent side="left" className="w-72 [&_button]:hidden">
-          <LeftSidebar tabletOrMobile={true}/>
-        </SheetContent>
-      </Sheet> */}
-      <SheetMenu />
+      <SheetMenu directories={directories} />
       <section className="flex items-center mx-4 w-screen justify-between">
         <SearchInput />
         <p className="flex flex-col font-bold">
@@ -32,9 +26,11 @@ const HeaderTablet = () => {
             {formattedDate}
           </span>
         </p>
-        <Button className="bg-secondary hover:bg-secondary-secondaryHover">
+        <TaskForm directories={directories} formType="add"> 
+        <Button className="bg-secondary hover:bg-secondary-secondaryHover dark:text-slate-100">
           Add new Task
         </Button>
+      </TaskForm>
       </section>
     </section>
   );

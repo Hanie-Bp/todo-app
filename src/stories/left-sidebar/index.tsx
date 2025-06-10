@@ -1,56 +1,20 @@
-"use client";
-import React, { useEffect, useState } from "react";
-import { Button } from "../button";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-  ChevronDown,
-  ChevronRight,
-  Edit,
-  EditIcon,
-  Trash,
-  Trash2,
-  Trash2Icon,
-} from "lucide-react";
-import TaskForm from "../form-dialog";
-import DialogComponent from "../dialog";
 
-type linkProps = {
-  name: string;
-  href: string;
-};
+import { Button } from "../button";
+import TaskForm from "../form-dialog";
+import LogotButton from "@/components/logout-btn";
+import LinksSidebar from "@/components/links-sidebar";
+import DropdownDirecories from "@/components/dropdownDirecories";
+import { fetchDirectories } from "@/lib/utils";
+import { Directory } from "@/types/types";
 
 type LeftSidebarProps = {
   tabletOrMobile: boolean;
+  // directories: Directory[];
 };
 
-const links: linkProps[] = [
-  { name: "All tasks", href: "/" },
-  { name: "Important tasks", href: "/important" },
-  { name: "Completed tasks", href: "/completed" },
-  { name: "Uncompleted tasks", href: "uncompleted" },
-];
-
-const LeftSidebar = ({ tabletOrMobile }: LeftSidebarProps) => {
-  const pathname = usePathname();
-  const [open, setOpen] = useState(false);
-  const directoryArray = ["secondary", "work", "personal", "main"];
-  const isLoggedIn = true;
-  // const [hasMounted, setHasMounted] = useState(false);
-
-  // useEffect(() => {
-  //   setHasMounted(true);
-  // }, []);
-
-  // if (!hasMounted) return null;
+const LeftSidebar =  ({ tabletOrMobile }: LeftSidebarProps) => {
+  // const session = await userSession();
+  // const directories = await fetchDirectories();
 
   return (
     <section
@@ -61,152 +25,21 @@ const LeftSidebar = ({ tabletOrMobile }: LeftSidebarProps) => {
       <section className="flex flex-col justify-center items-center p-3">
         <h2 className="text-primary font-semibold">TO DO LIST</h2>
         <div className="flex flex-col gap-3 mt-6  w-full justify-center items-center">
-          <TaskForm>
+          <TaskForm formType={"add"}>
             <Button className="bg-secondary hover:bg-secondary-secondaryHover dark:text-slate-100 w-[30vw] md:w-[20vw] lg:w-[13vw] ">
               Add new Task
             </Button>
           </TaskForm>
 
-          {isLoggedIn ? (
-            <Button className="bg-pink-500 hover:bg-pink-400 dark:text-slate-100 w-[30vw] md:w-[20vw] lg:w-[13vw] ">
-              Logout
-            </Button>
-          ) : (
-            <Button className="bg-pink-500 hover:bg-pink-400 dark:text-slate-100 w-[30vw] md:w-[20vw] lg:w-[13vw] ">
-              Sign In
-            </Button>
-          )}
+          <LogotButton />
         </div>
       </section>
 
       <nav aria-label="Primary task links">
-        <section className="flex flex-col justify-between mt-6 h-32">
-          {links.map((link) => {
-            const isActive = pathname === link.href;
-            return (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`px-3 py-2  text-sm font-medium transition-colors ${
-                  isActive
-                    ? "text-red-500 bg-red-100 border-r-[3px] border-red-700"
-                    : "text-muted-dark dark:text-foreground font-bold  hover:text-red-600"
-                }`}
-              >
-                {link.name}
-              </Link>
-            );
-          })}
-        </section>
+        <LinksSidebar />
       </nav>
       <section className="mt-5 p-2 ">
-        <DropdownMenu onOpenChange={(isOpen) => setOpen(isOpen)}>
-          <DropdownMenuTrigger
-            asChild
-            className="hover:bg-inherit focus:outline-none focus:ring-0 focus:ring-offset-0"
-          >
-            <Button variant="ghost">
-              {open ? (
-                <ChevronDown className="h-4 w-4 transition-all" />
-              ) : (
-                <ChevronRight className="h-4 w-4 transition-all" />
-              )}
-              <span className="mr-2">Directories</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-[230px] ml-2 mt-2 shadow-none border-none">
-            <div className="flex flex-col px-2 py-1 space-y-1">
-              {directoryArray.map((dir) => (
-                <Link
-                  key={dir}
-                  href={`/${dir?.toLowerCase()}`}
-                  className="cursor-pointer  text-sm hover:bg-muted px-2 py-1 rounded flex items-center justify-between group"
-                >
-                  <p>{dir}</p>
-
-                  <div className="flex items-center gap-1">
-                    {dir?.toLowerCase() !== "main" ? (
-                      <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out flex items-center gap-1">
-                        <DialogComponent
-                          dialogtype="edit"
-                          title="Edit directory name"
-                          custumClass="flex"
-                        >
-                          <EditIcon className="w-4" />
-                        </DialogComponent>
-                        <DialogComponent
-                          dialogtype="delete"
-                          title="Are you sure?"
-                          description="This directory will be deleted permanently"
-                          custumClass="flex"
-                        >
-                          <Trash2Icon className="w-4" />
-                        </DialogComponent>
-                      </div>
-                    ) : null}
-                  </div>
-                </Link>
-              ))}
-
-              {/* Button to add new directory */}
-              <DialogComponent
-                dialogtype="create"
-                title="Create new directory"
-                custumClass="flex"
-              >
-                <Button
-                  variant={"ghost"}
-                  className="text-sm border border-black border-dashed w-full"
-                >
-                  + New
-                </Button>
-              </DialogComponent>
-            </div>
-            {/* <div className="flex flex-col px-2 py-1 space-y-1">
-              <div className="cursor-pointer  text-sm hover:bg-muted px-2 py-1 rounded flex items-center justify-between group">
-                <p>secondary</p>
-                <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out flex items-center gap-1">
-                  <DialogComponent
-                    dialogtype="edit"
-                    title="Edit directory name"
-                    custumClass="flex"
-                  >
-                    <EditIcon className="w-4" />
-                  </DialogComponent>
-                  <DialogComponent
-                    dialogtype="delete"
-                    title="Are you sure?"
-                    description="This directory will be deleted permanetly"
-                    custumClass="flex"
-                  >
-                    <Trash2Icon className="w-4" />
-                  </DialogComponent>
-                </div>
-              </div>
-              <div className="cursor-pointer text-sm hover:bg-muted px-2 py-1 rounded">
-                Main
-              </div>
-              <DialogComponent
-                dialogtype="create"
-                title="Create new directory"
-                custumClass="flex"
-              >
-                <Button
-                  variant={"ghost"}
-                  className="text-sm border border-black  border-dashed  w-full"
-                >
-                  + New
-                </Button>
-              </DialogComponent>
-              {/* <Button
-                variant={"ghost"}
-                className="text-sm border border-black  border-dashed  w-full"
-              >
-                + New
-              </Button> 
-            </div> */}
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <DropdownDirecories  />
       </section>
     </section>
   );
