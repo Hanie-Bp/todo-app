@@ -12,29 +12,35 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const formSchema = z.object({
-  searchText: z.string().min(1, "Search cannot be empty"),
+  searchText: z.string(),
 });
 
 const SearchInput = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      searchText: "",
+      searchText: searchParams.get("search") || "",
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    form.reset();
-  }
+  const handleLiveChange = (value: string) => {
+    const newParams = new URLSearchParams(searchParams);
+    if (value.trim() === "") {
+      newParams.delete("search");
+    } else {
+      newParams.set("search", value);
+    }
+    router.push(`?${newParams.toString()}`);
+  };
+
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="relative max-w-fit space-y-4"
-      >
+      <form className="relative max-w-fit space-y-4">
         <FormField
           control={form.control}
           name="searchText"
@@ -48,6 +54,10 @@ const SearchInput = () => {
                     placeholder="Search Task"
                     className="w-[95vw] md:w-72 pl-4 pr-10 py-3 border-none bg-muted placeholder-muted-dark "
                     {...field}
+                    onChange={(e) => {
+                      field.onChange(e); 
+                      handleLiveChange(e.target.value); 
+                    }}
                   />
                 </div>
               </FormControl>

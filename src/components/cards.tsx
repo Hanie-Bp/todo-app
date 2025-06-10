@@ -20,14 +20,24 @@ const Cards: FC<CardsProps> = ({ tasks, directories }) => {
   const sort = searchParams.get("sort");
   const sortName = sort?.split(" ")[0].toLocaleLowerCase()!;
   const sortedTasks = sortTasks(tasks, sortName);
+  const searchValue = searchParams.get("search");
+  console.log("searchValue", searchValue);
+  const filteredTasks =
+  searchValue && searchValue.trim() !== ""
+    ? sortedTasks.filter((task) =>
+        task.title.toLowerCase().includes(searchValue.toLowerCase())
+      )
+    : null;
 
+const cardTasks = filteredTasks ?? sortedTasks;
+  
   return (
     <section
       className={`container py-6  mx-auto ${
         viewMode === "grid" ? gridView : listView
       }  `}
     >
-      {sortedTasks?.map((task) => (
+      {cardTasks?.map((task) => (
         <TaskCard
           key={task.id}
           task={task}
