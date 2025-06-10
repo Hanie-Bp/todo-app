@@ -15,7 +15,7 @@ import { Button } from "../button";
 import DirectoryForm from "@/components/directoryForm";
 import { Directory } from "@/types/types";
 import { deleteDirectory, deleteTask } from "@/lib/actions/delete.action";
-import { deleteAlltasks } from "@/lib/actions/task.action";
+import { deleteAlltasks, deleteCompletedTasks } from "@/lib/actions/task.action";
 
 type DialogProps = {
   title: string;
@@ -23,7 +23,7 @@ type DialogProps = {
   dialogtype: "edit" | "delete" | "create";
   custumClass?: string;
   directory?: Directory;
-  deleteType?: "directory" | "task" |"alltasks";
+  deleteType?: "directory" | "task" |"alltasks" |"completedtasks";
   taskId?: string;
   children: ReactNode;
 };
@@ -52,6 +52,9 @@ const DialogComponent: FC<DialogProps> = ({
           closeRef.current?.click();
         }else if(deleteType === "alltasks"){
           await deleteAlltasks();
+          closeRef.current?.click();
+        }else if(deleteType === "completedtasks"){
+          await deleteCompletedTasks();
           closeRef.current?.click();
         }
       } catch (error) {

@@ -18,7 +18,7 @@ export const getAllTasks = unstable_cache(
   },
   ["getAllTasks"],
   {
-    tags: ["tasks"], 
+    tags: ["tasks"],
   }
 );
 
@@ -116,6 +116,25 @@ export const deleteAlltasks = async () => {
     revalidateTag("tasks");
   } catch (error) {
     console.error("❌ Error in deleteAlltasks:", error);
+    throw error;
+  }
+};
+
+export const deleteCompletedTasks = async () => {
+  try {
+    const session = await userSession();
+    const userId = session?.user?.id!;
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+    });
+    if (!user) throw new Error("User not found");
+    await prisma.task.deleteMany({
+      where: { userId, completed: true },
+    });
+
+    revalidateTag("tasks");
+  } catch (error) {
+    console.error("❌ Error in deleteCompletedTasks:", error);
     throw error;
   }
 };
