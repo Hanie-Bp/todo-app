@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { twMerge } from "tailwind-merge";
 import { authOptions } from "./auth";
 // import { getAllDirectories } from "./actions/actions";
-import { deleteAlltasks, getAllTasks } from "./actions/task.action";
+import {  deleteAllData, getAllTasks } from "./actions/task.action";
 import { getAllDirectories } from "./actions/directory.action";
 import { Task } from "@/types/types";
 
@@ -28,7 +28,7 @@ export async function fetchTasks() {
   return getAllTasks(session?.user?.id!);
 }
 
-export async function deleteTasks(){
-  const session = await userSession();
-  return deleteAlltasks(session?.user?.id!);
-}
+// export async function deleteTasks(){
+//   const session = await userSession();
+//   return deleteAllData(session?.user?.id!);
+// }
