@@ -94,7 +94,7 @@ export async function editTask(
   }
 }
 
-export const deleteAlltasks = async () => {
+export const deleteAllData= async () => {
   try {
     const session = await userSession();
     const userId = session?.user?.id!;

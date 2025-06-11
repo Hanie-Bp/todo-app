@@ -15,7 +15,12 @@ import { Button } from "../button";
 import DirectoryForm from "@/components/directoryForm";
 import { Directory } from "@/types/types";
 import { deleteDirectory, deleteTask } from "@/lib/actions/delete.action";
-import { deleteAlltasks, deleteCompletedTasks } from "@/lib/actions/task.action";
+import {
+ 
+  deleteAllData,
+  deleteCompletedTasks,
+} from "@/lib/actions/task.action";
+import { useRouter } from "next/navigation";
 
 type DialogProps = {
   title: string;
@@ -23,7 +28,7 @@ type DialogProps = {
   dialogtype: "edit" | "delete" | "create";
   custumClass?: string;
   directory?: Directory;
-  deleteType?: "directory" | "task" |"alltasks" |"completedtasks";
+  deleteType?: "directory" | "task" | "alltasks" | "completedtasks";
   taskId?: string;
   children: ReactNode;
 };
@@ -40,7 +45,7 @@ const DialogComponent: FC<DialogProps> = ({
 }) => {
   const closeRef = useRef<HTMLButtonElement>(null);
   const [isPending, startTransition] = useTransition();
-
+  const router = useRouter();
   const handleDelete = () => {
     startTransition(async () => {
       try {
@@ -50,10 +55,11 @@ const DialogComponent: FC<DialogProps> = ({
         } else if (deleteType === "task" && taskId) {
           await deleteTask(taskId);
           closeRef.current?.click();
-        }else if(deleteType === "alltasks"){
-          await deleteAlltasks();
+        } else if (deleteType === "alltasks") {
+          await deleteAllData();
           closeRef.current?.click();
-        }else if(deleteType === "completedtasks"){
+          router.push("/");
+        } else if (deleteType === "completedtasks") {
           await deleteCompletedTasks();
           closeRef.current?.click();
         }
