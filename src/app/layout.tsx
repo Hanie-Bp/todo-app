@@ -18,10 +18,8 @@ import { ReactNode } from "react";
 //   weight: "100 900",
 // });
 
-export const metadata: Metadata = {
-  title: "Your App",
-  description: "Something cool",
-};
+
+
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
