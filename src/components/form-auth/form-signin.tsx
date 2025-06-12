@@ -12,23 +12,27 @@ import GoogleSignInButton from "../GoogleSignInButton";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { useRouter } from "next/navigation";
+import React, { useState } from "react";
+import { Loader2 } from "lucide-react"; // Spinner icon
+
 const formSchema = z.object({
   email: z.string().min(1, "Email is required").email("Invalid email"),
   password: z
     .string()
     .min(1, "Password is required")
-    .min(8, "Password must have than 8 characters"),
+    .min(8, "Password must have more than 8 characters"),
 });
 
 const FormSignin = () => {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -36,7 +40,9 @@ const FormSignin = () => {
       password: "",
     },
   });
+
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    setLoading(true);
     const signInData = await signIn("credentials", {
       redirect: false,
       email: values.email,
@@ -45,14 +51,16 @@ const FormSignin = () => {
 
     if (signInData?.error) {
       console.log(signInData.error);
+      form.setError("email", {
+        type: "server",
+        message: signInData.error || "Something went wrong",
+      });
+      setLoading(false);
     } else {
-      console.log("dsd");
-      console.log(window.location.origin);
       router.push("/");
-
-      // router.push(`${window.location.origin}/`)
     }
   };
+
   return (
     <section className="backdrop-blur-md bg-white/30 rounded-xl shadow-lg p-10 sm:w-96">
       <Form {...form}>
@@ -94,14 +102,25 @@ const FormSignin = () => {
               )}
             />
           </div>
-          <Button className="w-full mt-6" type="submit">
-            Sign in
+
+          <Button className="w-full mt-6" type="submit" disabled={loading}>
+            {loading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Signing in...
+              </>
+            ) : (
+              "Sign in"
+            )}
           </Button>
         </form>
+
         <div className="mx-auto my-4 flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400">
           or
         </div>
+
         <GoogleSignInButton>Sign in with Google</GoogleSignInButton>
+
         <p className="text-center text-sm text-gray-600 mt-2">
           If you don&apos;t have an account, please&nbsp;
           <Link className="text-blue-500 hover:underline" href="/sign-up">
