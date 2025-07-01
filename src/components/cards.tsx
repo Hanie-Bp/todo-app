@@ -79,16 +79,18 @@ const Cards = ({ tasks, directories }: CardsProps) => {
         </p>
       )}
 
-      <div className="flex justify-center mt-6">
-        <Button
-          onClick={loadMore}
-          disabled={!hasMore}
-          variant="secondary"
-          className="w-[20%] dark:text-neutral-100"
-        >
-          More
-        </Button>
-      </div>
+      {filteredTasks.length > 0 && (
+        <div className="flex justify-center mt-6">
+          <Button
+            onClick={loadMore}
+            disabled={!hasMore}
+            variant="secondary"
+            className="w-[20%] dark:text-neutral-100"
+          >
+            More
+          </Button>
+        </div>
+      )}
     </section>
   );
 };
