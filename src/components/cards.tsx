@@ -74,7 +74,7 @@ const Cards = ({ tasks, directories }: CardsProps) => {
       </div>
 
       {filteredTasks.length === 0 && (
-        <p className="text-xl text-red-500 font-semibold text-center mt-6">
+        <p className="text-xl text-red-500 font-semibold  mt-6">
           No Tasks Found
         </p>
       )}
