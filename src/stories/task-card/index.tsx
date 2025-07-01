@@ -37,7 +37,7 @@ const TaskCard: FC<TaskCardProps> = (props) => {
     });
   };
   return (
-    <section className="max-[440px]:w-[90%] w-[400px]  md:w-[90%]">
+    <section className="max-[440px]:w-[90%] w-[400px]  md:w-[95%]">
       <div className="flex justify-end">
         <Button variant={"warning"} className="text-sm rounded-md px-3 me-2">
           <Link href={`/directories/${props?.task?.directoryId}`}>
@@ -48,12 +48,12 @@ const TaskCard: FC<TaskCardProps> = (props) => {
       <Card
         className={`flex ${
           props.viewMode === "grid"
-            ? "flex-col"
+            ? "flex-col "
             : "justify-between items-center p-3"
         } bg-muted dark:border-none`}
       >
         <section className={`${props.viewMode === "list" && "flex flex-col"}`}>
-          <CardHeader className={`${props.viewMode === "list" && "p-2 pb-3"}`}>
+          <CardHeader className={`${props.viewMode === "list" && "p-2 pb-3"} xl:p-3`}>
             <CardTitle className="font-bold text-xl text-primary">
               {props.task.title}
             </CardTitle>
@@ -88,9 +88,9 @@ const TaskCard: FC<TaskCardProps> = (props) => {
         </div>
 
         <CardFooter
-          className={`${
+          className={` ${
             props.viewMode === "grid"
-              ? "pb-4"
+              ? "px-2 pb-4"
               : "p-0  w-[40%] md:w-[35%] min-[900px]:w-[250px]"
           }`}
         >
@@ -98,7 +98,7 @@ const TaskCard: FC<TaskCardProps> = (props) => {
             <Button
               variant={props.task.completed ? "unWarnung" : "warning"}
               size={"md"}
-              className=""
+              className={`md:w-[50%] lg:w-[55%] xl:w-[140px]`}
               onClick={() => handleTaskCompleted()}
             >
               <p className="hidden md:block">
@@ -115,7 +115,6 @@ const TaskCard: FC<TaskCardProps> = (props) => {
             >
               <Star
                 fill={`${props?.task?.important ? "red" : "none"}`}
-                size={20}
                 onClick={handleTaskimportance}
                 className="cursor-pointer"
               />

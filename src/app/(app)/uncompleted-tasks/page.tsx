@@ -1,6 +1,12 @@
 import Cards from "@/components/cards";
 import { fetchDirectories, fetchTasks } from "@/lib/utils";
+import { Metadata } from "next";
 import React from "react";
+
+export const metadata: Metadata = {
+  title: "Uncompleted Tasks ❌",
+};
+
 
 const UncompletedTasks = async() => {
   const tasks = await fetchTasks();

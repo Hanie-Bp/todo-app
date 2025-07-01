@@ -4,12 +4,13 @@ import { ModeToggle } from "../darkmode/index";
 import { Progress } from "@/components/ui/progress";
 import { userSession } from "@/lib/utils";
 import { Task } from "@/types/types";
-import SubRightSidebar from "./sub-right-sidebar";
+import DeleteAllDataBtn from "@/components/delete-all-data-btn";
+
 
 const RightSideBar = async ({ tasks }: { tasks: Task[] }) => {
   const session = await userSession();
   const completedTasks = tasks.filter((task) => task.completed);
- 
+
   return (
     <section className="hidden min-h-screen  p-3 bg-muted lg:flex flex-col justify-between">
       <section>
@@ -37,7 +38,12 @@ const RightSideBar = async ({ tasks }: { tasks: Task[] }) => {
         </section>
       </section>
 
-      <SubRightSidebar />
+      <section>
+        <DeleteAllDataBtn />
+        <p className="text-center mt-2 p-2 rounded bg-red-200 text-[15px] font-medium text-red-700">
+          Created by Hanie
+        </p>
+      </section>
     </section>
   );
 };

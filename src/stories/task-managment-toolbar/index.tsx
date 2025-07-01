@@ -1,5 +1,5 @@
 "use client";
-import { ChevronDown, Ghost, LayoutGridIcon, List } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import React from "react";
 import {
   DropdownMenu,
@@ -12,10 +12,10 @@ import ViewToggle from "./view-toggle";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Directory, Task } from "@/types/types";
 import { getTaskbarInfo } from "@/utils/getTaskbarInfo";
+import DeleteCompletedTasks from "@/components/delete-completed-tasks";
 
 type TaskManagementToolbarProps = {
   directories: Directory[];
-  // numberOfTasks: number;
 };
 
 const TaskManagementToolbar = ({ directories }: TaskManagementToolbarProps) => {
@@ -31,49 +31,14 @@ const TaskManagementToolbar = ({ directories }: TaskManagementToolbarProps) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { taskbarName, numberOfTasks } = getTaskbarInfo(path, directories);
-  // let taskbarName: string = "All";
-  // // let AllTasks: Task[];
-  // let numberOfTasks;
-  // if (path === "/") {
-  //   taskbarName = "All";
-  //   const tasks = directories.map((dir) => dir.name).flat();
-  //   numberOfTasks = tasks.length;
-  // } else if (path === "/important-tasks") {
-  //   taskbarName = "Important";
-  //   const tasks = directories
-  //     .filter((dir) => dir.tasks.every((task) => task.important))
-  //     .flat();
-  //   numberOfTasks = tasks.length;
-  // } else if (path === "/completed-tasks") {
-  //   taskbarName = "Completed";
-  //   const allTasks = directories.flatMap((dir) => dir.tasks || []);
-  //   const completedTasks = allTasks.filter((task) => task.completed);
-  //   numberOfTasks = completedTasks.length;
-  // } else if (path === "/uncompleted-tasks") {
-  //   taskbarName = "Uncompleted";
-  //   const allTasks = directories.flatMap((dir) => dir.tasks || []);
-  //   const uncompletedTasks = allTasks.filter((task) => !task.completed);
-  //   numberOfTasks = uncompletedTasks.length;
-  // } else {
-  //   const dirId = path.split("/")[2];
-  //   const directory = directories.find((dir) => dir.id === dirId);
-  //   if (directory) {
-  //     taskbarName = directory.name;
-  //   }
-  //   const dirs = directories.find((dir) => {
-  //     if (dir.id === dirId) {
-  //       return dir.tasks.length;
-  //     }
-  //   });
-  //   numberOfTasks = dirs?.tasks.length || 0;
-  // }
   const selectedSort = searchParams.get("sort") || "sort by";
-
   const updateSort = (sort: string) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set("sort", sort);
     router.push(`${path}?${params.toString()}`);
   };
+
+  const isCompletedPath = path === "/completed-tasks";
   return (
     <section className="flex flex-col justify-center mt-2">
       <h2 className="text-[22px] text-primary font-semibold">
@@ -81,11 +46,18 @@ const TaskManagementToolbar = ({ directories }: TaskManagementToolbarProps) => {
       </h2>
 
       <section className="flex justify-between p-3  mt-4">
-        <ViewToggle />
-        <section className="w-[100px] md:w-[15%]">
+        <section className="flex items-center flex-col-reverse sm:flex-row gap-2">
+          <ViewToggle />
+          <div className={`${!isCompletedPath && "hidden"}`}>
+            <DeleteCompletedTasks />
+          </div>
+        </section>
+
+        <section className="w-[150px]  max-[430px]:w-[100px] ">
+          {/* <DeleteCompletedTasks /> */}
           <DropdownMenu>
-            <DropdownMenuTrigger className="w-full  data-[state=open]:ring-2 data-[state=open]:ring-secondary rounded  focus:outline-none focus:ring-0">
-              <div className="flex items-center text-sm font-semibold text-primary justify-between border p-2 bg-muted rounded">
+            <DropdownMenuTrigger className="w-full  data-[state=open]:ring-2 data-[state=open]:ring-secondary rounded  focus:outline-none focus:ring-0  text-nowrap">
+              <div className="flex items-center text-sm max-[430px]:text-xs font-semibold text-primary justify-between border p-2 bg-muted rounded">
                 <p>{selectedSort}</p>
                 <ChevronDown className="h-4 w-4 transition-all" />
               </div>

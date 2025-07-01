@@ -17,6 +17,8 @@ import { Input } from "@/stories/input";
 import Link from "next/link";
 import GoogleSignInButton from "../GoogleSignInButton";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { Loader2 } from "lucide-react";
 
 const formSchema = z
   .object({
@@ -35,6 +37,8 @@ const formSchema = z
 
 const FormSignup = () => {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -44,7 +48,9 @@ const FormSignup = () => {
       confirmPassword: "",
     },
   });
+
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    setLoading(true);
     const res = await fetch("/api/users", {
       method: "POST",
       headers: {
@@ -56,18 +62,20 @@ const FormSignup = () => {
         password: values.password,
       }),
     });
+
     const data = await res.json();
 
     if (res.ok) {
       router.push("/sign-in");
     } else {
-      // Set the error manually for the "email" field
       form.setError("email", {
         type: "server",
         message: data.message || "Something went wrong",
       });
+      setLoading(false);
     }
   };
+
   return (
     <section className="backdrop-blur-md bg-white/30 rounded-xl shadow-lg p-10 sm:w-96">
       <Form {...form}>
@@ -146,14 +154,24 @@ const FormSignup = () => {
               )}
             />
           </div>
-          <Button className="w-full mt-6" type="submit">
-            Sign up
+          <Button className="w-full mt-6" type="submit" disabled={loading}>
+            {loading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Signing up...
+              </>
+            ) : (
+              "Sign up"
+            )}
           </Button>
         </form>
+
         <div className="mx-auto my-4 flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400">
           or
         </div>
+
         <GoogleSignInButton>Sign up with Google</GoogleSignInButton>
+
         <p className="text-center text-sm text-gray-600 mt-2">
           If you don&apos;t have an account, please&nbsp;
           <Link className="text-blue-500 hover:underline" href="/sign-in">

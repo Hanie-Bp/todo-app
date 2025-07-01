@@ -1,49 +1,62 @@
 "use client";
+import { useEffect } from "react";
+import { useSearchParams } from "next/navigation";
+import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import TaskCard from "@/stories/task-card";
-// import { tasks } from "@/stories/task-card/task-card.stories";
 import { Directory, Task } from "@/types/types";
 import { sortTasks } from "@/utils/sortTasks";
-import { useSearchParams } from "next/navigation";
-// import { dir } from "console";
-import React, { FC } from "react";
-import { useSelector } from "react-redux";
+import dynamic from "next/dynamic";
+import { Skeleton } from "./ui/skeleton";
 
 type CardsProps = {
   tasks: Task[];
   directories: Directory[];
 };
 
-const Cards: FC<CardsProps> = ({ tasks, directories }) => {
-  // console.log("tasks",tasks);
 
+
+const loadTaskCard = () => import("@/stories/task-card");
+
+
+const TaskCard = dynamic(loadTaskCard, {
+  ssr: false,
+  loading: () => (
+    <Skeleton className="h-32 w-[250px] rounded-xl backdrop-blur-md bg-white/30 shadow-lg" />
+  ),
+});
+
+const Cards = ({ tasks, directories }: CardsProps) => {
   const viewMode = useSelector((state: RootState) => state.view.mode);
-  // console.log(viewMode);
-  const listView = `flex flex-col justify-center items-center gap-5`;
-  const gridView = `grid grid-cols-1 gap-5 place-items-center  overflow-hidden  md:grid-cols-2 xl:grid-cols-3 `;
   const searchParams = useSearchParams();
   const sort = searchParams.get("sort");
-  console.log("sort",sort);
-  
-  let sortedTasks = tasks.sort(
-      (a, b) => new Date(b.dueDate).getTime() - new Date(a.dueDate).getTime()
-    );
-  
-  if (sort) {
-    const sortName = sort.split(" ")[0].toLocaleLowerCase();
-    sortedTasks = sortTasks(tasks, sortName);
-  } 
+  const sortName = sort?.split(" ")[0].toLowerCase()!;
+  const sortedTasks = sortTasks(tasks, sortName);
+  const searchValue = searchParams.get("search");
 
-  // const sortedTasks = tasks.sort(
-  //   (a, b) => new Date(b.dueDate).getTime() - new Date(a.dueDate).getTime()
-  // );
+  const filteredTasks =
+    searchValue && searchValue.trim() !== ""
+      ? sortedTasks.filter((task) =>
+          task.title.toLowerCase().includes(searchValue.toLowerCase())
+        )
+      : null;
+
+  const cardTasks = filteredTasks ?? sortedTasks;
+
+  const listView = `flex flex-col justify-center items-center gap-5`;
+  const gridView = `grid grid-cols-1 gap-5 place-items-center  overflow-hidden  md:grid-cols-2 xl:grid-cols-3 xl:gap-x-0`;
+
+
+  useEffect(() => {
+    loadTaskCard();
+  }, []);
+
   return (
     <section
-      className={`container py-6  mx-auto ${
+      className={`container py-6 mx-auto ${
         viewMode === "grid" ? gridView : listView
-      }  `}
+      }`}
     >
-      {sortedTasks?.map((task, i) => (
+      {cardTasks?.map((task) => (
         <TaskCard
           key={task.id}
           task={task}
