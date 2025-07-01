@@ -58,44 +58,22 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-  async jwt({ token, user }) {
-    if (user) {
-      token.id = user.id; // 👈 Add userId to the token
-      token.username = user.username;
-    }
-    return token;
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id; // 👈 Add userId to the token
+        token.username = user.username;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: token.id, // 👈 Expose userId in session.user
+          username: token.username,
+        },
+      };
+    },
   },
-  async session({ session, token }) {
-    return {
-      ...session,
-      user: {
-        ...session.user,
-        id: token.id,       // 👈 Expose userId in session.user
-        username: token.username,
-      },
-    };
-  },
-},
-  // callbacks: {
-  //   async jwt({ token, user }) {
-  //     // console.log("🔐 JWT Token", token);
-  //     if (user) {
-  //       return {
-  //         ...token,
-  //         username: user.username,
-  //       };
-  //     }
-  //     return token;
-  //   },
-  //   async session({ session, user, token }) {
-  //     // console.log("📦 Session username", session.user?.username);
-  //     return {
-  //       ...session,
-  //       user: {
-  //         ...session.user,
-  //         username: token.username,
-  //       },
-  //     };
-  //   },
-  // },
 };

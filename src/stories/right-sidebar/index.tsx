@@ -1,25 +1,22 @@
 import React from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ModeToggle } from "../darkmode/index";
 import { Progress } from "@/components/ui/progress";
 import { userSession } from "@/lib/utils";
 import { Task } from "@/types/types";
 import DeleteAllDataBtn from "@/components/delete-all-data-btn";
-
+import ProfileAvatar from "@/components/profile-avatar";
+import { getUserByEmail } from "@/lib/actions/user.action";
 
 const RightSideBar = async ({ tasks }: { tasks: Task[] }) => {
   const session = await userSession();
   const completedTasks = tasks.filter((task) => task.completed);
+  const user = await getUserByEmail();
 
   return (
     <section className="hidden min-h-screen  p-3 bg-muted lg:flex flex-col justify-between">
       <section>
         <section className="flex items-center justify-center">
-          <h2 className="me-2">Hi , {session?.user.username}</h2>
-          <Avatar>
-            <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
+          <ProfileAvatar session={session} user={user} />
         </section>
 
         <ModeToggle />

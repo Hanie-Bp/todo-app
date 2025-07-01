@@ -27,3 +27,13 @@ export const taskSchema = z.object({
   important: z.boolean().optional(),
   completed: z.boolean().optional(),
 });
+
+export type User = {
+  id: string;
+  username: string;
+  email: string;
+  password: string;
+  profilePic: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+};
