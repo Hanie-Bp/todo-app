@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/form";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-import { Loader2 } from "lucide-react"; // Spinner icon
+import { Loader2 } from "lucide-react"; 
 
 const formSchema = z.object({
   email: z.string().min(1, "Email is required").email("Invalid email"),
@@ -50,7 +50,6 @@ const FormSignin = () => {
     });
 
     if (signInData?.error) {
-      console.log(signInData.error);
       form.setError("email", {
         type: "server",
         message: signInData.error || "Something went wrong",
