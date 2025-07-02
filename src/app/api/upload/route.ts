@@ -9,11 +9,8 @@ import { authOptions } from "@/lib/auth";
 
 const uploadDir = path.join(process.cwd(), "public", "uploads");
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs"; 
 
 export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);
