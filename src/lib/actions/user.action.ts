@@ -1,7 +1,7 @@
 "use server";
 
 import { prisma } from "../prisma";
-import { userSession } from "../utils";
+import { userSession } from "../server-utils";
 
 export const getUserByEmail = async () => {
   const session = await userSession();

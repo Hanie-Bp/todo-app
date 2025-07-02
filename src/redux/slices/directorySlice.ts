@@ -2,7 +2,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { Directory } from "@/types/types";
 import { getAllDirectories } from "@/lib/actions/directory.action";
-import { fetchDirectories } from "@/lib/utils";
+import { fetchDirectories } from "@/lib/server-utils";
 
 export const fetchDirectoriess = createAsyncThunk(
   "directories/fetchDirectories",

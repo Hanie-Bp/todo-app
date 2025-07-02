@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
 import Cards from "@/components/cards";
-import { fetchDirectories } from "@/lib/utils";
+
 import type { Metadata } from "next";
+import { fetchDirectories } from "@/lib/server-utils";
 
 type Props = {
   params: { id: string };

@@ -2,7 +2,7 @@
 
 import { prisma } from "../prisma";
 import { revalidateTag, unstable_cache } from "next/cache";
-import { userSession } from "../utils";
+import { userSession } from "../server-utils";
 import { z } from "zod";
 import { taskSchema } from "@/types/types";
 

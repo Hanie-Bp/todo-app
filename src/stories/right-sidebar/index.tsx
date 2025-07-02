@@ -1,7 +1,7 @@
 import React from "react";
 import { ModeToggle } from "../darkmode/index";
 import { Progress } from "@/components/ui/progress";
-import { userSession } from "@/lib/utils";
+import { userSession } from "@/lib/server-utils";
 import { Task } from "@/types/types";
 import DeleteAllDataBtn from "@/components/delete-all-data-btn";
 import ProfileAvatar from "@/components/profile-avatar";

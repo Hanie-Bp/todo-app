@@ -5,9 +5,9 @@ import RightSideBar from "@/stories/right-sidebar";
 import LeftSidebar from "@/stories/left-sidebar";
 import Header from "@/stories/header";
 import TaskManagementToolbar from "@/stories/task-managment-toolbar";
-import { fetchDirectories, fetchTasks } from "@/lib/utils";
+import { fetchDirectories, fetchTasks } from "@/lib/server-utils";
 import DirectoriesProvider from "@/context/DirectoryProvider";
-import TaskProvider from "@/context/TaskProvider";
+
 
 export default async function AppLayout({
   children,

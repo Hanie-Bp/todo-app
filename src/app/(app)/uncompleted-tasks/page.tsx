@@ -1,5 +1,5 @@
 import Cards from "@/components/cards";
-import { fetchDirectories, fetchTasks } from "@/lib/utils";
+import { fetchDirectories, fetchTasks } from "@/lib/server-utils";
 import { Metadata } from "next";
 import React from "react";
 

@@ -11,24 +11,18 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const userSession = async () => {
-  const session = await getServerSession(authOptions);
-  return session;
-};
+// export const userSession = async () => {
+//   const session = await getServerSession(authOptions);
+//   return session;
+// };
 
-export async function fetchDirectories() {
-  // console.log('hey');
-  const session = await userSession();
-  // console.log('hey',session);
-  return getAllDirectories(session?.user?.id!);
-}
-
-export async function fetchTasks() {
-  const session = await userSession();
-  return getAllTasks(session?.user?.id!);
-}
-
-// export async function deleteTasks(){
+// export async function fetchDirectories() {
 //   const session = await userSession();
-//   return deleteAllData(session?.user?.id!);
+//   return getAllDirectories(session?.user?.id!);
 // }
+
+// export async function fetchTasks() {
+//   const session = await userSession();
+//   return getAllTasks(session?.user?.id!);
+// }
+
