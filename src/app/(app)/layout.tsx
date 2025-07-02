@@ -20,7 +20,6 @@ export default async function AppLayout({
   return (
     <ThemeProvider>
       <DirectoriesProvider directories={directories}>
-        <TaskProvider tasks={tasks}>
           <section className="min-h-screen grid grid-cols-1 lg:grid-cols-6">
             <LeftSidebar tabletOrMobile={false} />
             <main className="lg:col-span-4 px-4 overflow-x-hidden">
@@ -30,7 +29,6 @@ export default async function AppLayout({
             </main>
             <RightSideBar tasks={tasks} />
           </section>
-        </TaskProvider>
       </DirectoriesProvider>
     </ThemeProvider>
   );
