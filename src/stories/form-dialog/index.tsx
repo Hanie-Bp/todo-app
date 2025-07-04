@@ -4,17 +4,12 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-
 import FormComponent from "./form-component";
-
-import { Directory, Task } from "@/types/types";
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
+import {  Task } from "@/types/types";
 import { useDirectories } from "@/context/DirectoryContext";
 
 type TaskFormProps = {

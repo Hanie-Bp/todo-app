@@ -53,7 +53,7 @@ export async function POST(req: Request) {
       return newUser;
     });
 
- const { password: _removed, ...rest } = newUserWithMain;
+ const { password: _, ...rest } = newUserWithMain;
     return NextResponse.json(
       { user: rest, message: "User and 'main' directory created successfully" },
       { status: 201 }

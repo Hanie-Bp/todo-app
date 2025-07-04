@@ -1,7 +1,6 @@
 // store/directorySlice.ts
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { Directory } from "@/types/types";
-import { getAllDirectories } from "@/lib/actions/directory.action";
 import { fetchDirectories } from "@/lib/server-utils";
 
 export const fetchDirectoriess = createAsyncThunk(
@@ -10,9 +9,14 @@ export const fetchDirectoriess = createAsyncThunk(
     try {
       const data = await fetchDirectories();
       return data;
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error in fetchDirectories thunk:", error);
-      return rejectWithValue(error.message || "Failed to fetch directories");
+
+      if (error instanceof Error) {
+        return rejectWithValue(error.message);
+      }
+
+      return rejectWithValue("Failed to fetch directories");
     }
   }
 );
