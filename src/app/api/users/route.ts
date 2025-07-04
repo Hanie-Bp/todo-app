@@ -3,7 +3,6 @@ import { hash } from "bcryptjs";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
-
 const userSchema = z.object({
   username: z.string().min(1, "Username is required").max(100),
   email: z.string().min(1, "Email is required").email("Invalid email"),
@@ -19,7 +18,6 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
-
   try {
     const body = await req.json();
     const { username, email, password } = userSchema.parse(body);
@@ -34,7 +32,7 @@ export async function POST(req: Request) {
     }
 
     const hashedPassword = await hash(password, 10);
-       const newUserWithMain = await prisma.$transaction(async (tx) => {
+    const newUserWithMain = await prisma.$transaction(async (tx) => {
       const newUser = await tx.user.create({
         data: {
           username,
@@ -52,8 +50,9 @@ export async function POST(req: Request) {
 
       return newUser;
     });
-
- const { password: _, ...rest } = newUserWithMain;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password: _, ...rest } = newUserWithMain;
+    
     return NextResponse.json(
       { user: rest, message: "User and 'main' directory created successfully" },
       { status: 201 }
