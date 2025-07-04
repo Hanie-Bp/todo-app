@@ -50,10 +50,19 @@ export async function handleDirectory(
       },
     });
   } else if (dialogType === "edit" && id) {
+    // Update the directory name
     await prisma.directory.update({
       where: { id },
       data: {
         name: directoryName,
+      },
+    });
+
+    // Also update the directoryName field on all associated tasks
+    await prisma.task.updateMany({
+      where: { directoryId: id },
+      data: {
+        directoryName: directoryName,
       },
     });
   }
