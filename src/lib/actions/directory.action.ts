@@ -4,6 +4,7 @@ import { prisma } from "../prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth";
 import { revalidatePath } from "next/cache";
+import { Directory } from "@/types/types";
 
 const schema = z.object({
   directoryName: z.string().min(1, "Directory name is required").max(20),
@@ -11,13 +12,16 @@ const schema = z.object({
 });
 
 export async function getAllDirectories(id: string) {
-  const directories = await prisma.directory.findMany({
-    where: { userId: id },
-    include: {
-      tasks: true,
-    },
-  });
-  return directories;
+  try {
+    const res = await fetch("http://localhost:3000/api/directories");
+    const data = await res.json();
+    const directories = data.filter(
+      (directory: Directory) => directory.userId === id
+    );
+    return directories;
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 export async function handleDirectory(

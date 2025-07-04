@@ -9,7 +9,6 @@ export const fetchDirectoriess = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const data = await fetchDirectories();
-      // console.log("///////////////////////////////////////////", data);
       return data;
     } catch (error: any) {
       console.error("Error in fetchDirectories thunk:", error);

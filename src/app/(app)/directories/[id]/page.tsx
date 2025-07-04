@@ -3,6 +3,7 @@ import Cards from "@/components/cards";
 
 import type { Metadata } from "next";
 import { fetchDirectories } from "@/lib/server-utils";
+import { Directory } from "@/types/types";
 
 type Props = {
   params: { id: string };
@@ -10,7 +11,9 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const directories = await fetchDirectories();
-  const directory = directories.find((dir) => dir.id === params.id);
+  // console.log("directories", directories);
+  
+  const directory = directories.find((dir:Directory) => dir.id === params.id);
 
   if (!directory) {
     return {
@@ -33,7 +36,7 @@ export default async function Page({ params }: { params: { id?: string } }) {
   }
 
   const directories = await fetchDirectories();
-  const directory = directories.find((dir) => dir.id === params.id);
+  const directory = directories.find((dir:Directory) => dir.id === params.id);
 
   if (!directory) {
     notFound();

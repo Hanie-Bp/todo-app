@@ -10,10 +10,19 @@ const directorySchema = z.object({
 
 export async function GET() {
   try {
-    const directories = await prisma.directory.findMany();
+    const directories = await prisma.directory.findMany({
+      include: {
+        tasks: true, 
+      },
+    });
+
     return NextResponse.json(directories);
   } catch (error) {
-    return NextResponse.json({ error: "Failed to fetch directories" }, { status: 500 });
+    console.error(error);
+    return NextResponse.json(
+      { error: "Failed to fetch directories" },
+      { status: 500 }
+    );
   }
 }
 export async function POST(req: Request) {
