@@ -35,7 +35,7 @@ const Cards = ({ tasks, directories }: CardsProps) => {
   const pageParam = searchParams.get("page");
   const currentPage = Math.max(1, parseInt(pageParam || "1"));
 
-  const sortName = sort?.split(" ")[0].toLowerCase()!;
+  const sortName = sort ? sort.split(" ")[0].toLowerCase() : "";
   const sortedTasks = sortTasks(tasks, sortName);
 
   const filteredTasks = searchValue

@@ -10,7 +10,7 @@ import {
 
 import ViewToggle from "./view-toggle";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { Directory, Task } from "@/types/types";
+import { Directory } from "@/types/types";
 import { getTaskbarInfo } from "@/utils/getTaskbarInfo";
 import DeleteCompletedTasks from "@/components/delete-completed-tasks";
 

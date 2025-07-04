@@ -6,9 +6,9 @@ import { Menu } from "lucide-react";
 import LeftSidebar from "@/stories/left-sidebar";
 import { DialogDescription, DialogTitle } from "@radix-ui/react-dialog";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
-import { Directory } from "@/types/types";
 
-export default function SheetMenu({ directories }: { directories: Directory[] }) {
+
+export default function SheetMenu() {
   const [open, setOpen] = useState(false);
 
   // Only allow opening manually via icon, and always start closed

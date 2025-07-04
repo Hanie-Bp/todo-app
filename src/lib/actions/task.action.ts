@@ -6,6 +6,12 @@ import { userSession } from "../server-utils";
 import { z } from "zod";
 import { taskSchema } from "@/types/types";
 
+export async function getUserIdOrThrow() {
+  const session = await userSession();
+  if (!session?.user?.id) throw new Error("Unauthorized");
+  return session.user.id;
+}
+
 export const getAllTasks = unstable_cache(
   async (userId: string) => {
     const tasks = await prisma.task.findMany({
@@ -24,8 +30,7 @@ export const getAllTasks = unstable_cache(
 
 export async function createTask(formData: z.infer<typeof taskSchema>) {
   try {
-    const session = await userSession();
-    const userId = session?.user?.id!;
+    const userId = await getUserIdOrThrow();
     const { title, description, dueDate, directoryId, important, completed } =
       formData;
 
@@ -60,8 +65,7 @@ export async function editTask(
   formData: z.infer<typeof taskSchema>
 ) {
   try {
-    const session = await userSession();
-    const userId = session?.user?.id!;
+    const userId = await getUserIdOrThrow();
     const { title, description, dueDate, directoryId, important, completed } =
       formData;
 
@@ -94,10 +98,9 @@ export async function editTask(
   }
 }
 
-export const deleteAllData= async () => {
+export const deleteAllData = async () => {
   try {
-    const session = await userSession();
-    const userId = session?.user?.id!;
+    const userId = await getUserIdOrThrow();
     const user = await prisma.user.findUnique({
       where: { id: userId },
     });
@@ -122,8 +125,7 @@ export const deleteAllData= async () => {
 
 export const deleteCompletedTasks = async () => {
   try {
-    const session = await userSession();
-    const userId = session?.user?.id!;
+    const userId = await getUserIdOrThrow();
     const user = await prisma.user.findUnique({
       where: { id: userId },
     });

@@ -24,18 +24,26 @@ export type TaskCardProps = {
 
 const TaskCard: FC<TaskCardProps> = (props) => {
   const handleTaskCompleted = async () => {
-    await editTask(props?.task?.id!, {
-      ...props.task,
-      completed: !props?.task?.completed,
-    });
-  };
+  if (!props.task.id) {
+    console.error("Task ID is missing");
+    return;
+  }
+  await editTask(props.task.id, {
+    ...props.task,
+    completed: !props.task.completed,
+  });
+};
 
-  const handleTaskimportance = async () => {
-    await editTask(props?.task?.id!, {
-      ...props.task,
-      important: !props?.task?.important,
-    });
-  };
+const handleTaskimportance = async () => {
+  if (!props.task.id) {
+    console.error("Task ID is missing");
+    return;
+  }
+  await editTask(props.task.id, {
+    ...props.task,
+    important: !props.task.important,
+  });
+};
   return (
     <section className="max-[440px]:w-[90%] w-[400px]  md:w-[95%]">
       <div className="flex justify-end">

@@ -4,7 +4,6 @@ import SearchInput from "../searchInput";
 import { Button } from "../button";
 import { getTodayDate } from "@/utils/dateFunctions";
 import TaskForm from "../form-dialog";
-// import { Directory } from "@/types/types";
 
 const HeaderDestkop = () => {
   return (

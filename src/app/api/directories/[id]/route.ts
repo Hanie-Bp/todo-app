@@ -2,7 +2,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
-import { z } from "zod";
+
 
 export async function PATCH(req: Request) {
   try {
@@ -25,7 +25,6 @@ export async function PATCH(req: Request) {
       },
     });
 
-    // Also update the directoryName field on all associated tasks
     await prisma.task.updateMany({
       where: { directoryId: id },
       data: {

@@ -1,3 +1,5 @@
+import { Session } from "next-auth";
+
 export type Directory = {
   id: string;
   name: string;
@@ -36,4 +38,14 @@ export type User = {
   profilePic: string | null;
   createdAt: Date;
   updatedAt: Date;
+};
+
+export type CustomSession = Session & {
+  user: {
+    id: string;
+    email?: string | null;
+    name?: string | null;
+    image?: string | null;
+    username: string;
+  };
 };

@@ -1,10 +1,10 @@
 "use client";
 import React, { useState, useRef } from "react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { User } from "@/types/types";
+import { CustomSession, User } from "@/types/types";
 
 type ProfileAvatarProps = {
-  session: any;
+    session: CustomSession | null;
   user: User | null;
 };
 

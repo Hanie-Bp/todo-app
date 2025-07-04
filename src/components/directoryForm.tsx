@@ -17,7 +17,6 @@ import { Button } from "@/stories/button";
 import { Directory } from "@/types/types";
 import { handleDirectory } from "@/lib/actions/directory.action";
 
-
 type directoryFormProps = {
   dialogType: "create" | "edit";
   directory?: Directory;
@@ -42,18 +41,22 @@ const DirectoryForm: FC<directoryFormProps> = ({
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      await handleDirectory(
-        { ...values, id: directory?.id },
-        dialogType
-      );
+      await handleDirectory({ ...values, id: directory?.id }, dialogType);
 
       form.reset();
       closeDialog?.();
-    } catch (error: any) {
-      form.setError("directoryName", {
-        type: "server",
-        message: error.message || "Something went wrong",
-      });
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        form.setError("directoryName", {
+          type: "server",
+          message: error.message || "Something went wrong",
+        });
+      } else {
+        form.setError("directoryName", {
+          type: "server",
+          message: "Something went wrong",
+        });
+      }
     }
   }
 

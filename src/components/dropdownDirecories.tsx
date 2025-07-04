@@ -1,31 +1,17 @@
 "use client";
-import React, { FC, useState } from "react";
+import React, { useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  ChevronDown,
-  ChevronRight,
-  Edit,
-  EditIcon,
-  Trash,
-  Trash2,
-  Trash2Icon,
-} from "lucide-react";
+import { ChevronDown, ChevronRight, EditIcon, Trash2Icon } from "lucide-react";
 import { Button } from "@/stories/button";
 import DialogComponent from "@/stories/dialog";
 import Link from "next/link";
 import { Directory } from "@/types/types";
 import { useDirectories } from "@/context/DirectoryContext";
 
-type DropdownDirectoriesProps = {
-  directories: Directory[];
-};
 
 const DropdownDirecories = () => {
   const [open, setOpen] = useState(false);
