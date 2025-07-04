@@ -24,6 +24,14 @@ export async function PATCH(req: Request) {
         userId,
       },
     });
+
+    // Also update the directoryName field on all associated tasks
+    await prisma.task.updateMany({
+      where: { directoryId: id },
+      data: {
+        directoryName: directoryName,
+      },
+    });
     return NextResponse.json(newDirectory);
   } catch (error) {
     console.error(error);
