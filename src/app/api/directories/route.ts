@@ -3,6 +3,9 @@ import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
+// Force this route to be dynamic to prevent static generation during build
+export const dynamic = 'force-dynamic';
+
 const directorySchema = z.object({
   directoryName: z.string().min(1, "Directory name is required").max(20),
 });

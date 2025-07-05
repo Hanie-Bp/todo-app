@@ -2,8 +2,8 @@ import { getUserIdOrThrow } from "@/lib/actions/task.action";
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
-
-
+// Force this route to be dynamic to prevent static generation during build
+export const dynamic = 'force-dynamic';
 
 export async function DELETE(
   request: Request,

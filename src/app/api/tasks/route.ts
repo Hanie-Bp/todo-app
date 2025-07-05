@@ -1,6 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
+// Force this route to be dynamic to prevent static generation during build
+export const dynamic = 'force-dynamic';
 
 // export const taskSchema = z.object({
 //   title: z.string().min(2, "Title must be at least 2 characters"),

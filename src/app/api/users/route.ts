@@ -3,6 +3,9 @@ import { hash } from "bcryptjs";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
+// Force this route to be dynamic to prevent static generation during build
+export const dynamic = 'force-dynamic';
+
 const userSchema = z.object({
   username: z.string().min(1, "Username is required").max(100),
   email: z.string().min(1, "Email is required").email("Invalid email"),
