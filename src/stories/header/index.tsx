@@ -1,12 +1,10 @@
-
 import React from "react";
 import { NavigationMenu } from "../../components/ui/navigation-menu";
 import HeaderDestkop from "./header-destkop";
 import HeaderMobile from "./header-mobile";
 import HeaderTablet from "./header-tablet";
-import { Directory } from "@/types/types";
 
-const Header = async({directories}:{directories:Directory[]}) => {
+const Header = async() => {
   
   return (
     <NavigationMenu className="py-3">
@@ -14,10 +12,10 @@ const Header = async({directories}:{directories:Directory[]}) => {
         <HeaderDestkop  />
       </section>
       <section className="hidden md:block lg:hidden">
-        <HeaderTablet directories={directories} />
+        <HeaderTablet />
       </section>
       <section className="sm:block md:hidden ">
-        <HeaderMobile directories={directories} />
+        <HeaderMobile />
       </section>
     </NavigationMenu>
   );

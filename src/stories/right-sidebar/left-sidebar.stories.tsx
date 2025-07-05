@@ -13,4 +13,8 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const DefaultLeftSidebar: Story = {};
+export const DefaultLeftSidebar: Story = {
+  args: {
+    tasks: [],
+  },
+};

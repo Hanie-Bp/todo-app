@@ -22,7 +22,7 @@ const HeaderTablet = () => {
             {formattedDate}
           </span>
         </p>
-        <TaskForm  formType="add"> 
+        <TaskForm formType="add"> 
         <Button className="bg-secondary hover:bg-secondary-secondaryHover dark:text-slate-100">
           Add new Task
         </Button>
