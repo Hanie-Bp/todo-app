@@ -9,4 +9,8 @@ const meta = {
 export default meta;
 
 type Story = StoryObj<typeof meta>;
-export const TaskManagememtToolbar: Story = {};
+export const TaskManagememtToolbar: Story = {
+  args: {
+    directories: [],
+  },
+};
