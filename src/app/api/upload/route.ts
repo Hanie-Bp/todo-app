@@ -4,8 +4,7 @@ import path from "path";
 import fs from "fs/promises";
 import { existsSync } from "fs";
 import { v4 as uuid } from "uuid";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/lib/auth";
+import { getUserIdOrThrow } from "@/lib/actions/task.action";
 
 const uploadDir = path.join(process.cwd(), "public", "uploads");
 
@@ -13,8 +12,7 @@ export const dynamic = "force-dynamic";
 export const runtime = "nodejs"; 
 
 export async function POST(req: NextRequest) {
-  const session = await getServerSession(authOptions);
-  const userId = session?.user?.id;
+  const userId = await getUserIdOrThrow();
 
   if (!userId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

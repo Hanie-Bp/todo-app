@@ -1,10 +1,9 @@
 "use server";
 import { z } from "zod";
 import { prisma } from "../prisma";
-import { getServerSession } from "next-auth";
-import { authOptions } from "../auth";
 import { revalidatePath } from "next/cache";
 import { Directory } from "@/types/types";
+import { getUserIdOrThrow } from "./task.action";
 
 const schema = z.object({
   directoryName: z.string().min(1, "Directory name is required").max(20),
@@ -28,8 +27,7 @@ export async function handleDirectory(
   input: z.infer<typeof schema>,
   dialogType: "create" | "edit"
 ) {
-  const session = await getServerSession(authOptions);
-  const userId = session?.user?.id;
+    const userId = await getUserIdOrThrow();
 
   if (!userId) {
     throw new Error("Unauthorized");

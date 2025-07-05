@@ -1,6 +1,5 @@
-import { authOptions } from "@/lib/auth";
+import { getUserIdOrThrow } from "@/lib/actions/task.action";
 import { prisma } from "@/lib/prisma";
-import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 
 
@@ -8,8 +7,7 @@ export async function PATCH(req: Request) {
   try {
     const body = await req.json();
     const { directoryName, id } = body;
-    const session = await getServerSession(authOptions);
-    const userId = session?.user?.id;
+      const userId = await getUserIdOrThrow();
 
     if (!userId) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
@@ -40,8 +38,7 @@ export async function PATCH(req: Request) {
 
 export async function DELETE(req:Request,{ params }: { params: { id: string } }) {
   try {
-    const session = await getServerSession(authOptions);
-    const userId = session?.user?.id;
+      const userId = await getUserIdOrThrow();
 
     if (!userId) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });

@@ -1,11 +1,12 @@
 
-import { getServerSession } from "next-auth";
+import { getServerSession } from "next-auth/next";
 import { authOptions } from "./auth";
 import { getAllTasks, getUserIdOrThrow } from "./actions/task.action";
 import { getAllDirectories } from "./actions/directory.action";
+import { CustomSession } from "@/types/types";
 export const userSession = async () => {
   const session = await getServerSession(authOptions);
-  return session;
+  return session as CustomSession;
 };
 
 export async function fetchDirectories() {

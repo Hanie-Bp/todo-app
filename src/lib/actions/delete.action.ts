@@ -2,12 +2,10 @@
 
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-import { getServerSession } from "next-auth";
-import { authOptions } from "../auth";
+import { getUserIdOrThrow } from "./task.action";
 
 export async function deleteDirectory(id: string) {
-  const session = await getServerSession(authOptions);
-  if (!session?.user?.id) throw new Error("Unauthorized");
+    await getUserIdOrThrow();
 
   await prisma.directory.delete({
     where: { id },
@@ -18,8 +16,7 @@ export async function deleteDirectory(id: string) {
 }
 
 export async function deleteTask(id: string) {
-  const session = await getServerSession(authOptions);
-  if (!session?.user?.id) throw new Error("Unauthorized");
+    await getUserIdOrThrow();
 
   await prisma.task.delete({
     where: { id },

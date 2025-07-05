@@ -1,6 +1,5 @@
-import { authOptions } from "@/lib/auth";
+import { getUserIdOrThrow } from "@/lib/actions/task.action";
 import { prisma } from "@/lib/prisma";
-import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
@@ -29,8 +28,7 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
     const { directoryName } = directorySchema.parse(body);
-    const session = await getServerSession(authOptions);
-    const userId = session?.user?.id;
+      const userId = await getUserIdOrThrow();
 
   if (!userId) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
