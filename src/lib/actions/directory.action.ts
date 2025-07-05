@@ -9,10 +9,11 @@ const schema = z.object({
   directoryName: z.string().min(1, "Directory name is required").max(20),
   id: z.string().optional(),
 });
+const baseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000";
 
 export async function getAllDirectories(id: string) {
   try {
-    const res = await fetch("http://localhost:3000/api/directories");
+    const res = await fetch(`${baseUrl}/api/directories`);
     const data = await res.json();
     const directories = data.filter(
       (directory: Directory) => directory.userId === id
