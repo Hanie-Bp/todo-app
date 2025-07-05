@@ -8,7 +8,7 @@ interface TaskbarInfo {
   numberOfTasks: number;
 }
 
-export function getTaskbarInfo(path: string, directories: Directory[]): TaskbarInfo {
+export function getTaskbarInfo(path: string, directories: Directory[] = []): TaskbarInfo {
   let taskbarName = "All";
   let numberOfTasks = 0;
 
