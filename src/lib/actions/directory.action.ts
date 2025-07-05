@@ -9,7 +9,7 @@ const schema = z.object({
   directoryName: z.string().min(1, "Directory name is required").max(20),
   id: z.string().optional(),
 });
-const baseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000";
+const baseUrl = process.env.NEXTAUTH_URL ;
 
 export async function getAllDirectories(id: string) {
   try {
