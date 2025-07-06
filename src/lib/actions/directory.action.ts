@@ -2,27 +2,45 @@
 import { z } from "zod";
 import { prisma } from "../prisma";
 import { revalidatePath } from "next/cache";
-import { Directory } from "@/types/types";
+// import { Directory } from "@/types/types";
 import { getUserIdOrThrow } from "./task.action";
 
 const schema = z.object({
   directoryName: z.string().min(1, "Directory name is required").max(20),
   id: z.string().optional(),
 });
-const baseUrl = process.env.NEXTAUTH_URL ;
+// const baseUrl = process.env.NEXTAUTH_URL ;
 
-export async function getAllDirectories(id: string) {
+export async function getAllDirectories(userId: string) {
   try {
-    const res = await fetch(`${baseUrl}/api/directories`);
-    const data = await res.json();
-    const directories = data.filter(
-      (directory: Directory) => directory.userId === id
-    );
+    const directories = await prisma.directory.findMany({
+      where: {
+        userId: userId
+      },
+      include: {
+        tasks: true, 
+      },
+    });
+
     return directories;
   } catch (error) {
     console.log(error);
+    return [];
   }
 }
+
+// export async function getAllDirectories(id: string) {
+//   try {
+//     const res = await fetch(`${baseUrl}/api/directories`);
+//     const data = await res.json();
+//     const directories = data.filter(
+//       (directory: Directory) => directory.userId === id
+//     );
+//     return directories;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
 
 export async function handleDirectory(
   input: z.infer<typeof schema>,
