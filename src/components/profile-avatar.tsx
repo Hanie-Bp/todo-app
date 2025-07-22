@@ -17,7 +17,7 @@ export default function ProfileAvatar({ session, user }: ProfileAvatarProps) {
   const router = useRouter();
 
   useEffect(() => {
-   setAvatarUrl(user?.profilePic || "https://github.com/shadcn.png");
+    setAvatarUrl(user?.profilePic || "https://github.com/shadcn.png");
   }, [user?.profilePic]);
 
   const onAvatarClick = () => {
@@ -43,6 +43,8 @@ export default function ProfileAvatar({ session, user }: ProfileAvatarProps) {
       if (!res.ok) throw new Error("Upload failed");
 
       const data = await res.json();
+      console.log("data", data);
+
       if (data.url) {
         setAvatarUrl(data.url);
         router.refresh();
