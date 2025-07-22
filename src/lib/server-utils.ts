@@ -1,4 +1,3 @@
-
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "./auth";
 import { getAllTasks, getUserIdOrThrow } from "./actions/task.action";

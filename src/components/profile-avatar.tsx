@@ -1,10 +1,11 @@
 "use client";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { CustomSession, User } from "@/types/types";
+import { useRouter } from "next/navigation";
 
 type ProfileAvatarProps = {
-    session: CustomSession | null;
+  session: CustomSession | null;
   user: User | null;
 };
 
@@ -13,6 +14,11 @@ export default function ProfileAvatar({ session, user }: ProfileAvatarProps) {
     user?.profilePic || "https://github.com/shadcn.png"
   );
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
+
+  useEffect(() => {
+   setAvatarUrl(user?.profilePic || "https://github.com/shadcn.png");
+  }, [user?.profilePic]);
 
   const onAvatarClick = () => {
     fileInputRef.current?.click();
@@ -39,6 +45,7 @@ export default function ProfileAvatar({ session, user }: ProfileAvatarProps) {
       const data = await res.json();
       if (data.url) {
         setAvatarUrl(data.url);
+        router.refresh();
       }
     } catch (error) {
       console.error("Error uploading avatar:", error);
