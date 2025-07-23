@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
         .end(buffer);
     });
 
-    // @ts-expect-error
+    // @ts-expect-error: uploadResult type is not inferred correctly
     const url = uploadResult.secure_url;
 
     // Update DB with new profilePic url
