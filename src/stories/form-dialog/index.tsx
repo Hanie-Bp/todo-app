@@ -9,7 +9,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import FormComponent from "./form-component";
-import {  Task } from "@/types/types";
+import { Task } from "@/types/types";
 import { useDirectories } from "@/context/DirectoryContext";
 
 type TaskFormProps = {
@@ -17,6 +17,8 @@ type TaskFormProps = {
   formData?: Task;
   // directories: Directory[];
   formType?: "edit" | "add";
+  isOpen?: boolean;
+  setIsOpen?: (open: boolean) => void;
 };
 
 const TaskForm = ({
@@ -24,12 +26,17 @@ const TaskForm = ({
   formData,
   // directories,
   formType,
+  isOpen: controlledIsOpen,
+  setIsOpen: controlledSetIsOpen,
 }: TaskFormProps) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [uncontrolledIsOpen, setUncontrolledIsOpen] = useState(false);
+  const isOpen =
+    controlledIsOpen !== undefined ? controlledIsOpen : uncontrolledIsOpen;
+  const setIsOpen = controlledSetIsOpen || setUncontrolledIsOpen;
   const { directories } = useDirectories();
 
   const handleFormSuccess = () => {
-    setIsOpen(false); 
+    setIsOpen(false);
   };
   return (
     <section>

@@ -7,9 +7,9 @@ import LeftSidebar from "@/stories/left-sidebar";
 import { DialogDescription, DialogTitle } from "@radix-ui/react-dialog";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
-
 export default function SheetMenu() {
   const [open, setOpen] = useState(false);
+  const [isTaskFormOpen, setIsTaskFormOpen] = useState(false);
 
   // Only allow opening manually via icon, and always start closed
   useEffect(() => {
@@ -23,6 +23,13 @@ export default function SheetMenu() {
     window.addEventListener("resize", closeOnResize);
     return () => window.removeEventListener("resize", closeOnResize);
   }, []);
+
+  // Prevent Sheet from closing when TaskForm is opened
+  useEffect(() => {
+    if (isTaskFormOpen) {
+      setOpen(true);
+    }
+  }, [isTaskFormOpen]);
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -40,7 +47,11 @@ export default function SheetMenu() {
           <DialogTitle>Sidebar Menu</DialogTitle>
           <DialogDescription></DialogDescription>
         </VisuallyHidden>
-        <LeftSidebar tabletOrMobile={true}  />
+        <LeftSidebar
+          tabletOrMobile={true}
+          isTaskFormOpen={isTaskFormOpen}
+          setIsTaskFormOpen={setIsTaskFormOpen}
+        />
       </SheetContent>
     </Sheet>
   );
