@@ -15,11 +15,7 @@ import { Button } from "../button";
 import DirectoryForm from "@/components/directoryForm";
 import { Directory } from "@/types/types";
 import { deleteDirectory, deleteTask } from "@/lib/actions/delete.action";
-import {
- 
-  deleteAllData,
-  deleteCompletedTasks,
-} from "@/lib/actions/task.action";
+import { deleteAllData, deleteCompletedTasks } from "@/lib/actions/task.action";
 import { useRouter } from "next/navigation";
 
 type DialogProps = {
@@ -72,7 +68,13 @@ const DialogComponent: FC<DialogProps> = ({
   return (
     <section>
       <Dialog>
-        <DialogTrigger className={custumClass}>{children}</DialogTrigger>
+        <DialogTrigger
+          asChild
+          onMouseDown={(e) => e.stopPropagation()}
+          className={custumClass}
+        >
+          {children}
+        </DialogTrigger>
         <DialogContent className="flex flex-col w-[90%] rounded-md">
           <DialogHeader className="text-start">
             <DialogTitle className="font-semibold md:text-2xl text-primary">
