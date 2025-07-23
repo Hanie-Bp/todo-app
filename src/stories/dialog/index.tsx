@@ -67,7 +67,7 @@ const DialogComponent: FC<DialogProps> = ({
 
   return (
     <section>
-      <Dialog>
+      <Dialog modal={false}>
         <DialogTrigger
           asChild
           onMouseDown={(e) => e.stopPropagation()}
