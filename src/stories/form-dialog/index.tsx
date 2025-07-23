@@ -13,7 +13,7 @@ import { Task } from "@/types/types";
 import { useDirectories } from "@/context/DirectoryContext";
 
 type TaskFormProps = {
-  children: ReactNode;
+  children?: ReactNode;
   formData?: Task;
   // directories: Directory[];
   formType?: "edit" | "add";
