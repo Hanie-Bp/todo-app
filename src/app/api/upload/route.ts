@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
         .end(buffer);
     });
 
-    // @ts-ignore
+    // @ts-expect-error
     const url = uploadResult.secure_url;
 
     // Update DB with new profilePic url
