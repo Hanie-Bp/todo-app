@@ -2,11 +2,12 @@
 
 import { ThemeProvider } from "@/components/theme-provider";
 import RightSideBar from "@/stories/right-sidebar";
-import LeftSidebar from "@/stories/left-sidebar";
+// import LeftSidebar from "@/stories/left-sidebar";
 import Header from "@/stories/header";
 import TaskManagementToolbar from "@/stories/task-managment-toolbar";
 import { fetchDirectories, fetchTasks } from "@/lib/server-utils";
 import DirectoriesProvider from "@/context/DirectoryProvider";
+import SidebarContainerDestkop from "@/components/sidebar-container-destkop";
 
 
 export default async function AppLayout({
@@ -21,7 +22,8 @@ export default async function AppLayout({
     <ThemeProvider>
       <DirectoriesProvider directories={directories}>
           <section className="min-h-screen grid grid-cols-1 lg:grid-cols-6">
-            <LeftSidebar tabletOrMobile={false} />
+            <SidebarContainerDestkop />
+            {/* <LeftSidebar tabletOrMobile={false} /> */}
             <main className="lg:col-span-4 px-4 overflow-x-hidden">
               <Header />
               <TaskManagementToolbar directories={directories} />
