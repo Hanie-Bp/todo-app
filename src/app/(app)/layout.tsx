@@ -21,10 +21,10 @@ export default async function AppLayout({
   return (
     <ThemeProvider>
       <DirectoriesProvider directories={directories}>
-          <section className="min-h-screen grid grid-cols-1 lg:grid-cols-6">
+          <section className="min-h-screen grid grid-cols-1 lg:grid-cols-6 place-content-start">
             <SidebarContainerDestkop />
             {/* <LeftSidebar tabletOrMobile={false} /> */}
-            <main className="lg:col-span-4 px-4 overflow-x-hidden">
+            <main className="lg:col-span-4 px-4 overflow-x-hidden border border-red-800">
               <Header />
               <TaskManagementToolbar directories={directories} />
               <div>{children}</div>
