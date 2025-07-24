@@ -13,7 +13,7 @@ import { Directory } from "@/types/types";
 import { useDirectories } from "@/context/DirectoryContext";
 
 
-const DropdownDirecories = () => {
+const DropdownDirecories = ({onAddDirectoryClick}: {onAddDirectoryClick?: () => void}) => {
   const [open, setOpen] = useState(false);
   const { directories } = useDirectories();
   return (
@@ -70,18 +70,19 @@ const DropdownDirecories = () => {
           ))}
 
           {/* Button to add new directory */}
-          <DialogComponent
+          {/* <DialogComponent
             dialogtype="create"
             title="Create new directory"
             custumClass="flex"
-          >
+          > */}
             <Button
               variant={"ghost"}
               className="text-sm border border-black border-dashed w-full"
+              onClick={onAddDirectoryClick}
             >
               + New
             </Button>
-          </DialogComponent>
+          {/* </DialogComponent> */}
         </div>
       </DropdownMenuContent>
     </DropdownMenu>

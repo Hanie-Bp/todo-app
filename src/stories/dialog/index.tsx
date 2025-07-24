@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FC, ReactNode, useRef, useTransition } from "react";
+import React, { FC, ReactNode, useRef, useState, useTransition } from "react";
 import {
   Dialog,
   DialogClose,
@@ -26,7 +26,9 @@ type DialogProps = {
   directory?: Directory;
   deleteType?: "directory" | "task" | "alltasks" | "completedtasks";
   taskId?: string;
-  children: ReactNode;
+   isOpen?: boolean;
+  setIsOpen?: (open: boolean) => void;
+  children?: ReactNode;
 };
 
 const DialogComponent: FC<DialogProps> = ({
@@ -37,10 +39,17 @@ const DialogComponent: FC<DialogProps> = ({
   directory,
   deleteType,
   taskId,
+   isOpen: controlledIsOpen,
+  setIsOpen: controlledSetIsOpen,
   children,
 }) => {
   const closeRef = useRef<HTMLButtonElement>(null);
   const [isPending, startTransition] = useTransition();
+   const [uncontrolledIsOpen, setUncontrolledIsOpen] = useState(false);
+    const isOpen =
+      controlledIsOpen !== undefined ? controlledIsOpen : uncontrolledIsOpen;
+    const setIsOpen = controlledSetIsOpen || setUncontrolledIsOpen;
+
   const router = useRouter();
   const handleDelete = () => {
     startTransition(async () => {
@@ -67,7 +76,7 @@ const DialogComponent: FC<DialogProps> = ({
 
   return (
     <section>
-      <Dialog modal={false}>
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger
           asChild
           onMouseDown={(e) => e.stopPropagation()}

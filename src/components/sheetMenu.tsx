@@ -7,10 +7,12 @@ import LeftSidebar from "@/stories/left-sidebar";
 import { DialogDescription, DialogTitle } from "@radix-ui/react-dialog";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import TaskForm from "@/stories/form-dialog";
+import DialogComponent from "@/stories/dialog";
 
 export default function SheetMenu() {
   const [open, setOpen] = useState(false);
   const [isTaskFormOpen, setIsTaskFormOpen] = useState(false);
+  const [isDirectoryFormOpen, setIsDirectoryFormOpen] = useState(false);
 
   // Only allow opening manually via icon, and always start closed
   useEffect(() => {
@@ -32,6 +34,12 @@ export default function SheetMenu() {
     }
   }, [isTaskFormOpen]);
 
+  useEffect(() => {
+    if (isDirectoryFormOpen) {
+      setOpen(true);
+    }
+  }, [isDirectoryFormOpen]);
+
   return (
     <>
       <Sheet open={open} onOpenChange={setOpen}>
@@ -52,6 +60,7 @@ export default function SheetMenu() {
           <LeftSidebar
             tabletOrMobile={true}
             onAddTaskClick={() => setIsTaskFormOpen(true)}
+            onAddDirectoryClick={() => setIsDirectoryFormOpen(true)}
           />
         </SheetContent>
       </Sheet>
@@ -62,6 +71,15 @@ export default function SheetMenu() {
       >
         {/* The trigger is handled by the sidebar, so no button here */}
       </TaskForm>
+      <DialogComponent
+        dialogtype="create"
+        title="Create new directory"
+        custumClass="flex"
+        isOpen={isDirectoryFormOpen}
+        setIsOpen={setIsDirectoryFormOpen}
+      >
+        {/* The trigger is handled by the sidebar, so no button here */}
+      </DialogComponent>
     </>
   );
 }

@@ -6,9 +6,10 @@ import DropdownDirecories from "@/components/dropdownDirecories";
 type LeftSidebarProps = {
   tabletOrMobile: boolean;
   onAddTaskClick?: () => void;
+  onAddDirectoryClick?: () => void;
 };
 
-const LeftSidebar = ({ tabletOrMobile, onAddTaskClick }: LeftSidebarProps) => {
+const LeftSidebar = ({ tabletOrMobile, onAddTaskClick , onAddDirectoryClick}: LeftSidebarProps) => {
   return (
     <section
       className={`bg-muted min-h-screen h-full ${
@@ -33,7 +34,7 @@ const LeftSidebar = ({ tabletOrMobile, onAddTaskClick }: LeftSidebarProps) => {
         <LinksSidebar />
       </nav>
       <section className="mt-5  ">
-        <DropdownDirecories />
+        <DropdownDirecories  onAddDirectoryClick={onAddDirectoryClick} />
       </section>
     </section>
   );
