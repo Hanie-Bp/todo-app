@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { v2 as cloudinary } from "cloudinary";
+import type { UploadApiResponse } from "cloudinary";
 import { getUserIdOrThrow } from "@/lib/actions/task.action";
 
 cloudinary.config({
@@ -32,16 +33,18 @@ export async function POST(req: NextRequest) {
 
   // Upload to Cloudinary
   try {
-    const uploadResult = await new Promise((resolve, reject) => {
-      cloudinary.uploader
-        .upload_stream({ folder: "avatars" }, (error, result) => {
-          if (error) return reject(error);
-          resolve(result);
-        })
-        .end(buffer);
-    });
+    const uploadResult: UploadApiResponse = await new Promise(
+      (resolve, reject) => {
+        cloudinary.uploader
+          .upload_stream({ folder: "avatars" }, (error, result) => {
+            if (error || !result)
+              return reject(error || new Error("No result"));
+            resolve(result);
+          })
+          .end(buffer);
+      }
+    );
 
-    // @ts-expect-error: Type 'string' is not assignable to type 'string | undefined'.
     const url = uploadResult.secure_url;
 
     // Update DB with new profilePic url
