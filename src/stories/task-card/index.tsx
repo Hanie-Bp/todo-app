@@ -106,7 +106,7 @@ const handleTaskimportance = async () => {
             <Button
               variant={props.task.completed ? "unWarnung" : "warning"}
               size={"md"}
-              className={`md:w-[50%] lg:w-[55%] xl:w-[140px]`}
+              className={`w-0 px-4 md:w-[50%] lg:w-[55%] xl:w-[140px]`}
               onClick={() => handleTaskCompleted()}
             >
               <p className="hidden md:block">
@@ -118,11 +118,12 @@ const handleTaskimportance = async () => {
             </Button>
             <div
               className={`flex ${
-                props.viewMode === "grid" ? "w-1/3" : "w-[50%] md:w-1/3 "
-              } justify-between items-center`}
+                props.viewMode === "grid" ? "w-1/3" : " w-[65%] md:w-1/3 flex items-baseline"
+              } justify-between items-center `}
             >
               <Star
                 fill={`${props?.task?.important ? "red" : "none"}`}
+                size={22}
                 onClick={handleTaskimportance}
                 className="cursor-pointer"
               />
@@ -133,11 +134,11 @@ const handleTaskimportance = async () => {
                 deleteType="task"
                 taskId={props?.task?.id}
               >
-                <Trash size={20} className="cursor-pointer   mt-1" />
+                <Trash size={22} className="cursor-pointer   mt-1" />
               </DialogComponent>
 
               <TaskForm formData={props?.task} formType={"edit"}>
-                <MoreVertical size={20} className="cursor-pointer" />
+                <MoreVertical size={22} className="cursor-pointer" />
               </TaskForm>
             </div>
           </section>
