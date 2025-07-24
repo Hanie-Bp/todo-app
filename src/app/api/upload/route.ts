@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
         .end(buffer);
     });
 
-    // @ts-expect-error: uploadResult type is not inferred correctly
+    // @ts-expect-error: Type 'string' is not assignable to type 'string | undefined'.
     const url = uploadResult.secure_url;
 
     // Update DB with new profilePic url
