@@ -53,7 +53,7 @@ const Cards = ({ tasks, directories }: CardsProps) => {
     router.push(`?${params.toString()}`);
   };
 
-  const listView = `flex flex-col justify-center items-center gap-5`;
+  const listView = `flex flex-col justify-center md:items-center gap-5`;
   const gridView = `grid grid-cols-1 gap-5 place-items-center overflow-hidden md:grid-cols-2 xl:grid-cols-3 xl:gap-x-0`;
 
   useEffect(() => {

@@ -45,7 +45,7 @@ const handleTaskimportance = async () => {
   });
 };
   return (
-    <section className="max-[440px]:w-[90%] w-[400px]  md:w-[95%]">
+    <section className={`${props.viewMode === "grid" && "max-[440px]:w-[90%] w-[400px]"}   md:w-[95%]`}>
       <div className="flex justify-end">
         <Button variant={"warning"} className="text-sm rounded-md px-3 me-2">
           <Link href={`/directories/${props?.task?.directoryId}`}>
