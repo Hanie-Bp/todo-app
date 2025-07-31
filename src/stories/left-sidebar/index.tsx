@@ -7,9 +7,12 @@ type LeftSidebarProps = {
   tabletOrMobile: boolean;
   onAddTaskClick?: () => void;
   onAddDirectoryClick?: () => void;
+  onEditDirectoryClick?: () => void;
+  isEditDirectoryFormOpen?: boolean;
+  setIsEditDirectoryFormOpen?: (open: boolean) => void;
 };
 
-const LeftSidebar = ({ tabletOrMobile, onAddTaskClick , onAddDirectoryClick}: LeftSidebarProps) => {
+const LeftSidebar = ({ tabletOrMobile, onAddTaskClick , onAddDirectoryClick, onEditDirectoryClick, isEditDirectoryFormOpen, setIsEditDirectoryFormOpen }: LeftSidebarProps) => {
   return (
     <section
       className={`bg-muted min-h-screen h-full ${
@@ -34,7 +37,7 @@ const LeftSidebar = ({ tabletOrMobile, onAddTaskClick , onAddDirectoryClick}: Le
         <LinksSidebar />
       </nav>
       <section className="mt-5  ">
-        <DropdownDirecories  onAddDirectoryClick={onAddDirectoryClick} />
+        <DropdownDirecories  onAddDirectoryClick={onAddDirectoryClick} onEditDirectoryClick={onEditDirectoryClick} isEditDirectoryFormOpen={isEditDirectoryFormOpen} setIsEditDirectoryFormOpen={setIsEditDirectoryFormOpen} />
       </section>
     </section>
   );

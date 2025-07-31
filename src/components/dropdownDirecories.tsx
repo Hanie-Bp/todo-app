@@ -14,12 +14,18 @@ import { useDirectories } from "@/context/DirectoryContext";
 
 const DropdownDirecories = ({
   onAddDirectoryClick,
+  onEditDirectoryClick,
+  isEditDirectoryFormOpen,
+  setIsEditDirectoryFormOpen,
 }: {
   onAddDirectoryClick?: () => void;
+  onEditDirectoryClick?: () => void;
+  isEditDirectoryFormOpen?: boolean;
+  setIsEditDirectoryFormOpen?: (open: boolean) => void;
 }) => {
   const [open, setOpen] = useState(false);
   const { directories } = useDirectories();
-  const [isEditDirectoryFormOpen, setIsEditDirectoryFormOpen] = useState(false);
+  // const [isEditDirectoryFormOpen, setIsEditDirectoryFormOpen] = useState(false);
   return (
     <DropdownMenu onOpenChange={(isOpen) => setOpen(isOpen)}>
       <DropdownMenuTrigger
@@ -49,7 +55,7 @@ const DropdownDirecories = ({
               <div className="flex items-center gap-1  w-full justify-end">
                 {dir.name?.toLowerCase() !== "main" ? (
                   <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out flex items-center gap-1 justify-between ">
-                    <EditIcon className="w-4" onClick={()=>setIsEditDirectoryFormOpen(true)} />
+                    <EditIcon className="w-4" onClick={()=>onEditDirectoryClick?.()} />
                     <DialogComponent
                       dialogtype="edit"
                       title="Edit directory name"
