@@ -12,10 +12,14 @@ import Link from "next/link";
 import { Directory } from "@/types/types";
 import { useDirectories } from "@/context/DirectoryContext";
 
-
-const DropdownDirecories = ({onAddDirectoryClick}: {onAddDirectoryClick?: () => void}) => {
+const DropdownDirecories = ({
+  onAddDirectoryClick,
+}: {
+  onAddDirectoryClick?: () => void;
+}) => {
   const [open, setOpen] = useState(false);
   const { directories } = useDirectories();
+  const [isEditDirectoryFormOpen, setIsEditDirectoryFormOpen] = useState(false);
   return (
     <DropdownMenu onOpenChange={(isOpen) => setOpen(isOpen)}>
       <DropdownMenuTrigger
@@ -45,14 +49,15 @@ const DropdownDirecories = ({onAddDirectoryClick}: {onAddDirectoryClick?: () => 
               <div className="flex items-center gap-1  w-full justify-end">
                 {dir.name?.toLowerCase() !== "main" ? (
                   <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out flex items-center gap-1 justify-between ">
+                    <EditIcon className="w-4" onClick={()=>setIsEditDirectoryFormOpen(true)} />
                     <DialogComponent
                       dialogtype="edit"
                       title="Edit directory name"
                       custumClass="flex"
                       directory={dir}
-                    >
-                      <EditIcon className="w-4" />
-                    </DialogComponent>
+                      isOpen={isEditDirectoryFormOpen}
+                      setIsOpen={setIsEditDirectoryFormOpen}
+                    ></DialogComponent>
                     <DialogComponent
                       dialogtype="delete"
                       title="Are you sure?"
@@ -75,13 +80,13 @@ const DropdownDirecories = ({onAddDirectoryClick}: {onAddDirectoryClick?: () => 
             title="Create new directory"
             custumClass="flex"
           > */}
-            <Button
-              variant={"ghost"}
-              className="text-sm border border-black border-dashed w-full"
-              onClick={onAddDirectoryClick}
-            >
-              + New
-            </Button>
+          <Button
+            variant={"ghost"}
+            className="text-sm border border-black border-dashed w-full"
+            onClick={onAddDirectoryClick}
+          >
+            + New
+          </Button>
           {/* </DialogComponent> */}
         </div>
       </DropdownMenuContent>
