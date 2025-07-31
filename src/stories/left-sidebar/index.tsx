@@ -2,7 +2,7 @@ import { Button } from "../button";
 import LogotButton from "@/components/logout-btn";
 import LinksSidebar from "@/components/links-sidebar";
 import DropdownDirecories from "@/components/dropdownDirecories";
-import { Directory } from "@/types/types";
+// import { Directory } from "@/types/types";
 
 type LeftSidebarProps = {
   tabletOrMobile: boolean;
