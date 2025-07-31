@@ -8,12 +8,14 @@ import { DialogDescription, DialogTitle } from "@radix-ui/react-dialog";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import TaskForm from "@/stories/form-dialog";
 import DialogComponent from "@/stories/dialog";
+import { Directory } from "@/types/types";
 
 export default function SheetMenu() {
   const [open, setOpen] = useState(false);
   const [isTaskFormOpen, setIsTaskFormOpen] = useState(false);
   const [isDirectoryFormOpen, setIsDirectoryFormOpen] = useState(false);
-
+  const [isEditDirectoryFormOpen, setIsEditDirectoryFormOpen] = useState(false);
+  const [editDirectory, setEditDirectory] = useState<Directory | null>(null);
 
   // Only allow opening manually via icon, and always start closed
   useEffect(() => {
@@ -41,6 +43,11 @@ export default function SheetMenu() {
     }
   }, [isDirectoryFormOpen]);
 
+  useEffect(() => {
+    if (isEditDirectoryFormOpen) {
+      setOpen(true);
+    }
+  }, [isEditDirectoryFormOpen]);
 
   return (
     <>
@@ -54,7 +61,6 @@ export default function SheetMenu() {
         <SheetContent
           side="left"
           className="w-72 [&>button:first-of-type]:hidden p-0"
-          
         >
           <VisuallyHidden>
             <DialogTitle>Sidebar Menu</DialogTitle>
@@ -64,6 +70,8 @@ export default function SheetMenu() {
             tabletOrMobile={true}
             onAddTaskClick={() => setIsTaskFormOpen(true)}
             onAddDirectoryClick={() => setIsDirectoryFormOpen(true)}
+            onEditDirectoryClick={() => setIsEditDirectoryFormOpen(true)}
+            setEditDirectory={setEditDirectory}
           />
         </SheetContent>
       </Sheet>
@@ -83,6 +91,14 @@ export default function SheetMenu() {
       >
         {/* The trigger is handled by the sidebar, so no button here */}
       </DialogComponent>
+      <DialogComponent
+        dialogtype="edit"
+        title="Edit directory name"
+        custumClass="flex"
+        directory={editDirectory ?? undefined}
+        isOpen={isEditDirectoryFormOpen}
+        setIsOpen={setIsEditDirectoryFormOpen}
+      ></DialogComponent>
     </>
   );
 }

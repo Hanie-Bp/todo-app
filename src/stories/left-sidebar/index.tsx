@@ -2,14 +2,17 @@ import { Button } from "../button";
 import LogotButton from "@/components/logout-btn";
 import LinksSidebar from "@/components/links-sidebar";
 import DropdownDirecories from "@/components/dropdownDirecories";
+import { Directory } from "@/types/types";
 
 type LeftSidebarProps = {
   tabletOrMobile: boolean;
   onAddTaskClick?: () => void;
   onAddDirectoryClick?: () => void;
+  onEditDirectoryClick?: () => void;
+  setEditDirectory?: (directory: Directory | null) => void;
 };
 
-const LeftSidebar = ({ tabletOrMobile, onAddTaskClick , onAddDirectoryClick }: LeftSidebarProps) => {
+const LeftSidebar = ({ tabletOrMobile, onAddTaskClick , onAddDirectoryClick , onEditDirectoryClick, setEditDirectory}: LeftSidebarProps) => {
   return (
     <section
       className={`bg-muted min-h-screen h-full ${
@@ -34,7 +37,7 @@ const LeftSidebar = ({ tabletOrMobile, onAddTaskClick , onAddDirectoryClick }: L
         <LinksSidebar />
       </nav>
       <section className="mt-5  ">
-        <DropdownDirecories  onAddDirectoryClick={onAddDirectoryClick}  />
+        <DropdownDirecories  onAddDirectoryClick={onAddDirectoryClick} onEditDirectoryClick={onEditDirectoryClick} setEditDirectory={setEditDirectory} />
       </section>
     </section>
   );

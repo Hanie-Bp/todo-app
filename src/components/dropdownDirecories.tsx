@@ -14,13 +14,17 @@ import { useDirectories } from "@/context/DirectoryContext";
 
 const DropdownDirecories = ({
   onAddDirectoryClick,
+  onEditDirectoryClick,
+  setEditDirectory,
 }: {
   onAddDirectoryClick?: () => void;
+  onEditDirectoryClick?: () => void;
+  setEditDirectory?: (directory: Directory | null) => void;
 }) => {
   const [open, setOpen] = useState(false);
   const { directories } = useDirectories();
 
-  const [editDirectory, setEditDirectory] = useState<Directory | null>(null);
+  // const [editDirectory, setEditDirectory] = useState<Directory | null>(null);
 
   return (
     <>
@@ -57,7 +61,10 @@ const DropdownDirecories = ({
                     <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out flex items-center gap-1 justify-between">
                       <EditIcon
                         className="w-4 cursor-pointer"
-                        onClick={() => setEditDirectory(dir)}
+                        onClick={() => {
+                          setEditDirectory?.(dir);
+                          onEditDirectoryClick?.();
+                        }}
                       />
                       <DialogComponent
                         dialogtype="delete"
@@ -85,18 +92,6 @@ const DropdownDirecories = ({
           </div>
         </DropdownMenuContent>
       </DropdownMenu>
-
-      {/* Edit Dialog (outside of dropdown) */}
-      {editDirectory && (
-        <DialogComponent
-          dialogtype="edit"
-          title="Edit directory name"
-          custumClass="flex"
-          directory={editDirectory}
-          isOpen={!!editDirectory}
-          setIsOpen={() => setEditDirectory(null)}
-        />
-      )}
     </>
   );
 };
