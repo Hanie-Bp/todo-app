@@ -4,10 +4,12 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useTransition, useState } from "react";
 import { Loader2 } from "lucide-react";
+import { useSheetMenu } from "@/context/SheetMenuContext";
 
 const LinksSidebar = () => {
   const pathname = usePathname();
   const router = useRouter();
+  const { setOpen } = useSheetMenu();
   const [isPending, startTransition] = useTransition();
   const [clickedHref, setClickedHref] = useState<string | null>(null);
 
@@ -22,10 +24,11 @@ const LinksSidebar = () => {
     e: React.MouseEvent<HTMLAnchorElement>,
     href: string
   ) => {
-    e.preventDefault(); // Prevent default navigation
+    e.preventDefault();
     setClickedHref(href);
     startTransition(() => {
       router.push(href);
+      setOpen(false);
     });
   };
 
@@ -46,7 +49,9 @@ const LinksSidebar = () => {
                 : "text-muted-dark dark:text-foreground font-bold hover:text-red-600"
             }`}
           >
-            {isClicked && <Loader2 className="w-4 h-4 animate-spin text-red-500" />}
+            {isClicked && (
+              <Loader2 className="w-4 h-4 animate-spin text-red-500" />
+            )}
             {link.name}
           </Link>
         );

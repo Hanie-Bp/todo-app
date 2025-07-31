@@ -9,9 +9,10 @@ import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import TaskForm from "@/stories/form-dialog";
 import DialogComponent from "@/stories/dialog";
 import { Directory } from "@/types/types";
+import { useSheetMenu } from "@/context/SheetMenuContext";
 
 export default function SheetMenu() {
-  const [open, setOpen] = useState(false);
+  const { open, setOpen } = useSheetMenu();
   const [isTaskFormOpen, setIsTaskFormOpen] = useState(false);
   const [isDirectoryFormOpen, setIsDirectoryFormOpen] = useState(false);
   const [isEditDirectoryFormOpen, setIsEditDirectoryFormOpen] = useState(false);

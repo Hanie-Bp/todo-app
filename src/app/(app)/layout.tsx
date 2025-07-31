@@ -8,7 +8,7 @@ import TaskManagementToolbar from "@/stories/task-managment-toolbar";
 import { fetchDirectories, fetchTasks } from "@/lib/server-utils";
 import DirectoriesProvider from "@/context/DirectoryProvider";
 import SidebarContainerDestkop from "@/components/sidebar-container-destkop";
-
+import { SheetMenuProvider } from "@/context/SheetMenuContext";
 
 export default async function AppLayout({
   children,
@@ -21,6 +21,7 @@ export default async function AppLayout({
   return (
     <ThemeProvider>
       <DirectoriesProvider directories={directories}>
+        <SheetMenuProvider>
           <section className="min-h-screen grid grid-cols-1 lg:grid-cols-6 place-content-start">
             <SidebarContainerDestkop />
             {/* <LeftSidebar tabletOrMobile={false} /> */}
@@ -31,6 +32,7 @@ export default async function AppLayout({
             </main>
             <RightSideBar tasks={tasks} />
           </section>
+        </SheetMenuProvider>
       </DirectoriesProvider>
     </ThemeProvider>
   );
