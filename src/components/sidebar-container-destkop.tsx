@@ -7,6 +7,8 @@ import React, { useState } from "react";
 const SidebarContainerDestkop = () => {
   const [isDirectoryFormOpen, setIsDirectoryFormOpen] = useState(false);
   const [isTaskFormOpen, setIsTaskFormOpen] = useState(false);
+  // const [isEditDirectoryFormOpen, setIsEditDirectoryFormOpen] = useState(false);
+
   return (
     <section>
       <LeftSidebar
@@ -25,7 +27,7 @@ const SidebarContainerDestkop = () => {
         {/* The trigger is handled by the sidebar, so no button here */}
       </DialogComponent>
 
-       <TaskForm
+      <TaskForm
         formType="add"
         isOpen={isTaskFormOpen}
         setIsOpen={setIsTaskFormOpen}

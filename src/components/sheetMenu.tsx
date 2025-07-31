@@ -13,7 +13,7 @@ export default function SheetMenu() {
   const [open, setOpen] = useState(false);
   const [isTaskFormOpen, setIsTaskFormOpen] = useState(false);
   const [isDirectoryFormOpen, setIsDirectoryFormOpen] = useState(false);
-  const [isEditDirectoryFormOpen, setIsEditDirectoryFormOpen] = useState(false);
+
 
   // Only allow opening manually via icon, and always start closed
   useEffect(() => {
@@ -41,11 +41,6 @@ export default function SheetMenu() {
     }
   }, [isDirectoryFormOpen]);
 
-  useEffect(() => {
-    if (isEditDirectoryFormOpen) {
-      setOpen(true);
-    }
-  }, [isEditDirectoryFormOpen]);
 
   return (
     <>
@@ -69,9 +64,6 @@ export default function SheetMenu() {
             tabletOrMobile={true}
             onAddTaskClick={() => setIsTaskFormOpen(true)}
             onAddDirectoryClick={() => setIsDirectoryFormOpen(true)}
-            onEditDirectoryClick={() => setIsEditDirectoryFormOpen(true)}
-            isEditDirectoryFormOpen={isEditDirectoryFormOpen}
-            setIsEditDirectoryFormOpen={setIsEditDirectoryFormOpen}
           />
         </SheetContent>
       </Sheet>
