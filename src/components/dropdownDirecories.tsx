@@ -38,7 +38,10 @@ const DropdownDirecories = ({
             <span className="mr-2">Directories</span>
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-[270px] lg:w-[15.3vw] ml-2 mt-2 shadow-none border-none">
+        <DropdownMenuContent
+          onClick={(e) => e.stopPropagation()}
+          className="w-[270px] lg:w-[15.3vw] ml-2 mt-2 shadow-none border-none"
+        >
           <div className="flex flex-col py-1 space-y-1">
             {directories?.map((dir: Directory) => (
               <div
