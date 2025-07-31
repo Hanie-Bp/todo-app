@@ -15,8 +15,8 @@ export default function SheetMenu() {
   const { open, setOpen } = useSheetMenu();
   const [isTaskFormOpen, setIsTaskFormOpen] = useState(false);
   const [isDirectoryFormOpen, setIsDirectoryFormOpen] = useState(false);
-  const [isEditDirectoryFormOpen, setIsEditDirectoryFormOpen] = useState(false);
-  const [editDirectory, setEditDirectory] = useState<Directory | null>(null);
+  // const [isEditDirectoryFormOpen, setIsEditDirectoryFormOpen] = useState(false);
+  // const [editDirectory, setEditDirectory] = useState<Directory | null>(null);
 
   // Only allow opening manually via icon, and always start closed
   useEffect(() => {
@@ -44,11 +44,11 @@ export default function SheetMenu() {
     }
   }, [isDirectoryFormOpen]);
 
-  useEffect(() => {
-    if (isEditDirectoryFormOpen) {
-      setOpen(true);
-    }
-  }, [isEditDirectoryFormOpen]);
+  // useEffect(() => {
+  //   if (isEditDirectoryFormOpen) {
+  //     setOpen(true);
+  //   }
+  // }, [isEditDirectoryFormOpen]);
 
   return (
     <>
@@ -71,8 +71,8 @@ export default function SheetMenu() {
             tabletOrMobile={true}
             onAddTaskClick={() => setIsTaskFormOpen(true)}
             onAddDirectoryClick={() => setIsDirectoryFormOpen(true)}
-            onEditDirectoryClick={() => setIsEditDirectoryFormOpen(true)}
-            setEditDirectory={setEditDirectory}
+            // onEditDirectoryClick={() => setIsEditDirectoryFormOpen(true)}
+            // setEditDirectory={setEditDirectory}
           />
         </SheetContent>
       </Sheet>
@@ -92,14 +92,14 @@ export default function SheetMenu() {
       >
         {/* The trigger is handled by the sidebar, so no button here */}
       </DialogComponent>
-      <DialogComponent
+      {/* <DialogComponent
         dialogtype="edit"
         title="Edit directory name"
         custumClass="flex"
         directory={editDirectory ?? undefined}
         isOpen={isEditDirectoryFormOpen}
         setIsOpen={setIsEditDirectoryFormOpen}
-      ></DialogComponent>
+      ></DialogComponent> */}
     </>
   );
 }

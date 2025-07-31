@@ -16,6 +16,7 @@ import { Input } from "@/stories/input";
 import { Button } from "@/stories/button";
 import { Directory } from "@/types/types";
 import { handleDirectory } from "@/lib/actions/directory.action";
+import { useSheetMenu } from "@/context/SheetMenuContext";
 
 type directoryFormProps = {
   dialogType: "create" | "edit";
@@ -39,8 +40,11 @@ const DirectoryForm: FC<directoryFormProps> = ({
     },
   });
 
+  const { setOpen } = useSheetMenu();
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
+      setOpen(true);
       await handleDirectory({ ...values, id: directory?.id }, dialogType);
 
       form.reset();

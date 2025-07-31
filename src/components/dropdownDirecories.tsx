@@ -14,12 +14,12 @@ import { useDirectories } from "@/context/DirectoryContext";
 
 const DropdownDirecories = ({
   onAddDirectoryClick,
-  onEditDirectoryClick,
-  setEditDirectory,
-}: {
+}: // onEditDirectoryClick,
+// setEditDirectory,
+{
   onAddDirectoryClick?: () => void;
-  onEditDirectoryClick?: () => void;
-  setEditDirectory?: (directory: Directory | null) => void;
+  // onEditDirectoryClick?: () => void;
+  // setEditDirectory?: (directory: Directory | null) => void;
 }) => {
   const [open, setOpen] = useState(false);
   const { directories } = useDirectories();
@@ -59,13 +59,14 @@ const DropdownDirecories = ({
                 <div className="flex items-center gap-1 w-full justify-end">
                   {dir.name?.toLowerCase() !== "main" && (
                     <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out flex items-center gap-1 justify-between">
-                      <EditIcon
-                        className="w-4 cursor-pointer"
-                        onClick={() => {
-                          setEditDirectory?.(dir);
-                          onEditDirectoryClick?.();
-                        }}
-                      />
+                      <DialogComponent
+                        dialogtype="edit"
+                        title="Edit directory name"
+                        custumClass="flex"
+                        directory={dir}
+                      >
+                        <EditIcon className="w-4 cursor-pointer" />
+                      </DialogComponent>
                       <DialogComponent
                         dialogtype="delete"
                         title="Are you sure?"
