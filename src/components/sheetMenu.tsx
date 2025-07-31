@@ -59,6 +59,7 @@ export default function SheetMenu() {
         <SheetContent
           side="left"
           className="w-72 [&>button:first-of-type]:hidden p-0"
+          
         >
           <VisuallyHidden>
             <DialogTitle>Sidebar Menu</DialogTitle>
