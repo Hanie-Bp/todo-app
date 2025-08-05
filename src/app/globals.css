@@ -2,26 +2,135 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-}
-
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+@layer base {
+  :root {
+    --background: #cedae1;
+    --foreground: #000000;
+
+    --text-muted-foreground: #787f87;
+    --text-muted-background: #ececec;
+    --text-muted-background--light: #d4d5d7;
+
+    --primary: #191919;
+    --primary-hover: #333333;
+    --primary-active: #787f87;
+    --primary-foreground: #ffffff;
+
+    --secondary: #c825f1;
+    --secondary-foreground: #ffffff;
+    --secondary-hover: #dc4fff;
+    --secondary-active: #9b0dbf;
+
+    --muted: #e1e7ea;
+    --muted-dark: #7d7d7d;
+    --muted-background: #ebebeb;
+
+    --accent: #f5f5f5;
+    --accent-foreground: #171717;
+    --destructive: #d32f2f;
+    --destructive-foreground: #fafafa;
+    --border: #e5e5e5;
+    --input: #b1acab;
+
+    --radius: 0.5rem;
+  }
+
+/*   
+  .dark {
+    --background: #1f3847;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 9%;
+    --secondary: rgb(43, 63, 111);
+    --secondary-foreground: 0 0% 98%;
+    --muted: #375a6f;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 0 0% 14.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 0 0% 83.1%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  } */
+
+  .dark {
+    --background: #1f3847;
+  --foreground: #ffffff;
+
+  --text-muted-foreground: #b0b8c1;
+  --text-muted-background: #1f2a35;
+  --text-muted-background--light: #2b3a48;
+
+  --primary: #ffffff;
+  --primary-hover: #cfcfcf;
+  --primary-active: #999999;
+  --primary-foreground: #000000;
+
+  --secondary: #e879f9;
+  --secondary-foreground: #1a1a1a;
+  --secondary-hover: #f0a4fd;
+  --secondary-active: #c94edd;
+
+  --muted: #3b556f;
+  --muted-dark: #95a5a6;
+  --muted-background: #1a252f;
+
+  --accent: #2e3b4e;
+  --accent-foreground: #e1e1e1;
+
+  --destructive: #ff6b6b;
+  --destructive-foreground: #1a1a1a;
+
+  --border: #334556;
+  --input: #455666;
+
+  --radius: 0.5rem;
+}
+}
+
+@layer base {
+  body {
+    @apply bg-background text-foreground;
+    min-height: 100vh;
+    
+    /* margin: 0 auto;
+    padding: 0 20px; */
+  }
+}
+
+
+.date-input {
+  position: relative;
+  /* padding-left: 2.5rem; */
+  direction: rtl; /* flip input field so icon appears on left */
+}
+
+/* Flip the input back to normal after direction change */
+.date-input::-webkit-datetime-edit {
+  direction: ltr;
+  text-align: left;
+}
+
+/* Adjust calendar icon */
+.date-input::-webkit-calendar-picker-indicator {
+  position: absolute;
+  right: 1rem;
+  /* right: auto; */
+  cursor: pointer;
 }
